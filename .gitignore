@@ -1,0 +1,33 @@
+# Claude AI Assistant Files
+CLAUDE.md
+.claude/
+
+# Environment Variables
+.env
+.env.local
+
+# Node.js / Frontend
+node_modules/
+dist/
+build/
+
+# Python / Backend
+__pycache__/
+*.py[cod]
+venv/
+.Python
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# AWS
+.aws/
+aws-exports.js
