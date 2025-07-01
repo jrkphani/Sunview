@@ -19,18 +19,20 @@ This pilot project develops a comprehensive forecasting platform that provides S
 ### Technology Stack
 
 - **Frontend**: React 18 + TypeScript + Vite + shadcn/ui
-- **Backend**: Python + FastAPI + Pandas + scikit-learn
+- **Backend**: Python + FastAPI + AWS managed services integration
+- **Cloud Platform**: AWS-native architecture (S3, Glue, Forecast, Lookout for Metrics)
 - **Database**: PostgreSQL on AWS Aurora
-- **Deployment**: AWS Amplify Gen 2 + Lambda/ECS
-- **Development**: MacBook local environment with hot reload
+- **Deployment**: AWS Amplify Gen 2 + Lambda + Step Functions
+- **Development**: Local environment with AWS service integration
 
 ### Key Features
 
 - **Explainable AI**: Complete traceability from insights to source data
-- **Multi-horizon Forecasting**: 1, 7, 14, and 28-day predictions
-- **Interactive Dashboard**: Executive summary with drill-down capabilities
+- **Multi-horizon Forecasting**: 1, 7, 14, and 28-day predictions using Amazon Forecast
+- **Interactive Dashboard**: Executive summary with drill-down capabilities (no authentication required)
 - **Real-time Processing**: Daily forecast updates with same-day insights
 - **Mobile Responsive**: Tablet and mobile access for field operations
+- **AWS-Native Pipeline**: Leverages managed services for scalability and reliability
 
 ## 📚 Documentation
 
@@ -56,6 +58,17 @@ Comprehensive technical specification for development and deployment.
 - Database schema and API endpoints
 - Development workflow and deployment strategy
 
+### 🏗️ [Application Architecture](./docs/Application-Architecture.md)
+
+Detailed AWS-native application architecture with KPI engines and Lambda functions.
+
+**Key Sections:**
+
+- AWS Data Processing Pipeline (S3, Glue, Forecast, Lookout)
+- Tier 1 KPI Engines with business logic
+- Lambda Function Architecture
+- Frontend Dashboard Components
+
 ### 📖 [Documentation Guide](./docs/README.md)
 
 Navigation guide for all project documentation with role-specific recommendations.
@@ -66,20 +79,28 @@ Navigation guide for all project documentation with role-specific recommendation
 
 - **Node.js** 18+ for frontend development
 - **Python** 3.11+ for backend development  
-- **PostgreSQL** for local database
+- **AWS CLI** configured for deployment
 - **Git** for version control
+
+### Repository Setup
+
+```bash
+# Clone repository
+git clone https://github.com/jrkphani/Sunview.git
+cd Sunview
+
+# Verify project structure
+ls -la
+# Should show: docs/, raw_data/, frontend/, backend/, .gitignore, README.md
+```
 
 ### Development Setup
 
 ```bash
-# Clone repository
-git clone https://github.com/1cloudhub/gxo-forecasting.git
-cd gxo-forecasting
-
 # Setup backend
 cd backend
 python -m venv venv
-source venv/bin/activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # Setup frontend
@@ -95,18 +116,35 @@ uvicorn main:app --reload
 npm run dev
 ```
 
+### AWS Infrastructure Deployment
+
+```bash
+# Deploy AWS infrastructure (requires AWS CLI configuration)
+cd infrastructure
+terraform init
+terraform plan
+terraform apply
+
+# Or use the provided deployment scripts
+./scripts/deploy-complete.sh pilot us-east-1
+```
+
 ## 📊 Pilot Timeline
 
 | Phase | Duration | Focus | Success Metrics |
 |-------|----------|-------|-----------------|
-| **Phase 1: Historical Validation** | Weeks 1-2 | Data integration, model accuracy | >85% forecast accuracy |
-| **Phase 2: Shadow Forecasting** | Weeks 3-6 | Real-time processing, user adoption | Daily insights generation |
-| **Phase 3: Operational Integration** | Weeks 7-12 | Efficiency gains, strategic value | 15% truck utilization improvement |
+| **Phase 1: Infrastructure & Data** | Weeks 1-2 | AWS setup, data integration | Infrastructure deployed, data processing |
+| **Phase 2: Forecasting & KPIs** | Weeks 3-6 | Amazon Forecast, KPI engines | >85% forecast accuracy |
+| **Phase 3: Dashboard & Integration** | Weeks 7-10 | React dashboard, end-to-end testing | User adoption, insights generation |
+| **Phase 4: Pilot Validation** | Weeks 11-12 | Performance optimization, business validation | 15% truck utilization improvement |
 
 ## 🎯 Success Criteria
 
 ### Technical Objectives
 
+- [x] Repository setup and version control established
+- [x] Comprehensive documentation completed
+- [x] AWS-native architecture designed
 - [ ] Process 17+ months of Signify historical data
 - [ ] Generate all four insight categories with full explainability
 - [ ] Achieve >85% forecast accuracy for top 80% SKUs by volume
@@ -144,10 +182,43 @@ npm run dev
 
 ## 🔒 Security & Compliance
 
-- **Pilot Access**: Open access during pilot phase with basic logging
-- **Data Protection**: Standard AWS encryption at rest and in transit
-- **Audit Trails**: Comprehensive logging for pilot validation
-- **Version Control**: Secure GitHub repository with proper access controls
+### Pilot Security Approach
+
+- **Dashboard Access**: No authentication required for pilot validation
+- **Backend Security**: Full AWS service isolation and encryption
+- **Data Protection**: AWS managed encryption at rest and in transit
+- **Usage Monitoring**: CloudTrail and API Gateway access logs
+- **Network Security**: Private VPC subnets for all backend processing
+
+### Post-Pilot Security Roadmap
+
+- AWS Cognito authentication for production deployment
+- Role-based access control (RBAC)
+- Enhanced security monitoring and compliance frameworks
+- Enterprise-grade audit trails and governance
+
+## 📊 Current Project Status
+
+### ✅ Completed
+
+- **Repository Setup**: GitHub repository with comprehensive documentation
+- **Security Framework**: Pilot-appropriate security with AWS service isolation  
+- **Architecture Design**: Complete AWS-native architecture specification
+- **Data Assets**: 17+ months of Signify historical data ready for processing
+- **Documentation Suite**: BRD, SRS, Application Architecture, and operational guides
+
+### 🚧 In Progress
+
+- **Infrastructure Deployment**: AWS infrastructure setup and configuration
+- **Development Environment**: Frontend and backend application setup
+- **Data Pipeline**: AWS Glue ETL jobs and Amazon Forecast integration
+
+### 🎯 Next Steps
+
+1. **Week 1-2**: Deploy AWS infrastructure and data processing pipeline
+2. **Week 3-4**: Implement KPI engines and Amazon Forecast integration
+3. **Week 5-6**: Develop React dashboard and API endpoints
+4. **Week 7-8**: End-to-end testing and pilot user onboarding
 
 ## 📞 Contact
 
@@ -156,9 +227,34 @@ For questions about:
 - **Business Requirements**: Contact project sponsors or business stakeholders
 - **Technical Implementation**: Contact 1CloudHub development team  
 - **Project Status**: Contact project managers or technical leads
+- **Repository Access**: [GitHub Issues](https://github.com/jrkphani/Sunview/issues)
+
+## 📁 Project Structure
+
+```
+Sunview/
+├── docs/                   # Complete project documentation
+│   ├── BRD.md             # Business Requirements Document
+│   ├── SRS.md             # Software Requirements Specification
+│   ├── Application-Architecture.md
+│   ├── Security-Compliance.md
+│   └── README.md          # Documentation guide
+├── raw_data/              # Signify historical data (2024-2025)
+│   ├── Signify inbound report 2024 Jan to Dec.csv
+│   ├── Signify inbound report 2025 Jan to May.csv
+│   ├── Signify outbound report 2024 Jan to Dec.csv
+│   ├── Signify outbound report 2025 Jan to May.csv
+│   ├── Signify MVT 2024.csv
+│   └── Signify MVT 2025.csv
+├── frontend/              # React TypeScript application
+├── backend/               # Python FastAPI services  
+├── .gitignore            # Excludes Claude files and common artifacts
+└── README.md             # This file
+```
 
 ---
 
-**Last Updated**: June 26, 2025  
-**Project Status**: Documentation Complete - Ready for Development  
-**Next Milestone**: GitHub repository setup and development environment initialization
+**Last Updated**: July 1, 2025  
+**Project Status**: Foundation Complete - Infrastructure Deployment Phase  
+**Repository**: [https://github.com/jrkphani/Sunview](https://github.com/jrkphani/Sunview)  
+**Next Milestone**: AWS infrastructure deployment and data pipeline setup
