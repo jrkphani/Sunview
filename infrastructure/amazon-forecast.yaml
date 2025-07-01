@@ -1,0 +1,361 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'GXO Signify Pilot - Amazon Forecast ML Infrastructure'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: pilot
+  DataLakeBucket:
+    Type: String
+    Description: S3 Data Lake Bucket Name
+
+Resources:
+  # Amazon Forecast Service Role
+  ForecastServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "gxo-signify-${Environment}-forecast-role"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: forecast.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: S3ForecastAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:ListBucket
+                  - s3:GetBucketLocation
+                Resource: 
+                  - !Sub "arn:aws:s3:::${DataLakeBucket}"
+                  - !Sub "arn:aws:s3:::${DataLakeBucket}/*"
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:DeleteObject
+                Resource: !Sub "arn:aws:s3:::${DataLakeBucket}/forecasts/*"
+
+  # Lambda Role for Forecast Operations
+  ForecastLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "gxo-signify-${Environment}-forecast-lambda-role"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: ForecastOperations
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - forecast:*
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:ListBucket
+                Resource:
+                  - !Sub "arn:aws:s3:::${DataLakeBucket}"
+                  - !Sub "arn:aws:s3:::${DataLakeBucket}/*"
+              - Effect: Allow
+                Action:
+                  - iam:PassRole
+                Resource: !GetAtt ForecastServiceRole.Arn
+
+  # Lambda Function for Dataset Management
+  ForecastDatasetManagerFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "gxo-signify-${Environment}-forecast-dataset-manager"
+      Runtime: python3.11
+      Handler: index.lambda_handler
+      Role: !GetAtt ForecastLambdaRole.Arn
+      Timeout: 900
+      MemorySize: 512
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref DataLakeBucket
+          FORECAST_ROLE_ARN: !GetAtt ForecastServiceRole.Arn
+          ENVIRONMENT: !Ref Environment
+      Code:
+        ZipFile: |
+          import json
+          import boto3
+          import os
+          from datetime import datetime, timedelta
+          
+          def lambda_handler(event, context):
+              """
+              Manage Amazon Forecast datasets and import jobs
+              """
+              forecast = boto3.client('forecast')
+              s3 = boto3.client('s3')
+              
+              bucket = os.environ['BUCKET_NAME']
+              forecast_role_arn = os.environ['FORECAST_ROLE_ARN']
+              environment = os.environ['ENVIRONMENT']
+              
+              try:
+                  # Step 1: Create Dataset Group
+                  dataset_group_name = f"signify_logistics_{environment}"
+                  
+                  try:
+                      response = forecast.create_dataset_group(
+                          DatasetGroupName=dataset_group_name,
+                          Domain="CUSTOM"
+                      )
+                      dataset_group_arn = response['DatasetGroupArn']
+                      print(f"Created dataset group: {dataset_group_arn}")
+                  except forecast.exceptions.ResourceAlreadyExistsException:
+                      # Get existing dataset group
+                      response = forecast.list_dataset_groups()
+                      for dg in response['DatasetGroups']:
+                          if dg['DatasetGroupName'] == dataset_group_name:
+                              dataset_group_arn = dg['DatasetGroupArn']
+                              break
+                      print(f"Using existing dataset group: {dataset_group_arn}")
+                  
+                  # Step 2: Create Target Time Series Dataset for Volume Forecasting
+                  dataset_name = f"signify_volume_forecast_{environment}"
+                  
+                  volume_schema = {
+                      "Attributes": [
+                          {"AttributeName": "timestamp", "AttributeType": "timestamp"},
+                          {"AttributeName": "target_value", "AttributeType": "float"},
+                          {"AttributeName": "item_id", "AttributeType": "string"}
+                      ]
+                  }
+                  
+                  try:
+                      response = forecast.create_dataset(
+                          DatasetName=dataset_name,
+                          Domain="CUSTOM",
+                          DatasetType="TARGET_TIME_SERIES",
+                          DataFrequency="D",  # Daily forecasting
+                          Schema=volume_schema
+                      )
+                      dataset_arn = response['DatasetArn']
+                      print(f"Created dataset: {dataset_arn}")
+                  except forecast.exceptions.ResourceAlreadyExistsException:
+                      # Get existing dataset
+                      response = forecast.list_datasets()
+                      for ds in response['Datasets']:
+                          if ds['DatasetName'] == dataset_name:
+                              dataset_arn = ds['DatasetArn']
+                              break
+                      print(f"Using existing dataset: {dataset_arn}")
+                  
+                  # Step 3: Prepare forecast-ready data from processed inbound data
+                  print("Preparing forecast data from processed inbound data...")
+                  
+                  # This will be implemented after we create the data preparation
+                  forecast_data_path = f"s3://{bucket}/forecasts/forecast-input/volume-forecast.csv"
+                  
+                  return {
+                      'statusCode': 200,
+                      'body': json.dumps({
+                          'message': 'Forecast infrastructure setup completed',
+                          'dataset_group_arn': dataset_group_arn,
+                          'dataset_arn': dataset_arn,
+                          'forecast_data_path': forecast_data_path
+                      })
+                  }
+                  
+              except Exception as e:
+                  print(f"Error: {str(e)}")
+                  return {
+                      'statusCode': 500,
+                      'body': json.dumps({'error': str(e)})
+                  }
+
+  # Lambda Function for Predictor Training
+  ForecastPredictorFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "gxo-signify-${Environment}-forecast-predictor"
+      Runtime: python3.11
+      Handler: index.lambda_handler
+      Role: !GetAtt ForecastLambdaRole.Arn
+      Timeout: 900
+      MemorySize: 512
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref DataLakeBucket
+          ENVIRONMENT: !Ref Environment
+      Code:
+        ZipFile: |
+          import json
+          import boto3
+          import os
+          from datetime import datetime
+          
+          def lambda_handler(event, context):
+              """
+              Create and train Amazon Forecast predictors
+              """
+              forecast = boto3.client('forecast')
+              environment = os.environ['ENVIRONMENT']
+              
+              try:
+                  dataset_group_arn = event.get('dataset_group_arn')
+                  
+                  if not dataset_group_arn:
+                      raise ValueError("dataset_group_arn is required")
+                  
+                  # Create Auto Predictor for demand forecasting
+                  predictor_name = f"signify_demand_predictor_{environment}_{datetime.now().strftime('%Y%m%d')}"
+                  
+                  response = forecast.create_auto_predictor(
+                      PredictorName=predictor_name,
+                      ForecastHorizon=28,  # 4 weeks forecast
+                      ForecastTypes=["0.1", "0.5", "0.9"],  # 10%, 50%, 90% confidence intervals
+                      ForecastFrequency="D",  # Daily forecasts
+                      DataConfig={
+                          'DatasetGroupArn': dataset_group_arn
+                      },
+                      OptimizationMetric="WAPE",  # Weighted Absolute Percentage Error
+                      ExplainPredictor=True  # Enable explainability for insights
+                  )
+                  
+                  predictor_arn = response['PredictorArn']
+                  
+                  print(f"Started predictor training: {predictor_arn}")
+                  
+                  return {
+                      'statusCode': 200,
+                      'body': json.dumps({
+                          'message': 'Predictor training started',
+                          'predictor_arn': predictor_arn,
+                          'predictor_name': predictor_name
+                      })
+                  }
+                  
+              except Exception as e:
+                  print(f"Error: {str(e)}")
+                  return {
+                      'statusCode': 500,
+                      'body': json.dumps({'error': str(e)})
+                  }
+
+  # Lambda Function for Forecast Generation
+  ForecastGeneratorFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "gxo-signify-${Environment}-forecast-generator"
+      Runtime: python3.11
+      Handler: index.lambda_handler
+      Role: !GetAtt ForecastLambdaRole.Arn
+      Timeout: 900
+      MemorySize: 512
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref DataLakeBucket
+          FORECAST_ROLE_ARN: !GetAtt ForecastServiceRole.Arn
+          ENVIRONMENT: !Ref Environment
+      Code:
+        ZipFile: |
+          import json
+          import boto3
+          import os
+          from datetime import datetime
+          
+          def lambda_handler(event, context):
+              """
+              Generate forecasts and export to S3
+              """
+              forecast = boto3.client('forecast')
+              
+              bucket = os.environ['BUCKET_NAME']
+              forecast_role_arn = os.environ['FORECAST_ROLE_ARN']
+              environment = os.environ['ENVIRONMENT']
+              
+              try:
+                  predictor_arn = event.get('predictor_arn')
+                  
+                  if not predictor_arn:
+                      raise ValueError("predictor_arn is required")
+                  
+                  # Step 1: Create Forecast
+                  forecast_name = f"signify_forecast_{environment}_{datetime.now().strftime('%Y%m%d')}"
+                  
+                  response = forecast.create_forecast(
+                      ForecastName=forecast_name,
+                      PredictorArn=predictor_arn
+                  )
+                  
+                  forecast_arn = response['ForecastArn']
+                  print(f"Created forecast: {forecast_arn}")
+                  
+                  # Step 2: Export forecast to S3
+                  export_job_name = f"signify_export_{environment}_{datetime.now().strftime('%Y%m%d%H%M')}"
+                  s3_destination = f"s3://{bucket}/forecasts/predictions/"
+                  
+                  export_response = forecast.create_forecast_export_job(
+                      ForecastExportJobName=export_job_name,
+                      ForecastArn=forecast_arn,
+                      Destination={
+                          'S3Config': {
+                              'Path': s3_destination,
+                              'RoleArn': forecast_role_arn
+                          }
+                      }
+                  )
+                  
+                  export_job_arn = export_response['ForecastExportJobArn']
+                  
+                  return {
+                      'statusCode': 200,
+                      'body': json.dumps({
+                          'message': 'Forecast generation and export started',
+                          'forecast_arn': forecast_arn,
+                          'export_job_arn': export_job_arn,
+                          's3_destination': s3_destination
+                      })
+                  }
+                  
+              except Exception as e:
+                  print(f"Error: {str(e)}")
+                  return {
+                      'statusCode': 500,
+                      'body': json.dumps({'error': str(e)})
+                  }
+
+Outputs:
+  ForecastServiceRoleArn:
+    Description: Amazon Forecast Service Role ARN
+    Value: !GetAtt ForecastServiceRole.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-ForecastRole"
+
+  ForecastDatasetManagerFunctionArn:
+    Description: Forecast Dataset Manager Function ARN
+    Value: !GetAtt ForecastDatasetManagerFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-DatasetManager"
+
+  ForecastPredictorFunctionArn:
+    Description: Forecast Predictor Function ARN
+    Value: !GetAtt ForecastPredictorFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-Predictor"
+
+  ForecastGeneratorFunctionArn:
+    Description: Forecast Generator Function ARN
+    Value: !GetAtt ForecastGeneratorFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-Generator"

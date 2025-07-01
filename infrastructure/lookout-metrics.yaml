@@ -1,0 +1,306 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'GXO Signify Pilot - AWS Lookout for Metrics Anomaly Detection'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: pilot
+  DataLakeBucket:
+    Type: String
+    Description: S3 Data Lake Bucket Name
+
+Resources:
+  # Lookout for Metrics Service Role
+  LookoutMetricsServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "gxo-signify-${Environment}-lookout-role"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lookoutmetrics.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: S3LookoutAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:ListBucket
+                  - s3:GetBucketLocation
+                Resource: 
+                  - !Sub "arn:aws:s3:::${DataLakeBucket}"
+                  - !Sub "arn:aws:s3:::${DataLakeBucket}/*"
+
+  # Lambda Role for Lookout Operations
+  LookoutLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "gxo-signify-${Environment}-lookout-lambda-role"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: LookoutMetricsOperations
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - lookoutmetrics:*
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:ListBucket
+                Resource:
+                  - !Sub "arn:aws:s3:::${DataLakeBucket}"
+                  - !Sub "arn:aws:s3:::${DataLakeBucket}/*"
+              - Effect: Allow
+                Action:
+                  - iam:PassRole
+                Resource: !GetAtt LookoutMetricsServiceRole.Arn
+
+  # Lambda Function for Anomaly Detector Setup
+  AnomalyDetectorSetupFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "gxo-signify-${Environment}-anomaly-detector-setup"
+      Runtime: python3.11
+      Handler: index.lambda_handler
+      Role: !GetAtt LookoutLambdaRole.Arn
+      Timeout: 900
+      MemorySize: 512
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref DataLakeBucket
+          LOOKOUT_ROLE_ARN: !GetAtt LookoutMetricsServiceRole.Arn
+          ENVIRONMENT: !Ref Environment
+      Code:
+        ZipFile: |
+          import json
+          import boto3
+          import os
+          from datetime import datetime
+          
+          def lambda_handler(event, context):
+              """
+              Set up AWS Lookout for Metrics anomaly detectors
+              """
+              lookout = boto3.client('lookoutmetrics')
+              
+              bucket = os.environ['BUCKET_NAME']
+              lookout_role_arn = os.environ['LOOKOUT_ROLE_ARN']
+              environment = os.environ['ENVIRONMENT']
+              
+              try:
+                  # Create Anomaly Detector for Volume Anomalies
+                  detector_name = f"signify_volume_anomaly_detector_{environment}"
+                  detector_description = "Detect anomalies in daily volume patterns for Signify logistics"
+                  
+                  response = lookout.create_anomaly_detector(
+                      AnomalyDetectorName=detector_name,
+                      AnomalyDetectorDescription=detector_description,
+                      AnomalyDetectorConfig={
+                          'AnomalyDetectorFrequency': 'P1D'  # Daily detection
+                      }
+                  )
+                  
+                  anomaly_detector_arn = response['AnomalyDetectorArn']
+                  print(f"Created anomaly detector: {anomaly_detector_arn}")
+                  
+                  # Create Metric Set for Volume Monitoring
+                  metric_set_name = f"signify_volume_metrics_{environment}"
+                  
+                  metric_response = lookout.create_metric_set(
+                      AnomalyDetectorArn=anomaly_detector_arn,
+                      MetricSetName=metric_set_name,
+                      MetricSetDescription="Daily volume metrics for anomaly detection",
+                      MetricList=[
+                          {
+                              'MetricName': 'daily_volume',
+                              'AggregationFunction': 'SUM'
+                          }
+                      ],
+                      DimensionList=['item_id'],
+                      TimestampColumn={
+                          'ColumnName': 'timestamp',
+                          'ColumnFormat': 'yyyy-MM-dd'
+                      },
+                      MetricSource={
+                          'S3SourceConfig': {
+                              'RoleArn': lookout_role_arn,
+                              'TemplatedPathList': [
+                                  f"s3://{bucket}/processed/clean-inbound/"
+                              ],
+                              'HistoricalDataPathList': [
+                                  f"s3://{bucket}/forecasts/forecast-input/volume-forecast-consolidated.csv"
+                              ],
+                              'FileFormatDescriptor': {
+                                  'CsvFormatDescriptor': {
+                                      'FileCompression': 'NONE',
+                                      'Charset': 'UTF-8',
+                                      'ContainsHeader': True,
+                                      'Delimiter': ',',
+                                      'HeaderList': ['timestamp', 'target_value', 'item_id']
+                                  }
+                              }
+                          }
+                      }
+                  )
+                  
+                  metric_set_arn = metric_response['MetricSetArn']
+                  print(f"Created metric set: {metric_set_arn}")
+                  
+                  return {
+                      'statusCode': 200,
+                      'body': json.dumps({
+                          'message': 'Anomaly detection setup completed',
+                          'anomaly_detector_arn': anomaly_detector_arn,
+                          'metric_set_arn': metric_set_arn
+                      })
+                  }
+                  
+              except Exception as e:
+                  print(f"Error: {str(e)}")
+                  return {
+                      'statusCode': 500,
+                      'body': json.dumps({'error': str(e)})
+                  }
+
+  # Lambda Function for Anomaly Processing
+  AnomalyProcessorFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "gxo-signify-${Environment}-anomaly-processor"
+      Runtime: python3.11
+      Handler: index.lambda_handler
+      Role: !GetAtt LookoutLambdaRole.Arn
+      Timeout: 900
+      MemorySize: 512
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref DataLakeBucket
+          ENVIRONMENT: !Ref Environment
+      Code:
+        ZipFile: |
+          import json
+          import boto3
+          import os
+          from datetime import datetime, timedelta
+          
+          def lambda_handler(event, context):
+              """
+              Process and analyze detected anomalies
+              """
+              lookout = boto3.client('lookoutmetrics')
+              s3 = boto3.client('s3')
+              
+              bucket = os.environ['BUCKET_NAME']
+              environment = os.environ['ENVIRONMENT']
+              
+              try:
+                  anomaly_detector_arn = event.get('anomaly_detector_arn')
+                  
+                  if not anomaly_detector_arn:
+                      raise ValueError("anomaly_detector_arn is required")
+                  
+                  # Get recent anomalies
+                  end_time = datetime.now()
+                  start_time = end_time - timedelta(days=7)  # Last 7 days
+                  
+                  response = lookout.list_anomaly_group_summaries(
+                      AnomalyDetectorArn=anomaly_detector_arn,
+                      SensitivityThreshold=50,  # Medium sensitivity
+                      MaxResults=50
+                  )
+                  
+                  anomalies = response.get('AnomalyGroupSummaryList', [])
+                  
+                  # Process anomalies
+                  processed_anomalies = []
+                  for anomaly in anomalies:
+                      anomaly_score = anomaly.get('AnomalyGroupScore', 0)
+                      primary_metric = anomaly.get('PrimaryMetricName', '')
+                      start_time = anomaly.get('StartTime', '')
+                      end_time = anomaly.get('EndTime', '')
+                      
+                      # Categorize anomaly severity
+                      if anomaly_score >= 80:
+                          severity = "HIGH"
+                      elif anomaly_score >= 60:
+                          severity = "MEDIUM"
+                      else:
+                          severity = "LOW"
+                      
+                      processed_anomalies.append({
+                          'anomaly_id': anomaly.get('AnomalyGroupId'),
+                          'score': anomaly_score,
+                          'severity': severity,
+                          'metric': primary_metric,
+                          'start_time': str(start_time),
+                          'end_time': str(end_time),
+                          'detected_at': datetime.now().isoformat()
+                      })
+                  
+                  # Save anomaly report to S3
+                  report = {
+                      'report_date': datetime.now().isoformat(),
+                      'total_anomalies': len(processed_anomalies),
+                      'high_severity_count': len([a for a in processed_anomalies if a['severity'] == 'HIGH']),
+                      'anomalies': processed_anomalies
+                  }
+                  
+                  report_key = f"anomalies/detected-anomalies/report-{datetime.now().strftime('%Y%m%d')}.json"
+                  
+                  s3.put_object(
+                      Bucket=bucket,
+                      Key=report_key,
+                      Body=json.dumps(report, indent=2),
+                      ContentType='application/json'
+                  )
+                  
+                  return {
+                      'statusCode': 200,
+                      'body': json.dumps({
+                          'message': 'Anomaly processing completed',
+                          'total_anomalies': len(processed_anomalies),
+                          'report_location': f"s3://{bucket}/{report_key}"
+                      })
+                  }
+                  
+              except Exception as e:
+                  print(f"Error: {str(e)}")
+                  return {
+                      'statusCode': 500,
+                      'body': json.dumps({'error': str(e)})
+                  }
+
+Outputs:
+  LookoutMetricsServiceRoleArn:
+    Description: Lookout for Metrics Service Role ARN
+    Value: !GetAtt LookoutMetricsServiceRole.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-LookoutRole"
+
+  AnomalyDetectorSetupFunctionArn:
+    Description: Anomaly Detector Setup Function ARN
+    Value: !GetAtt AnomalyDetectorSetupFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-DetectorSetup"
+
+  AnomalyProcessorFunctionArn:
+    Description: Anomaly Processor Function ARN
+    Value: !GetAtt AnomalyProcessorFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-AnomalyProcessor"

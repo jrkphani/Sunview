@@ -1,0 +1,39 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["@github/github-mcp"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "aws-core": {
+      "command": "npx",
+      "args": ["@aws/mcp", "--profile", "gxo-signify"],
+      "env": {
+        "AWS_REGION": "${AWS_REGION:-us-east-1}",
+        "AWS_PROFILE": "${AWS_PROFILE:-gxo-signify}"
+      }
+    },
+    "terraform": {
+      "command": "npx",
+      "args": ["@aws/terraform-mcp"],
+      "env": {
+        "TF_WORKSPACE": "${TF_WORKSPACE:-pilot}",
+        "AWS_PROFILE": "${AWS_PROFILE:-gxo-signify}"
+      }
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["@databases/postgres-mcp"],
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-filesystem", "/Users/jrkphani/Projects/Sunview"],
+      "env": {}
+    }
+  }
+}

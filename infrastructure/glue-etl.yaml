@@ -1,0 +1,162 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'GXO Signify Pilot - AWS Glue ETL Infrastructure'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: pilot
+  DataLakeBucket:
+    Type: String
+    Description: S3 Data Lake Bucket Name
+
+Resources:
+  # Glue Database
+  GlueDatabase:
+    Type: AWS::Glue::Database
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseInput:
+        Name: !Sub "signify_logistics_${Environment}"
+        Description: "Database for Signify logistics data"
+
+  # Glue IAM Role
+  GlueServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "gxo-signify-${Environment}-glue-role"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: glue.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole
+      Policies:
+        - PolicyName: S3DataLakeAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:DeleteObject
+                  - s3:ListBucket
+                Resource: 
+                  - !Sub "arn:aws:s3:::${DataLakeBucket}"
+                  - !Sub "arn:aws:s3:::${DataLakeBucket}/*"
+
+  # Data Cleansing Glue Job
+  DataCleansingJob:
+    Type: AWS::Glue::Job
+    Properties:
+      Name: !Sub "signify-data-cleansing-${Environment}"
+      Role: !GetAtt GlueServiceRole.Arn
+      Command:
+        Name: glueetl
+        ScriptLocation: !Sub "s3://${DataLakeBucket}/glue-scripts/data_cleansing.py"
+        PythonVersion: "3"
+      DefaultArguments:
+        "--enable-metrics": "true"
+        "--enable-job-insights": "true"
+        "--job-language": "python"
+        "--DATABASE_NAME": !Ref GlueDatabase
+        "--BUCKET_NAME": !Ref DataLakeBucket
+      MaxRetries: 1
+      Timeout: 60
+      GlueVersion: "4.0"
+      WorkerType: G.1X
+      NumberOfWorkers: 2
+
+  # Feature Engineering Glue Job
+  FeatureEngineeringJob:
+    Type: AWS::Glue::Job
+    Properties:
+      Name: !Sub "signify-feature-engineering-${Environment}"
+      Role: !GetAtt GlueServiceRole.Arn
+      Command:
+        Name: glueetl
+        ScriptLocation: !Sub "s3://${DataLakeBucket}/glue-scripts/feature_engineering.py"
+        PythonVersion: "3"
+      DefaultArguments:
+        "--enable-metrics": "true"
+        "--enable-job-insights": "true"  
+        "--job-language": "python"
+        "--DATABASE_NAME": !Ref GlueDatabase
+        "--BUCKET_NAME": !Ref DataLakeBucket
+      MaxRetries: 1
+      Timeout: 60
+      GlueVersion: "4.0"
+      WorkerType: G.1X
+      NumberOfWorkers: 2
+
+  # Data Aggregation Glue Job
+  DataAggregationJob:
+    Type: AWS::Glue::Job
+    Properties:
+      Name: !Sub "signify-data-aggregation-${Environment}"
+      Role: !GetAtt GlueServiceRole.Arn
+      Command:
+        Name: glueetl
+        ScriptLocation: !Sub "s3://${DataLakeBucket}/glue-scripts/data_aggregation.py"
+        PythonVersion: "3"
+      DefaultArguments:
+        "--enable-metrics": "true"
+        "--enable-job-insights": "true"  
+        "--job-language": "python"
+        "--DATABASE_NAME": !Ref GlueDatabase
+        "--BUCKET_NAME": !Ref DataLakeBucket
+      MaxRetries: 1
+      Timeout: 60
+      GlueVersion: "4.0"
+      WorkerType: G.1X
+      NumberOfWorkers: 2
+
+  # Glue Crawler for Raw Data
+  RawDataCrawler:
+    Type: AWS::Glue::Crawler
+    Properties:
+      Name: !Sub "signify-raw-data-crawler-${Environment}"
+      Role: !GetAtt GlueServiceRole.Arn
+      DatabaseName: !Ref GlueDatabase
+      Targets:
+        S3Targets:
+          - Path: !Sub "s3://${DataLakeBucket}/raw/"
+      SchemaChangePolicy:
+        UpdateBehavior: UPDATE_IN_DATABASE
+        DeleteBehavior: LOG
+
+  # Glue Crawler for Processed Data
+  ProcessedDataCrawler:
+    Type: AWS::Glue::Crawler
+    Properties:
+      Name: !Sub "signify-processed-data-crawler-${Environment}"
+      Role: !GetAtt GlueServiceRole.Arn
+      DatabaseName: !Ref GlueDatabase
+      Targets:
+        S3Targets:
+          - Path: !Sub "s3://${DataLakeBucket}/processed/"
+      SchemaChangePolicy:
+        UpdateBehavior: UPDATE_IN_DATABASE
+        DeleteBehavior: LOG
+
+Outputs:
+  GlueDatabaseName:
+    Description: Glue Database Name
+    Value: !Ref GlueDatabase
+    Export:
+      Name: !Sub "${AWS::StackName}-GlueDatabase"
+
+  GlueServiceRoleArn:
+    Description: Glue Service Role ARN
+    Value: !GetAtt GlueServiceRole.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-GlueRole"
+
+  DataCleansingJobName:
+    Description: Data Cleansing Glue Job Name
+    Value: !Ref DataCleansingJob
+    Export:
+      Name: !Sub "${AWS::StackName}-DataCleansingJob"
