@@ -9,10 +9,14 @@ export default function OperationalEfficiencyPage() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/dashboard" className="flex items-center gap-1">
+            <BreadcrumbLink href="/" className="flex items-center gap-1">
               <Home className="h-4 w-4" />
-              Dashboard
+              Overview
             </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>

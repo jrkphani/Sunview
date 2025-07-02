@@ -224,28 +224,29 @@ export default function SeasonalityCalendarHeatmap({
                         style={{ 
                           gridTemplateColumns: 'repeat(53, 12px)',
                           gridTemplateRows: 'repeat(7, 12px)',
+                          gridAutoFlow: 'column',
                           width: '636px'
                         }}
                       >
                         {Array.from({ length: 53 * 7 }, (_, index) => {
-                          // Calculate week and day from grid position
-                          const week = Math.floor(index / 7)
+                          // Calculate position in column-first order
                           const dayOfWeek = index % 7
+                          const week = Math.floor(index / 7)
                           
                           // Calculate actual date
                           const startOfYear = new Date(2024, 0, 1)
-                          const startDay = startOfYear.getDay() // Day of week for Jan 1, 2024 (Monday = 1)
+                          const startDay = startOfYear.getDay() // Day of week for Jan 1, 2024
                           
                           // Adjust for proper calendar alignment
                           const dayOffset = week * 7 + dayOfWeek - startDay
                           const date = new Date(2024, 0, 1 + dayOffset)
                           
-                          // Only show if it's within 2024
+                          // Check if date is outside 2024
                           if (date.getFullYear() !== 2024) {
                             return (
                               <div
                                 key={index}
-                                className="w-3 h-3 rounded-sm border border-transparent"
+                                className="w-3 h-3"
                               />
                             )
                           }
@@ -280,14 +281,14 @@ export default function SeasonalityCalendarHeatmap({
 
             {/* Intensity legend */}
             <div className="flex items-center justify-center mt-4 space-x-2 text-xs">
-                  <span className="text-neutral-500">Less</span>
-                  {[0, 0.25, 0.5, 0.75, 1].map(intensity => (
-                    <div
-                      key={intensity}
-                      className={`w-3 h-3 rounded-sm border border-border ${getIntensityColor(intensity)}`}
-                    />
-                  ))}
-              <span className="text-neutral-500">More</span>
+              <span className="text-muted-foreground">Less</span>
+              {[0, 0.2, 0.4, 0.6, 0.8, 1].map(intensity => (
+                <div
+                  key={intensity}
+                  className={`w-3 h-3 rounded-sm border border-border ${getIntensityColor(intensity)}`}
+                />
+              ))}
+              <span className="text-muted-foreground">More</span>
             </div>
 
             {/* Hover tooltip */}
@@ -407,8 +408,9 @@ function normalizeValue(value: number, data: any[]): number {
 
 function getIntensityColor(intensity: number): string {
   if (intensity === 0) return 'bg-muted'
-  if (intensity <= 0.25) return 'bg-primary/20'
-  if (intensity <= 0.5) return 'bg-primary/40'
-  if (intensity <= 0.75) return 'bg-primary/60'
+  if (intensity <= 0.2) return 'bg-primary/10'
+  if (intensity <= 0.4) return 'bg-primary/25'
+  if (intensity <= 0.6) return 'bg-primary/40'
+  if (intensity <= 0.8) return 'bg-primary/60'
   return 'bg-primary/80'
 }

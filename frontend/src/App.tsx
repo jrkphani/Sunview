@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { Toaster } from 'sonner'
 import DashboardLayout from './components/layout/DashboardLayout'
 import HeroPage from './pages/HeroPage'
+import InsightToActionFlowPage from './pages/InsightToActionFlowPage'
 // Dashboard section pages
 import ExecutiveSummaryPage from './pages/ExecutiveSummaryPage'
 import OperationalEfficiencyPage from './pages/OperationalEfficiencyPage'
@@ -16,6 +17,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<HeroPage />} />
+        <Route path="/insight-to-action" element={<InsightToActionFlowPage />} />
         <Route path="/dashboard" element={<DashboardLayout />}>
           {/* Executive Summary is now the default landing page */}
           <Route index element={<ExecutiveSummaryPage />} />

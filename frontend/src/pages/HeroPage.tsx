@@ -78,14 +78,25 @@ export default function HeroPage() {
             every site, every client, every lane.
           </p>
 
-          <Button 
-            onClick={() => navigate('/dashboard')}
-            size="lg" 
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
-          >
-            Explore the Dashboard
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button 
+              onClick={() => navigate('/dashboard')}
+              size="lg" 
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
+            >
+              Explore the Dashboard
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+            <Button 
+              onClick={() => navigate('/insight-to-action')}
+              size="lg" 
+              variant="outline"
+              className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-3"
+            >
+              View Workflow Chains
+              <BarChart3 className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -171,8 +182,63 @@ export default function HeroPage() {
         </div>
       </section>
 
-      {/* Why KPIs Matter */}
+      {/* Workflow Chains Preview */}
       <section className="py-16 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+              <TrendingUp className="inline h-8 w-8 text-blue-600 mr-3" />
+              Automated Workflow Chains
+            </h2>
+            <p className="text-lg text-neutral-700 max-w-3xl mx-auto mb-8">
+              Transform insights into action with our AI-powered workflow automation. 
+              From forecast generation to labor planning, every process is optimized.
+            </p>
+            <Button 
+              onClick={() => navigate('/insight-to-action')}
+              size="lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              Explore Workflow Chains
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
+          
+          <div className="grid md:grid-cols-4 gap-6 mt-12">
+            <Card className="hover:shadow-md transition-shadow">
+              <CardContent className="p-6 text-center">
+                <BarChart3 className="h-10 w-10 text-blue-600 mx-auto mb-3" />
+                <h4 className="font-semibold mb-2">Forecast to Labor</h4>
+                <p className="text-sm text-neutral-600">Optimize workforce schedules</p>
+              </CardContent>
+            </Card>
+            <Card className="hover:shadow-md transition-shadow">
+              <CardContent className="p-6 text-center">
+                <Truck className="h-10 w-10 text-green-600 mx-auto mb-3" />
+                <h4 className="font-semibold mb-2">Forecast to Transport</h4>
+                <p className="text-sm text-neutral-600">Maximize truck utilization</p>
+              </CardContent>
+            </Card>
+            <Card className="hover:shadow-md transition-shadow">
+              <CardContent className="p-6 text-center">
+                <Target className="h-10 w-10 text-orange-600 mx-auto mb-3" />
+                <h4 className="font-semibold mb-2">Anomaly to Action</h4>
+                <p className="text-sm text-neutral-600">Proactive risk mitigation</p>
+              </CardContent>
+            </Card>
+            <Card className="hover:shadow-md transition-shadow">
+              <CardContent className="p-6 text-center">
+                <TrendingUp className="h-10 w-10 text-purple-600 mx-auto mb-3" />
+                <h4 className="font-semibold mb-2">Insight to Revenue</h4>
+                <p className="text-sm text-neutral-600">Commercial optimization</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Why KPIs Matter */}
+      <section className="py-16 bg-neutral-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-neutral-900 mb-4">

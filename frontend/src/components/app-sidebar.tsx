@@ -10,6 +10,7 @@ import {
   Truck,
   Settings,
   HelpCircle,
+  Home,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -65,6 +66,11 @@ const data = {
   ],
   navSecondary: [
     {
+      title: "Hero Overview",
+      url: "/",
+      icon: Home,
+    },
+    {
       title: "Documentation",
       url: "#",
       icon: FileText,
@@ -92,7 +98,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="/dashboard">
+              <a href="/">
                 <Truck className="h-5 w-5" />
                 <span className="text-base font-semibold">GXO Forecasting</span>
               </a>
