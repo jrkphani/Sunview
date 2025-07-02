@@ -1,11 +1,8 @@
-import React from 'react'
+import * as React from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { insightService } from '../services/insightService'
 import { queryKeys, REFETCH_INTERVALS } from '../lib/react-query'
 import type { 
-  Insight, 
-  InsightDetail, 
-  CategorySummary,
   InsightCategory,
   Priority,
   InsightStatus,
@@ -191,9 +188,9 @@ export const useInsightsDashboard = (
              (options?.includeStatistics && statistics.isError) ||
              (options?.includeCategories && categories.isError),
     // Computed metrics
-    totalInsights: statistics.data?.total_insights ?? 0,
-    newInsightsCount: statistics.data?.new_insights ?? 0,
-    potentialSavings: statistics.data?.potential_monthly_savings ?? 0,
+    totalInsights: statistics?.data?.total_insights ?? 0,
+    newInsightsCount: statistics?.data?.new_insights ?? 0,
+    potentialSavings: statistics?.data?.potential_monthly_savings ?? 0,
   }
 }
 

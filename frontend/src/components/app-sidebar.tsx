@@ -1,8 +1,11 @@
 import * as React from "react"
 import {
-  TrendingUp,
-  BarChart3,
-  Lightbulb,
+  Crown,
+  Cog,
+  Target,
+  DollarSign,
+  Shield,
+  Search,
   FileText,
   Truck,
   Settings,
@@ -30,24 +33,34 @@ const data = {
   },
   navMain: [
     {
-      title: "Dashboard",
+      title: "Executive Summary",
       url: "/dashboard",
-      icon: BarChart3,
+      icon: Crown,
     },
     {
-      title: "Forecasts",
-      url: "/dashboard/forecasts",
-      icon: TrendingUp,
+      title: "Operational Efficiency",
+      url: "/dashboard/operational-efficiency",
+      icon: Cog,
     },
     {
-      title: "Insights",
-      url: "/dashboard/insights",
-      icon: Lightbulb,
+      title: "Strategic Planning",
+      url: "/dashboard/strategic-planning",
+      icon: Target,
     },
     {
-      title: "Analytics",
-      url: "/dashboard/analytics",
-      icon: BarChart3,
+      title: "Commercial Insights",
+      url: "/dashboard/commercial-insights",
+      icon: DollarSign,
+    },
+    {
+      title: "Risk & Resilience",
+      url: "/dashboard/risk-resilience",
+      icon: Shield,
+    },
+    {
+      title: "Forecast Explorer",
+      url: "/dashboard/forecast-explorer",
+      icon: Search,
     },
   ],
   navSecondary: [

@@ -12,13 +12,13 @@ import uuid
 import os
 from typing import Dict, Any
 
-from app.api.v1 import forecasts, insights, kpis, export
+from app.api.v1 import forecasts, insights, kpis, export, strategic_planning, commercial_insights
 from app.core.config import settings
 
 # Initialize FastAPI app
 app = FastAPI(
     title="GXO Signify Forecasting API",
-    description="ML-powered logistics forecasting and insights platform",
+    description="Advanced logistics forecasting with strategic planning and commercial intelligence",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
@@ -146,6 +146,18 @@ app.include_router(
     tags=["export"]
 )
 
+app.include_router(
+    strategic_planning.router,
+    prefix="/api/v1/strategic",
+    tags=["strategic-planning"]
+)
+
+app.include_router(
+    commercial_insights.router,
+    prefix="/api/v1/commercial",
+    tags=["commercial-insights"]
+)
+
 # Root endpoint
 @app.get("/")
 async def root():
@@ -165,7 +177,9 @@ async def root():
             "forecasts": "/api/v1/forecasts",
             "insights": "/api/v1/insights",
             "kpis": "/api/v1/kpis",
-            "export": "/api/v1/export"
+            "export": "/api/v1/export",
+            "strategic_planning": "/api/v1/strategic",
+            "commercial_insights": "/api/v1/commercial"
         }
     }
 

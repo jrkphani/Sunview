@@ -457,6 +457,130 @@ export interface TrendChartData extends ChartDataPoint {
   change_percentage?: number
 }
 
+// ====== EXECUTIVE SUMMARY INTERFACES ======
+export interface ForecastAccuracyData {
+  overall_mape: number
+  overall_wape: number
+  trend_direction: TrendDirection
+  change_percentage: number
+  time_series: Array<{
+    date: string
+    mape: number
+    wape: number
+  }>
+  sku_breakdown: Array<{
+    sku: string
+    name: string
+    mape: number
+    wape: number
+    volume: number
+  }>
+  site_breakdown: Array<{
+    site: string
+    mape: number
+    wape: number
+    volume: number
+  }>
+}
+
+export interface TopSKUErrorData {
+  sku: string
+  name: string
+  category: string
+  error_percentage: number
+  volume: number
+  historical_comparison: Array<{
+    period: string
+    error_percentage: number
+  }>
+}
+
+export interface TruckUtilizationData {
+  seven_day_average: number
+  trend_direction: TrendDirection
+  change_percentage: number
+  time_series: Array<{
+    date: string
+    utilization: number
+  }>
+  consolidation_opportunities: Array<{
+    route: string
+    potential_savings: number
+    current_utilization: number
+    optimized_utilization: number
+  }>
+}
+
+export interface DOHData {
+  sku_groups: Array<{
+    group: string
+    average_doh: number
+    trend_direction: TrendDirection
+    sku_details: Array<{
+      sku: string
+      name: string
+      doh: number
+      aging_category: 'healthy' | 'aging' | 'excess'
+      demand_rate: number
+    }>
+  }>
+  time_series: Array<{
+    date: string
+    values: Record<string, number>
+  }>
+}
+
+export interface OTIFData {
+  overall_otif: number
+  on_time_percentage: number
+  in_full_percentage: number
+  trend_direction: TrendDirection
+  change_percentage: number
+  site_breakdown: Array<{
+    site: string
+    otif_percentage: number
+    on_time_percentage: number
+    in_full_percentage: number
+    sla_compliance: 'above' | 'at' | 'below'
+  }>
+  time_series: Array<{
+    date: string
+    on_time: number
+    in_full: number
+    otif: number
+  }>
+}
+
+export interface AlertData {
+  id: string
+  title: string
+  description: string
+  severity: 'critical' | 'high' | 'medium' | 'low'
+  category: 'forecast' | 'inventory' | 'logistics' | 'performance'
+  created_at: string
+  status: 'active' | 'acknowledged' | 'resolved'
+  impact_score: number
+  recommended_action: string
+  drill_down_link?: string
+}
+
+export interface ExecutiveSummaryData {
+  forecast_accuracy: ForecastAccuracyData
+  top_sku_errors: TopSKUErrorData[]
+  truck_utilization: TruckUtilizationData
+  doh_data: DOHData
+  otif_data: OTIFData
+  key_alerts: AlertData[]
+  last_updated: string
+}
+
+export interface DrillDownFilters {
+  timeRange?: string
+  site?: string
+  skuGroup?: string
+  forecastHorizon?: string
+}
+
 // ====== UTILITY TYPES ======
 export type ApiError = {
   message: string
@@ -477,4 +601,186 @@ export type QueryOptions = {
   retryDelay?: number | ((attemptIndex: number) => number)
   staleTime?: number
   gcTime?: number
+}
+
+// ====== OPERATIONAL EFFICIENCY INTERFACES ======
+export interface ThroughputMetrics {
+  site_id: string
+  site_name: string
+  date: string
+  forecasted_throughput: number
+  actual_throughput: number
+  variance_percentage: number
+  sku_group: string
+  shift: 'morning' | 'afternoon' | 'night'
+  status: 'on_target' | 'over_target' | 'under_target'
+}
+
+export interface ConsumptionRateData {
+  sku_id: string
+  sku_name: string
+  segment: string
+  warehouse_id: string
+  warehouse_name: string
+  date: string
+  forecast_consumption_rate: number
+  actual_consumption_rate: number
+  variance: number
+  confidence_score: number
+  category: 'high_velocity' | 'medium_velocity' | 'low_velocity'
+}
+
+export interface LaborForecastData {
+  site_id: string
+  site_name: string
+  shift_date: string
+  shift_type: 'morning' | 'afternoon' | 'night'
+  forecasted_headcount: number
+  actual_headcount: number
+  forecasted_hours: number
+  actual_hours: number
+  efficiency_percentage: number
+  status: 'overstaffed' | 'understaffed' | 'optimal'
+  variance_percentage: number
+  cost_impact: number
+}
+
+export interface DockToStockData {
+  site_id: string
+  site_name: string
+  sku_group: string
+  receipt_date: string
+  dock_time: string
+  stock_time: string
+  processing_time_hours: number
+  target_time_hours: number
+  variance_hours: number
+  is_outlier: boolean
+  delay_category: 'receiving' | 'inspection' | 'putaway' | 'system_processing'
+  delay_reason?: string
+  impact_score: number
+}
+
+export interface PickRateMetrics {
+  site_id: string
+  site_name: string
+  shift_date: string
+  shift_type: 'morning' | 'afternoon' | 'night'
+  picks_per_hour: number
+  target_picks_per_hour: number
+  efficiency_percentage: number
+  total_picks: number
+  total_hours: number
+  worker_count: number
+  equipment_utilization: number
+  downtime_minutes: number
+  performance_grade: 'excellent' | 'good' | 'needs_improvement' | 'poor'
+}
+
+export interface ConsolidationOpportunity {
+  route_id: string
+  destination: string
+  partial_loads: Array<{
+    shipment_id: string
+    current_fill_percentage: number
+    weight_utilized: number
+    weight_capacity: number
+    delivery_window_start: string
+    delivery_window_end: string
+    priority: 'high' | 'medium' | 'low'
+  }>
+  potential_savings: number
+  consolidation_feasibility: number
+  timeline_compatibility: number
+  recommended_action: 'consolidate' | 'reschedule' | 'optimize_route'
+  estimated_cost_reduction: number
+}
+
+export interface OperationalEfficiencyFilters {
+  sites?: string[]
+  sku_groups?: string[]
+  date_range?: {
+    start_date: string
+    end_date: string
+  }
+  shifts?: Array<'morning' | 'afternoon' | 'night'>
+  outliers_only?: boolean
+  performance_threshold?: number
+}
+
+export interface OperationalEfficiencyMetrics {
+  throughput_analysis: {
+    overall_accuracy: number
+    site_performance: ThroughputMetrics[]
+    variance_trends: Array<{
+      date: string
+      average_variance: number
+      sites_on_target: number
+      total_sites: number
+    }>
+  }
+  consumption_rates: {
+    sku_performance: ConsumptionRateData[]
+    category_breakdown: Array<{
+      category: string
+      average_accuracy: number
+      sku_count: number
+    }>
+    warehouse_efficiency: Array<{
+      warehouse_id: string
+      warehouse_name: string
+      overall_accuracy: number
+      total_skus: number
+    }>
+  }
+  labor_efficiency: {
+    staffing_analysis: LaborForecastData[]
+    cost_impact_summary: {
+      overstaffing_cost: number
+      understaffing_impact: number
+      optimal_shifts_percentage: number
+    }
+    shift_performance: Array<{
+      shift_type: string
+      average_efficiency: number
+      typical_variance: number
+    }>
+  }
+  processing_times: {
+    dock_to_stock_data: DockToStockData[]
+    outlier_analysis: {
+      total_outliers: number
+      average_delay_hours: number
+      most_common_delay_category: string
+    }
+    site_performance: Array<{
+      site_id: string
+      site_name: string
+      average_processing_time: number
+      target_processing_time: number
+      outlier_percentage: number
+    }>
+  }
+  pick_rate_analysis: {
+    shift_performance: PickRateMetrics[]
+    efficiency_trends: Array<{
+      date: string
+      average_efficiency: number
+      best_performing_shift: string
+      worst_performing_shift: string
+    }>
+    equipment_utilization: Array<{
+      site_id: string
+      site_name: string
+      average_utilization: number
+      downtime_percentage: number
+    }>
+  }
+  consolidation_opportunities: {
+    opportunities: ConsolidationOpportunity[]
+    potential_monthly_savings: number
+    optimization_score: number
+    routes_analyzed: number
+    consolidation_rate: number
+  }
 }

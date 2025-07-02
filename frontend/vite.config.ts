@@ -13,9 +13,19 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true,
+    strictPort: true,
+    fs: {
+      strict: false,
+    },
+    hmr: {
+      overlay: true,
+    },
   },
   build: {
     outDir: 'dist',
     sourcemap: true,
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
   },
 })

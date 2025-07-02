@@ -6,15 +6,24 @@ import {
   Lightbulb, 
   BarChart3,
   FileText,
-  Settings
+  Settings,
+  Crown,
+  Cog,
+  Target,
+  DollarSign,
+  Shield,
+  Search
 } from 'lucide-react'
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
-  { name: 'Forecasts', href: '/forecasts', icon: TrendingUp },
-  { name: 'Insights', href: '/insights', icon: Lightbulb },
-  { name: 'Analytics', href: '/analytics', icon: BarChart3 },
+  { name: 'Executive Summary', href: '/dashboard', icon: Crown },
+  { name: 'Operational Efficiency', href: '/dashboard/operational-efficiency', icon: Cog },
+  { name: 'Strategic Planning', href: '/dashboard/strategic-planning', icon: Target },
+  { name: 'Commercial Insights', href: '/dashboard/commercial-insights', icon: DollarSign },
+  { name: 'Risk & Resilience', href: '/dashboard/risk-resilience', icon: Shield },
+  { name: 'Forecast Explorer', href: '/dashboard/forecast-explorer', icon: Search },
 ]
+
 
 const secondaryNavigation = [
   { name: 'Reports', href: '/reports', icon: FileText },

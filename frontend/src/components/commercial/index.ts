@@ -1,0 +1,7 @@
+export { default as CommercialInsightsSection } from './CommercialInsightsSection'
+export { default as ServiceTierParetoChart } from './ServiceTierParetoChart'
+export { default as PremiumServicesCards } from './PremiumServicesCards'
+export { default as ClientVolatilityHeatmap } from './ClientVolatilityHeatmap'
+export { default as PricingOptimizationScatter } from './PricingOptimizationScatter'
+export { default as CommercialRecommendationsPanel } from './CommercialRecommendationsPanel'
+export { default as RevenueImpactCalculator } from './RevenueImpactCalculator'

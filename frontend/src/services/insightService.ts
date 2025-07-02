@@ -1,6 +1,6 @@
 import { api } from './api'
 
-export type InsightCategory = 'operational_efficiency' | 'strategic_partnership' | 'commercial_opportunity' | 'risk_resilience'
+export type InsightCategory = 'operational_efficiency' | 'strategic_partnership' | 'commercial_opportunity' | 'risk_management'
 export type Priority = 'high' | 'medium' | 'low'
 export type InsightStatus = 'new' | 'reviewed' | 'implemented' | 'dismissed'
 
@@ -81,21 +81,21 @@ export const insightService = {
 
   // Filter Insights
   async getFilteredInsights(filters: {
-    category?: InsightCategory
-    status?: InsightStatus
-    priority?: Priority
+    category?: InsightCategory | 'all'
+    status?: InsightStatus | 'all'
+    priority?: Priority | 'all'
     showOnlyNew?: boolean
   }): Promise<Insight[]> {
     const params: any = {}
     
     if (filters.category && filters.category !== 'all') {
-      params.categories = [filters.category]
+      params.categories = [filters.category as InsightCategory]
     }
     if (filters.status && filters.status !== 'all') {
-      params.status = filters.status
+      params.status = filters.status as InsightStatus
     }
     if (filters.priority && filters.priority !== 'all') {
-      params.priority = filters.priority
+      params.priority = filters.priority as Priority
     }
     if (filters.showOnlyNew) {
       params.status = 'new'

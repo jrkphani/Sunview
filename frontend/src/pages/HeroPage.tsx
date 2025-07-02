@@ -83,7 +83,7 @@ export default function HeroPage() {
             size="lg" 
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
           >
-            Explore the Demo
+            Explore the Dashboard
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </div>
@@ -275,15 +275,15 @@ export default function HeroPage() {
               size="lg"
               className="bg-white text-neutral-900 hover:bg-neutral-100 font-medium"
             >
-              Explore the Demo
+              Explore the Dashboard
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button 
-              onClick={() => navigate('/analytics')}
+              onClick={() => navigate('/dashboard/forecast-explorer')}
               size="lg"
               className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-neutral-900 font-medium"
             >
-              See KPI Impact per SKU/Site
+              Explore SKU Analytics
               <BarChart3 className="ml-2 h-5 w-5" />
             </Button>
           </div>

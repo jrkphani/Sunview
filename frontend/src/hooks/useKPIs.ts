@@ -1,13 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { kpiService } from '../services/kpiService'
 import { queryKeys, REFETCH_INTERVALS } from '../lib/react-query'
-import type { 
-  DashboardKPIs, 
-  KPITrend, 
-  ForecastAccuracyKPIs, 
-  EfficiencyMetrics, 
-  BusinessImpactMetrics 
-} from '../services/kpiService'
 
 // Dashboard KPIs Hook
 export const useDashboardKPIs = () => {

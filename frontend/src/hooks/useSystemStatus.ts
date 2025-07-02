@@ -2,9 +2,6 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { systemService } from '../services/systemService'
 import { queryKeys, REFETCH_INTERVALS } from '../lib/react-query'
 import type { 
-  SystemStatus, 
-  DataFreshness, 
-  SystemAlert,
   SystemConfiguration
 } from '../types/api'
 
