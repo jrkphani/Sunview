@@ -12,6 +12,8 @@ import {
   DialogTrigger 
 } from '@/components/ui/dialog'
 import { TrendingUp, TrendingDown, Minus, ChevronRight, Target, Info } from 'lucide-react'
+import { InsightExplainer, ExplainerTrigger } from '@/components/ui/insight-explainer'
+import { mapeWapeExplainer, forecastGradingExplainer } from '@/components/explainers/executive-summary-explainers'
 import { cn } from '@/lib/utils'
 import {
   LineChart,
@@ -67,6 +69,8 @@ const mockForecastAccuracyData: ForecastAccuracyData = {
 export default function ForecastAccuracyKPI({ filters: _filters, className }: ForecastAccuracyKPIProps) {
   const [selectedDrillDown, setSelectedDrillDown] = useState<'overview' | 'sku' | 'site'>('overview')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [mapeExplainerOpen, setMapeExplainerOpen] = useState(false)
+  const [gradingExplainerOpen, setGradingExplainerOpen] = useState(false)
   
   const data = mockForecastAccuracyData // In real app: useForecastAccuracy(filters)
 
@@ -95,16 +99,7 @@ export default function ForecastAccuracyKPI({ filters: _filters, className }: Fo
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium flex items-center gap-2">
             MAPE (Forecast Accuracy)
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <Info className="h-4 w-4 text-muted-foreground" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="max-w-xs">Mean Absolute Percentage Error - measures forecast accuracy. Lower is better.</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <ExplainerTrigger onClick={() => setMapeExplainerOpen(true)} />
           </CardTitle>
           <Target className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
@@ -121,12 +116,21 @@ export default function ForecastAccuracyKPI({ filters: _filters, className }: Fo
           <p className="text-xs text-muted-foreground mt-1">
             {data.change_percentage > 0 ? 'Increased' : 'Improved'} from last period
           </p>
-          <Badge 
-            variant={data.overall_mape <= 10 ? "default" : data.overall_mape <= 15 ? "secondary" : "destructive"}
-            className="mt-2"
-          >
-            {data.overall_mape <= 10 ? 'Excellent' : data.overall_mape <= 15 ? 'Good' : 'Needs Attention'}
-          </Badge>
+          <div className="flex items-center gap-2 mt-2">
+            <Badge 
+              variant={data.overall_mape <= 10 ? "default" : data.overall_mape <= 15 ? "secondary" : "destructive"}
+            >
+              {data.overall_mape <= 10 ? 'Excellent' : data.overall_mape <= 15 ? 'Good' : 'Needs Attention'}
+            </Badge>
+            <ExplainerTrigger 
+              onClick={() => setGradingExplainerOpen(true)} 
+              variant="button"
+              size="sm"
+              className="text-xs"
+            >
+              How is this graded?
+            </ExplainerTrigger>
+          </div>
         </CardContent>
       </Card>
 
@@ -135,16 +139,7 @@ export default function ForecastAccuracyKPI({ filters: _filters, className }: Fo
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium flex items-center gap-2">
             WAPE (Volume-Weighted)
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <Info className="h-4 w-4 text-muted-foreground" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="max-w-xs">Weighted Absolute Percentage Error - volume-weighted accuracy metric.</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <ExplainerTrigger onClick={() => setMapeExplainerOpen(true)} />
           </CardTitle>
           <Target className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
@@ -319,6 +314,34 @@ export default function ForecastAccuracyKPI({ filters: _filters, className }: Fo
           </Dialog>
         </CardContent>
       </Card>
+
+      {/* MAPE/WAPE Explainer */}
+      <InsightExplainer
+        isOpen={mapeExplainerOpen}
+        onClose={() => setMapeExplainerOpen(false)}
+        title={mapeWapeExplainer.title}
+        description={mapeWapeExplainer.description}
+        formula={mapeWapeExplainer.formula}
+        methodology={mapeWapeExplainer.methodology}
+        calculation={mapeWapeExplainer.calculation}
+        dataSources={mapeWapeExplainer.dataSources}
+        examples={mapeWapeExplainer.examples}
+        grade={mapeWapeExplainer.grade}
+        difficulty={mapeWapeExplainer.difficulty}
+      />
+
+      {/* Forecast Grading Explainer */}
+      <InsightExplainer
+        isOpen={gradingExplainerOpen}
+        onClose={() => setGradingExplainerOpen(false)}
+        title={forecastGradingExplainer.title}
+        description={forecastGradingExplainer.description}
+        methodology={forecastGradingExplainer.methodology}
+        calculation={forecastGradingExplainer.calculation}
+        examples={forecastGradingExplainer.examples}
+        grade={forecastGradingExplainer.grade}
+        difficulty={forecastGradingExplainer.difficulty}
+      />
     </div>
   )
 }

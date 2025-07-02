@@ -11,6 +11,8 @@ import {
   DialogTrigger 
 } from '@/components/ui/dialog'
 import { Clock, Package, TrendingUp, TrendingDown, ChevronRight, CheckCircle, AlertTriangle, MapPin } from 'lucide-react'
+import { InsightExplainer, ExplainerTrigger } from '@/components/ui/insight-explainer'
+import { otifExplainer } from '@/components/explainers/executive-summary-explainers'
 import { cn } from '@/lib/utils'
 import {
   BarChart,
@@ -96,6 +98,7 @@ const mockOTIFData: OTIFData = {
 export default function OTIFStackedBarChart({ filters: _filters, className }: OTIFStackedBarChartProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [selectedView, setSelectedView] = useState<'overview' | 'trends' | 'sites'>('overview')
+  const [explainerOpen, setExplainerOpen] = useState(false)
   
   const data = mockOTIFData // In real app: useOTIFData(filters)
 
@@ -173,6 +176,7 @@ export default function OTIFStackedBarChart({ filters: _filters, className }: OT
               <Package className="h-4 w-4 text-blue-600" />
             </div>
             <CardTitle>OTIF % (On-Time In-Full)</CardTitle>
+            <ExplainerTrigger onClick={() => setExplainerOpen(true)} />
           </div>
           <div className="flex items-center gap-2">
             <Badge variant={currentLevel.level === 'excellent' ? 'default' : currentLevel.level === 'poor' ? 'destructive' : 'secondary'}>
@@ -571,6 +575,21 @@ export default function OTIFStackedBarChart({ filters: _filters, className }: OT
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* OTIF Explainer */}
+      <InsightExplainer
+        isOpen={explainerOpen}
+        onClose={() => setExplainerOpen(false)}
+        title={otifExplainer.title}
+        description={otifExplainer.description}
+        formula={otifExplainer.formula}
+        methodology={otifExplainer.methodology}
+        calculation={otifExplainer.calculation}
+        dataSources={otifExplainer.dataSources}
+        examples={otifExplainer.examples}
+        grade={otifExplainer.grade}
+        difficulty={otifExplainer.difficulty}
+      />
     </Card>
   )
 }

@@ -11,6 +11,8 @@ import {
   DialogTrigger 
 } from '@/components/ui/dialog'
 import { Truck, TrendingUp, TrendingDown, ChevronRight, DollarSign, Route } from 'lucide-react'
+import { InsightExplainer, ExplainerTrigger } from '@/components/ui/insight-explainer'
+import { truckUtilizationExplainer } from '@/components/explainers/executive-summary-explainers'
 import { cn } from '@/lib/utils'
 import {
   AreaChart,
@@ -96,6 +98,7 @@ const mockTruckUtilizationData: TruckUtilizationData = {
 export default function TruckUtilizationAreaChart({ filters: _filters, className }: TruckUtilizationAreaChartProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [selectedView, setSelectedView] = useState<'trend' | 'opportunities'>('trend')
+  const [explainerOpen, setExplainerOpen] = useState(false)
   
   const data = mockTruckUtilizationData // In real app: useTruckUtilization(filters)
 
@@ -126,6 +129,7 @@ export default function TruckUtilizationAreaChart({ filters: _filters, className
           <div className="flex items-center gap-2">
             <Truck className="h-5 w-5 text-muted-foreground" />
             <CardTitle>Truck Utilization (7-day avg)</CardTitle>
+            <ExplainerTrigger onClick={() => setExplainerOpen(true)} />
           </div>
           <div className="flex items-center gap-2">
             <Badge variant={currentLevel.level === 'excellent' ? 'default' : 'secondary'}>
@@ -468,6 +472,21 @@ export default function TruckUtilizationAreaChart({ filters: _filters, className
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Truck Utilization Explainer */}
+      <InsightExplainer
+        isOpen={explainerOpen}
+        onClose={() => setExplainerOpen(false)}
+        title={truckUtilizationExplainer.title}
+        description={truckUtilizationExplainer.description}
+        formula={truckUtilizationExplainer.formula}
+        methodology={truckUtilizationExplainer.methodology}
+        calculation={truckUtilizationExplainer.calculation}
+        dataSources={truckUtilizationExplainer.dataSources}
+        examples={truckUtilizationExplainer.examples}
+        grade={truckUtilizationExplainer.grade}
+        difficulty={truckUtilizationExplainer.difficulty}
+      />
     </Card>
   )
 }

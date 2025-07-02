@@ -12,6 +12,8 @@ import {
   DialogTrigger 
 } from '@/components/ui/dialog'
 import { BarChart3, TrendingUp, TrendingDown, ChevronRight, AlertTriangle, Package } from 'lucide-react'
+import { InsightExplainer, ExplainerTrigger } from '@/components/ui/insight-explainer'
+import { topSkuErrorExplainer } from '@/components/explainers/executive-summary-explainers'
 import { cn } from '@/lib/utils'
 import {
   BarChart,
@@ -121,6 +123,7 @@ const mockTopSKUErrors: TopSKUErrorData[] = [
 export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsChartProps) {
   const [selectedSKU, setSelectedSKU] = useState<TopSKUErrorData | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [explainerOpen, setExplainerOpen] = useState(false)
   
   const data = mockTopSKUErrors // In real app: useTopSKUErrors(filters)
 
@@ -159,6 +162,7 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
           <div className="flex items-center gap-2">
             <BarChart3 className="h-5 w-5 text-neutral-600" />
             <CardTitle>Top 10 SKUs by Forecast Error</CardTitle>
+            <ExplainerTrigger onClick={() => setExplainerOpen(true)} />
           </div>
           <TooltipProvider>
             <Tooltip>
@@ -438,6 +442,20 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Top SKU Errors Explainer */}
+      <InsightExplainer
+        isOpen={explainerOpen}
+        onClose={() => setExplainerOpen(false)}
+        title={topSkuErrorExplainer.title}
+        description={topSkuErrorExplainer.description}
+        methodology={topSkuErrorExplainer.methodology}
+        calculation={topSkuErrorExplainer.calculation}
+        dataSources={topSkuErrorExplainer.dataSources}
+        examples={topSkuErrorExplainer.examples}
+        grade={topSkuErrorExplainer.grade}
+        difficulty={topSkuErrorExplainer.difficulty}
+      />
     </Card>
   )
 }
