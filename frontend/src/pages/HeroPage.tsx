@@ -11,7 +11,7 @@ export default function HeroPage() {
     { objective: 'Forecast Visibility', impact: '+15% improvement in labor and truck planning accuracy' },
     { objective: 'SLA Performance', impact: '8–12% reduction in unplanned exceptions' },
     { objective: 'Operational Efficiency', impact: '10–20% improvement in site-level throughput planning' },
-    { objective: 'New Revenue Streams', impact: 'Forecasting-as-a-Service for GXO enterprise customers' }
+    { objective: 'New Revenue Streams', impact: 'Forecasting-as-a-Service for enterprise customers' }
   ]
 
   const kpiGlossary = [
@@ -47,7 +47,7 @@ export default function HeroPage() {
               <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <Truck className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-semibold text-neutral-900">GXO Forecasting Platform</span>
+              <span className="text-xl font-semibold text-neutral-900">Supply Chain Forecasting Platform</span>
             </div>
             <Badge variant="secondary" className="bg-neutral-800 text-white">
               Demo by 1CloudHub
@@ -67,13 +67,13 @@ export default function HeroPage() {
           </div>
           
           <h1 className="text-5xl font-bold text-neutral-900 mb-6 leading-tight">
-            Transforming GXO's Operational Intelligence with<br />
+            Transforming Operational Intelligence with<br />
             <span className="text-blue-600">Forecasting-as-a-Service</span>
           </h1>
           
           <p className="text-xl text-neutral-700 max-w-4xl mx-auto mb-8 leading-relaxed">
-            1CloudHub's AI-native forecasting platform empowers GXO to move from execution-led operations 
-            to predictive, insights-driven logistics. Built on AWS and proven through our Signify pilot, 
+            Our AI-native forecasting platform empowers logistics operations to move from execution-led 
+            to predictive, insights-driven management. Built on AWS and proven through enterprise pilots, 
             this platform unlocks SKU-level visibility, anomaly detection, and decision-making foresight—across 
             every site, every client, every lane.
           </p>
@@ -115,8 +115,8 @@ export default function HeroPage() {
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold text-neutral-900 mb-4">The Opportunity</h3>
                 <p className="text-neutral-700 leading-relaxed">
-                  GXO's logistics excellence deserves forecasting intelligence to match. Most 3PLs react to orders. 
-                  GXO can now anticipate them—by embedding forecast visibility and KPI-driven planning into daily operations.
+                  Logistics excellence deserves forecasting intelligence to match. Most operations react to orders. 
+                  You can now anticipate them—by embedding forecast visibility and KPI-driven planning into daily operations.
                 </p>
               </CardContent>
             </Card>
@@ -151,7 +151,7 @@ export default function HeroPage() {
                 <h3 className="text-xl font-semibold text-neutral-900 mb-4">The Result</h3>
                 <p className="text-neutral-700 leading-relaxed">
                   Fewer missed SLAs. Lower planning effort. Smarter operations. And a scalable platform 
-                  GXO can extend to every marquee client.
+                  can be extended to every client.
                 </p>
               </CardContent>
             </Card>
@@ -280,7 +280,7 @@ export default function HeroPage() {
           
           <div className="bg-blue-50 rounded-lg p-6 text-center">
             <p className="text-neutral-800 italic">
-              These metrics turn data into action—and surface the operational truths that help GXO and its clients 
+              These metrics turn data into action—and surface the operational truths that help organizations 
               plan smarter, act faster, and reduce risk.
             </p>
           </div>
@@ -360,7 +360,7 @@ export default function HeroPage() {
       <footer className="bg-neutral-900 text-neutral-300 py-8">
         <div className="container mx-auto px-6 text-center">
           <p className="text-sm">
-            © 2024 1CloudHub. GXO Forecasting Platform - Strategic Demo Site
+            © 2024 Supply Chain Forecasting Platform - Strategic Demo Site
           </p>
         </div>
       </footer>

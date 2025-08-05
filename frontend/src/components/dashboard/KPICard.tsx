@@ -48,28 +48,27 @@ export default function KPICard({
 
   return (
     <Card className={cn('hover:shadow-md transition-shadow', className)} role="article" aria-labelledby={`kpi-title-${title.replace(/\s+/g, '-').toLowerCase()}`}>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0" style={{ paddingBottom: 'var(--spacing-2)' }}>
-        <CardTitle id={`kpi-title-${title.replace(/\s+/g, '-').toLowerCase()}`} className="text-sm font-medium">{title}</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle id={`kpi-title-${title.replace(/\s+/g, '-').toLowerCase()}`} className="text-sm font-medium truncate">{title}</CardTitle>
         {Icon && <Icon className="h-4 w-4 text-muted-foreground" aria-hidden="true" />}
       </CardHeader>
       <CardContent>
-        <div className="flex items-center" style={{ gap: 'var(--spacing-2)' }}>
+        <div className="flex items-center gap-2">
           <div className="text-2xl font-bold" role="text" aria-label={`${title} value is ${value}`}>{value}</div>
           {trend && change && TrendIcon && (
-            <div className={cn("flex items-center", trendColors[trend])} style={{ gap: 'var(--spacing-1)' }}>
+            <div className={cn("flex items-center gap-1", trendColors[trend])}>
               <TrendIcon className="h-4 w-4" aria-hidden="true" />
               <span className="text-sm font-medium" role="text" aria-label={`Change is ${change} ${trend}`}>{change}</span>
             </div>
           )}
         </div>
         {description && (
-          <p className="text-xs text-muted-foreground" style={{ marginTop: 'var(--spacing-1)' }}>{description}</p>
+          <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{description}</p>
         )}
         {severity !== 'default' && (
           <Badge 
             variant="outline" 
-            className={cn(severityStyles[severity])}
-            style={{ marginTop: 'var(--spacing-2)' }}
+            className={cn(severityStyles[severity], "mt-2")}
             role="status"
             aria-label={`Status: ${severity}`}
           >

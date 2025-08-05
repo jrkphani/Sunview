@@ -58,7 +58,7 @@ export function MockDataIndicator({
             </Badge>
           </div>
           {showDetails && (
-            <div className="mt-2 text-xs text-warning">
+            <div className="mt-2 text-xs text-warning/80">
               Connect to the backend API to see real S3 forecast data from your Amazon Forecast models.
             </div>
           )}

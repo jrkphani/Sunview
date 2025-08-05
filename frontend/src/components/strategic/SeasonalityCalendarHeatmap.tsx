@@ -147,7 +147,7 @@ export default function SeasonalityCalendarHeatmap({
   if (!data || data.length === 0) {
     return (
       <Card className={className}>
-        <CardContent className="flex items-center justify-center h-64 text-neutral-500">
+        <CardContent className="flex items-center justify-center h-64 text-muted-foreground">
           <div className="text-center space-y-2">
             <CalendarDays className="h-12 w-12 mx-auto opacity-50" />
             <p className="text-lg font-medium">No seasonality data available</p>
@@ -183,7 +183,7 @@ export default function SeasonalityCalendarHeatmap({
             </div>
           </div>
           {statistics && (
-            <div className="flex items-center space-x-4 text-sm text-neutral-500">
+            <div className="flex items-center space-x-4 text-sm text-muted-foreground">
               <span>Avg: {statistics.avg.toFixed(1)}</span>
               <span>Peak: {statistics.max.toFixed(1)}</span>
               <span>Low: {statistics.min.toFixed(1)}</span>
@@ -338,9 +338,9 @@ export default function SeasonalityCalendarHeatmap({
                           <div className="flex items-center space-x-2">
                             <span className="font-mono text-sm">{data.avg.toFixed(1)}</span>
                             {isAboveAvg ? (
-                              <TrendingUp className="h-4 w-4 text-success" />
+                              <TrendingUp className="h-4 w-4 text-green-600" />
                             ) : (
-                              <TrendingDown className="h-4 w-4 text-error" />
+                              <TrendingDown className="h-4 w-4 text-destructive" />
                             )}
                           </div>
                         </div>
@@ -365,9 +365,9 @@ export default function SeasonalityCalendarHeatmap({
                           <div className="flex items-center space-x-2">
                             <span className="font-mono text-sm">{data.avg.toFixed(1)}</span>
                             {isAboveAvg ? (
-                              <TrendingUp className="h-4 w-4 text-success" />
+                              <TrendingUp className="h-4 w-4 text-green-600" />
                             ) : (
-                              <TrendingDown className="h-4 w-4 text-error" />
+                              <TrendingDown className="h-4 w-4 text-destructive" />
                             )}
                           </div>
                         </div>

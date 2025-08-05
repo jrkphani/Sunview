@@ -118,7 +118,7 @@ export default function OTIFStackedBarChart({ filters: _filters, className }: OT
   } satisfies ChartConfig
 
   const trendIcon = data.trend_direction === 'up' ? TrendingUp : TrendingDown
-  const trendColor = data.trend_direction === 'up' ? 'text-green-600' : 'text-red-600'
+  const trendColor = data.trend_direction === 'up' ? 'text-success' : 'text-destructive'
   
   const getSLAIcon = (compliance: 'above' | 'at' | 'below') => {
     switch (compliance) {
@@ -130,9 +130,9 @@ export default function OTIFStackedBarChart({ filters: _filters, className }: OT
 
   const getSLAColor = (compliance: 'above' | 'at' | 'below') => {
     switch (compliance) {
-      case 'above': return 'text-green-600'
-      case 'at': return 'text-yellow-600'  
-      case 'below': return 'text-red-600'
+      case 'above': return 'text-success'
+      case 'at': return 'text-warning'  
+      case 'below': return 'text-destructive'
     }
   }
 
@@ -145,10 +145,10 @@ export default function OTIFStackedBarChart({ filters: _filters, className }: OT
   }
 
   const getOTIFLevel = (otif: number) => {
-    if (otif >= 85) return { level: 'excellent', color: '#22c55e', label: 'Excellent' }
-    if (otif >= 75) return { level: 'good', color: '#3b82f6', label: 'Good' }
-    if (otif >= 65) return { level: 'fair', color: '#eab308', label: 'Fair' }
-    return { level: 'poor', color: '#ef4444', label: 'Poor' }
+    if (otif >= 85) return { level: 'excellent', color: 'hsl(var(--success))', label: 'Excellent' }
+    if (otif >= 75) return { level: 'good', color: 'hsl(var(--chart-1))', label: 'Good' }
+    if (otif >= 65) return { level: 'fair', color: 'hsl(var(--warning))', label: 'Fair' }
+    return { level: 'poor', color: 'hsl(var(--destructive))', label: 'Poor' }
   }
 
   const currentLevel = getOTIFLevel(data.overall_otif)
@@ -172,8 +172,8 @@ export default function OTIFStackedBarChart({ filters: _filters, className }: OT
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
-              <Clock className="h-4 w-4 text-green-600" />
-              <Package className="h-4 w-4 text-blue-600" />
+              <Clock className="h-4 w-4 text-success" />
+              <Package className="h-4 w-4 text-primary" />
             </div>
             <CardTitle>OTIF % (On-Time In-Full)</CardTitle>
             <ExplainerTrigger onClick={() => setExplainerOpen(true)} />
@@ -207,11 +207,11 @@ export default function OTIFStackedBarChart({ filters: _filters, className }: OT
           </div>
           <div className="text-center">
             <div className="text-xs text-muted-foreground">On-Time %</div>
-            <div className="text-xl font-bold text-green-600">{data.on_time_percentage.toFixed(1)}%</div>
+            <div className="text-xl font-bold text-success">{data.on_time_percentage.toFixed(1)}%</div>
           </div>
           <div className="text-center">
             <div className="text-xs text-muted-foreground">In-Full %</div>
-            <div className="text-xl font-bold text-blue-600">{data.in_full_percentage.toFixed(1)}%</div>
+            <div className="text-xl font-bold text-primary">{data.in_full_percentage.toFixed(1)}%</div>
           </div>
         </div>
       </CardHeader>
@@ -312,7 +312,7 @@ export default function OTIFStackedBarChart({ filters: _filters, className }: OT
         <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
           <div className="space-y-1">
             <div className="text-xs text-muted-foreground">Sites Above SLA</div>
-            <div className="text-lg font-bold text-green-600">
+            <div className="text-lg font-bold text-success">
               {data.site_breakdown.filter(site => site.otif_percentage >= slaTarget).length}/{data.site_breakdown.length}
             </div>
           </div>
@@ -326,13 +326,13 @@ export default function OTIFStackedBarChart({ filters: _filters, className }: OT
           </div>
           <div className="space-y-1">
             <div className="text-xs text-muted-foreground">Avg On-Time</div>
-            <div className="text-lg font-bold text-green-600">
+            <div className="text-lg font-bold text-success">
               {(data.site_breakdown.reduce((acc, site) => acc + site.on_time_percentage, 0) / data.site_breakdown.length).toFixed(1)}%
             </div>
           </div>
           <div className="space-y-1">
             <div className="text-xs text-muted-foreground">Avg In-Full</div>
-            <div className="text-lg font-bold text-blue-600">
+            <div className="text-lg font-bold text-primary">
               {(data.site_breakdown.reduce((acc, site) => acc + site.in_full_percentage, 0) / data.site_breakdown.length).toFixed(1)}%
             </div>
           </div>
@@ -392,13 +392,13 @@ export default function OTIFStackedBarChart({ filters: _filters, className }: OT
                     </div>
                     <div className="text-center">
                       <div className="text-xs text-muted-foreground">SLA Compliance</div>
-                      <div className="text-2xl font-bold text-green-600">
+                      <div className="text-2xl font-bold text-success">
                         {Math.round((data.site_breakdown.filter(s => s.otif_percentage >= slaTarget).length / data.site_breakdown.length) * 100)}%
                       </div>
                     </div>
                     <div className="text-center">
                       <div className="text-xs text-muted-foreground">Sites at Risk</div>
-                      <div className="text-2xl font-bold text-red-600">
+                      <div className="text-2xl font-bold text-destructive">
                         {data.site_breakdown.filter(s => s.otif_percentage < slaTarget).length}
                       </div>
                     </div>
@@ -536,13 +536,13 @@ export default function OTIFStackedBarChart({ filters: _filters, className }: OT
                               </div>
                               <div className="text-center">
                                 <div className="text-xs text-muted-foreground">On-Time</div>
-                                <div className="text-xl font-bold text-green-600">
+                                <div className="text-xl font-bold text-success">
                                   {site.on_time_percentage.toFixed(1)}%
                                 </div>
                               </div>
                               <div className="text-center">
                                 <div className="text-xs text-muted-foreground">In-Full</div>
-                                <div className="text-xl font-bold text-blue-600">
+                                <div className="text-xl font-bold text-primary">
                                   {site.in_full_percentage.toFixed(1)}%
                                 </div>
                               </div>
@@ -552,7 +552,7 @@ export default function OTIFStackedBarChart({ filters: _filters, className }: OT
                               <span className="text-muted-foreground">
                                 vs SLA Target ({slaTarget}%):
                               </span>
-                              <span className={site.otif_percentage >= slaTarget ? 'text-green-600' : 'text-red-600'}>
+                              <span className={site.otif_percentage >= slaTarget ? 'text-success' : 'text-destructive'}>
                                 {site.otif_percentage >= slaTarget ? '+' : ''}{(site.otif_percentage - slaTarget).toFixed(1)}%
                               </span>
                             </div>

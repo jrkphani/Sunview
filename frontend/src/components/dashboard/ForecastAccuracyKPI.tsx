@@ -87,8 +87,8 @@ export default function ForecastAccuracyKPI({ filters: _filters, className }: Fo
 
   const trendIcon = data.trend_direction === 'up' ? TrendingUp : 
                    data.trend_direction === 'down' ? TrendingDown : Minus
-  const trendColor = data.trend_direction === 'up' ? 'text-red-600' : 
-                    data.trend_direction === 'down' ? 'text-green-600' : 'text-muted-foreground'
+  const trendColor = data.trend_direction === 'up' ? 'text-destructive' : 
+                    data.trend_direction === 'down' ? 'text-success' : 'text-muted-foreground'
 
   const formatPercentage = (value: number) => `${value.toFixed(1)}%`
 
@@ -126,7 +126,7 @@ export default function ForecastAccuracyKPI({ filters: _filters, className }: Fo
               onClick={() => setGradingExplainerOpen(true)} 
               variant="button"
               size="sm"
-              className="text-xs"
+              className="text-xs whitespace-nowrap"
             >
               How is this graded?
             </ExplainerTrigger>

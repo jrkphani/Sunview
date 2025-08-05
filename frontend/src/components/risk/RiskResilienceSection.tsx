@@ -30,9 +30,9 @@ const RiskResilienceSection: React.FC = () => {
   ];
 
   const getRiskColor = (score: number) => {
-    if (score >= 80) return 'text-red-600 bg-red-50';
-    if (score >= 60) return 'text-yellow-600 bg-yellow-50';
-    return 'text-green-600 bg-green-50';
+    if (score >= 80) return 'text-destructive bg-destructive/10';
+    if (score >= 60) return 'text-warning bg-warning/10';
+    return 'text-success bg-success/10';
   };
 
   return (
@@ -59,7 +59,7 @@ const RiskResilienceSection: React.FC = () => {
               <option value="30d">Last 30 days</option>
               <option value="90d">Last 90 days</option>
             </select>
-            <button className="p-2 border rounded-md hover:bg-gray-50">
+            <button className="p-2 border rounded-md hover:bg-muted/50">
               <RefreshCw className="h-4 w-4" />
             </button>
           </div>
@@ -67,10 +67,10 @@ const RiskResilienceSection: React.FC = () => {
 
         {/* Risk Metrics Dashboard */}
         <div className="grid grid-cols-4 gap-6 mb-6">
-          <div className="bg-gray-50 rounded-lg p-4">
+          <div className="bg-muted/50 rounded-lg p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Overall Risk Score</p>
+                <p className="text-sm text-muted-foreground">Overall Risk Score</p>
                 <p className={`text-2xl font-bold ${getRiskColor(riskMetrics.overallRiskScore).split(' ')[0]}`}>
                   {riskMetrics.overallRiskScore}
                 </p>
@@ -81,37 +81,37 @@ const RiskResilienceSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-4">
+          <div className="bg-muted/50 rounded-lg p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Critical Anomalies</p>
-                <p className="text-2xl font-bold text-red-600">{riskMetrics.criticalAnomalies}</p>
+                <p className="text-sm text-muted-foreground">Critical Anomalies</p>
+                <p className="text-2xl font-bold text-destructive">{riskMetrics.criticalAnomalies}</p>
               </div>
-              <div className="p-2 rounded-full bg-red-50 text-red-600">
+              <div className="p-2 rounded-full bg-destructive/10 text-destructive">
                 <AlertTriangle className="h-5 w-5" />
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-4">
+          <div className="bg-muted/50 rounded-lg p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Critical Buffer SKUs</p>
-                <p className="text-2xl font-bold text-yellow-600">{riskMetrics.bufferCritical}</p>
+                <p className="text-sm text-muted-foreground">Critical Buffer SKUs</p>
+                <p className="text-2xl font-bold text-warning">{riskMetrics.bufferCritical}</p>
               </div>
-              <div className="p-2 rounded-full bg-yellow-50 text-yellow-600">
+              <div className="p-2 rounded-full bg-warning/10 text-warning">
                 <TrendingUp className="h-5 w-5" />
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-4">
+          <div className="bg-muted/50 rounded-lg p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Single-Supplier SKUs</p>
-                <p className="text-2xl font-bold text-blue-600">{riskMetrics.singleSupplierSKUs}</p>
+                <p className="text-sm text-muted-foreground">Single-Supplier SKUs</p>
+                <p className="text-2xl font-bold text-primary">{riskMetrics.singleSupplierSKUs}</p>
               </div>
-              <div className="p-2 rounded-full bg-blue-50 text-blue-600">
+              <div className="p-2 rounded-full bg-primary/10 text-primary">
                 <Activity className="h-5 w-5" />
               </div>
             </div>
@@ -119,7 +119,7 @@ const RiskResilienceSection: React.FC = () => {
         </div>
 
         {/* Tab Navigation */}
-        <div className="border-b border-gray-200">
+        <div className="border-b border-border">
           <nav className="flex space-x-8">
             {tabs.map((tab) => {
               const Icon = tab.icon;
@@ -129,8 +129,8 @@ const RiskResilienceSection: React.FC = () => {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center space-x-2 py-2 px-1 border-b-2 font-medium text-sm ${
                     activeTab === tab.id
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      ? 'border-primary text-primary'
+                      : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'
                   }`}
                 >
                   <Icon className="h-4 w-4" />

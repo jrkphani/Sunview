@@ -1,0 +1,546 @@
+[
+  {
+    "sku_id": "SKU_A1001",
+    "sku_name": "Premium Wireless Headphones",
+    "category": "Electronics",
+    "metrics": {
+      "total_volume": 15420,
+      "total_value": 2313000.00,
+      "avg_order_size": 2.3,
+      "frequency": 45,
+      "seasonality_index": 1.15,
+      "trend_direction": "up"
+    },
+    "forecasts": [
+      {
+        "id": "forecast_A1001_001",
+        "sku_id": "SKU_A1001",
+        "date": "2025-01-16",
+        "predicted_value": 1250,
+        "confidence_lower": 1150,
+        "confidence_upper": 1350,
+        "horizon_days": 1
+      },
+      {
+        "id": "forecast_A1001_002",
+        "sku_id": "SKU_A1001",
+        "date": "2025-01-23",
+        "predicted_value": 1320,
+        "confidence_lower": 1180,
+        "confidence_upper": 1460,
+        "horizon_days": 7
+      }
+    ],
+    "insights": [
+      {
+        "id": "insight_A1001_001",
+        "category": "commercial",
+        "priority": "high",
+        "title": "Strong Growth Trend",
+        "description": "SKU showing 28% volume growth over past quarter",
+        "impact_score": 8.2,
+        "confidence_score": 91
+      }
+    ],
+    "risk_factors": {
+      "supplier_risk": 3.2,
+      "demand_volatility": 2.8,
+      "inventory_risk": 2.1
+    },
+    "performance_metrics": {
+      "fill_rate": 98.5,
+      "backorder_rate": 1.2,
+      "inventory_turns": 12.4
+    }
+  },
+  {
+    "sku_id": "SKU_B2002",
+    "sku_name": "Bluetooth Smart Speaker",
+    "category": "Electronics",
+    "metrics": {
+      "total_volume": 8965,
+      "total_value": 895600.00,
+      "avg_order_size": 1.8,
+      "frequency": 38,
+      "seasonality_index": 0.92,
+      "trend_direction": "down"
+    },
+    "forecasts": [
+      {
+        "id": "forecast_B2002_001",
+        "sku_id": "SKU_B2002",
+        "date": "2025-01-16",
+        "predicted_value": 850,
+        "confidence_lower": 780,
+        "confidence_upper": 920,
+        "horizon_days": 1
+      }
+    ],
+    "insights": [
+      {
+        "id": "insight_B2002_001",
+        "category": "risk",
+        "priority": "medium",
+        "title": "Declining Demand Pattern",
+        "description": "15% volume decline over past 6 months requires attention",
+        "impact_score": 6.8,
+        "confidence_score": 87
+      }
+    ],
+    "risk_factors": {
+      "supplier_risk": 2.1,
+      "demand_volatility": 4.5,
+      "inventory_risk": 3.8
+    },
+    "performance_metrics": {
+      "fill_rate": 94.2,
+      "backorder_rate": 4.1,
+      "inventory_turns": 8.7
+    }
+  },
+  {
+    "sku_id": "SKU_C3003",
+    "sku_name": "Professional Office Chair",
+    "category": "Furniture",
+    "metrics": {
+      "total_volume": 3245,
+      "total_value": 1622500.00,
+      "avg_order_size": 1.2,
+      "frequency": 28,
+      "seasonality_index": 1.35,
+      "trend_direction": "up"
+    },
+    "forecasts": [
+      {
+        "id": "forecast_C3003_001",
+        "sku_id": "SKU_C3003",
+        "date": "2025-01-16",
+        "predicted_value": 2100,
+        "confidence_lower": 1980,
+        "confidence_upper": 2220,
+        "horizon_days": 1
+      }
+    ],
+    "insights": [
+      {
+        "id": "insight_C3003_001",
+        "category": "strategic",
+        "priority": "high",
+        "title": "Seasonal Peak Opportunity",
+        "description": "Strong Q1 performance indicates opportunity for inventory buildup",
+        "impact_score": 7.9,
+        "confidence_score": 89
+      }
+    ],
+    "risk_factors": {
+      "supplier_risk": 1.8,
+      "demand_volatility": 3.2,
+      "inventory_risk": 2.4
+    },
+    "performance_metrics": {
+      "fill_rate": 97.8,
+      "backorder_rate": 1.8,
+      "inventory_turns": 6.2
+    }
+  },
+  {
+    "sku_id": "SKU_D4004",
+    "sku_name": "Ergonomic Keyboard",
+    "category": "Electronics",
+    "metrics": {
+      "total_volume": 7892,
+      "total_value": 789200.00,
+      "avg_order_size": 2.1,
+      "frequency": 52,
+      "seasonality_index": 1.08,
+      "trend_direction": "stable"
+    },
+    "forecasts": [
+      {
+        "id": "forecast_D4004_001",
+        "sku_id": "SKU_D4004",
+        "date": "2025-01-16",
+        "predicted_value": 450,
+        "confidence_lower": 420,
+        "confidence_upper": 480,
+        "horizon_days": 1
+      }
+    ],
+    "insights": [
+      {
+        "id": "insight_D4004_001",
+        "category": "operational",
+        "priority": "low",
+        "title": "Consistent Performance",
+        "description": "Stable demand pattern makes this SKU ideal for automation",
+        "impact_score": 5.4,
+        "confidence_score": 94
+      }
+    ],
+    "risk_factors": {
+      "supplier_risk": 1.5,
+      "demand_volatility": 1.9,
+      "inventory_risk": 1.2
+    },
+    "performance_metrics": {
+      "fill_rate": 99.1,
+      "backorder_rate": 0.6,
+      "inventory_turns": 15.8
+    }
+  },
+  {
+    "sku_id": "SKU_E5005",
+    "sku_name": "Standing Desk Converter",
+    "category": "Furniture",
+    "metrics": {
+      "total_volume": 2156,
+      "total_value": 1293600.00,
+      "avg_order_size": 1.1,
+      "frequency": 24,
+      "seasonality_index": 1.42,
+      "trend_direction": "up"
+    },
+    "forecasts": [
+      {
+        "id": "forecast_E5005_001",
+        "sku_id": "SKU_E5005",
+        "date": "2025-01-16",
+        "predicted_value": 1800,
+        "confidence_lower": 1680,
+        "confidence_upper": 1920,
+        "horizon_days": 1
+      }
+    ],
+    "insights": [
+      {
+        "id": "insight_E5005_001",
+        "category": "commercial",
+        "priority": "high",
+        "title": "Premium Growth Opportunity",
+        "description": "High-margin product with 45% growth potential",
+        "impact_score": 8.6,
+        "confidence_score": 86
+      }
+    ],
+    "risk_factors": {
+      "supplier_risk": 2.8,
+      "demand_volatility": 3.6,
+      "inventory_risk": 2.9
+    },
+    "performance_metrics": {
+      "fill_rate": 96.4,
+      "backorder_rate": 2.8,
+      "inventory_turns": 4.3
+    }
+  },
+  {
+    "sku_id": "SKU_F6006",
+    "sku_name": "Wireless Mouse",
+    "category": "Electronics",
+    "metrics": {
+      "total_volume": 12890,
+      "total_value": 644500.00,
+      "avg_order_size": 3.2,
+      "frequency": 68,
+      "seasonality_index": 1.02,
+      "trend_direction": "stable"
+    },
+    "forecasts": [],
+    "insights": [
+      {
+        "id": "insight_F6006_001",
+        "category": "operational",
+        "priority": "medium",
+        "title": "High Volume Efficiency",
+        "description": "Ideal candidate for bulk ordering and automated processing",
+        "impact_score": 6.8,
+        "confidence_score": 92
+      }
+    ],
+    "risk_factors": {
+      "supplier_risk": 1.2,
+      "demand_volatility": 1.4,
+      "inventory_risk": 1.0
+    },
+    "performance_metrics": {
+      "fill_rate": 99.6,
+      "backorder_rate": 0.3,
+      "inventory_turns": 18.2
+    }
+  },
+  {
+    "sku_id": "SKU_G7007",
+    "sku_name": "Monitor Arm",
+    "category": "Furniture",
+    "metrics": {
+      "total_volume": 1876,
+      "total_value": 562800.00,
+      "avg_order_size": 1.4,
+      "frequency": 19,
+      "seasonality_index": 1.18,
+      "trend_direction": "up"
+    },
+    "forecasts": [],
+    "insights": [
+      {
+        "id": "insight_G7007_001",
+        "category": "strategic",
+        "priority": "medium",
+        "title": "Niche Market Leader",
+        "description": "Dominant position in specialized market segment",
+        "impact_score": 7.1,
+        "confidence_score": 83
+      }
+    ],
+    "risk_factors": {
+      "supplier_risk": 3.1,
+      "demand_volatility": 2.7,
+      "inventory_risk": 2.3
+    },
+    "performance_metrics": {
+      "fill_rate": 95.8,
+      "backorder_rate": 3.2,
+      "inventory_turns": 7.9
+    }
+  },
+  {
+    "sku_id": "SKU_H8008",
+    "sku_name": "USB-C Hub",
+    "category": "Electronics",
+    "metrics": {
+      "total_volume": 9456,
+      "total_value": 1418400.00,
+      "avg_order_size": 2.8,
+      "frequency": 41,
+      "seasonality_index": 0.89,
+      "trend_direction": "up"
+    },
+    "forecasts": [],
+    "insights": [
+      {
+        "id": "insight_H8008_001",
+        "category": "commercial",
+        "priority": "high",
+        "title": "Technology Trend Beneficiary",
+        "description": "Growing demand due to laptop connectivity trends",
+        "impact_score": 8.4,
+        "confidence_score": 88
+      }
+    ],
+    "risk_factors": {
+      "supplier_risk": 2.4,
+      "demand_volatility": 2.9,
+      "inventory_risk": 2.1
+    },
+    "performance_metrics": {
+      "fill_rate": 97.2,
+      "backorder_rate": 2.1,
+      "inventory_turns": 11.6
+    }
+  },
+  {
+    "sku_id": "SKU_I9009",
+    "sku_name": "Desk Lamp LED",
+    "category": "Furniture",
+    "metrics": {
+      "total_volume": 4532,
+      "total_value": 453200.00,
+      "avg_order_size": 1.6,
+      "frequency": 35,
+      "seasonality_index": 1.25,
+      "trend_direction": "stable"
+    },
+    "forecasts": [],
+    "insights": [
+      {
+        "id": "insight_I9009_001",
+        "category": "operational",
+        "priority": "low",
+        "title": "Seasonal Predictability",
+        "description": "Consistent seasonal pattern enables optimized inventory planning",
+        "impact_score": 5.9,
+        "confidence_score": 91
+      }
+    ],
+    "risk_factors": {
+      "supplier_risk": 1.7,
+      "demand_volatility": 2.1,
+      "inventory_risk": 1.8
+    },
+    "performance_metrics": {
+      "fill_rate": 98.3,
+      "backorder_rate": 1.4,
+      "inventory_turns": 9.8
+    }
+  },
+  {
+    "sku_id": "SKU_J1010",
+    "sku_name": "Webcam HD",
+    "category": "Electronics",
+    "metrics": {
+      "total_volume": 6789,
+      "total_value": 1018350.00,
+      "avg_order_size": 2.0,
+      "frequency": 33,
+      "seasonality_index": 0.78,
+      "trend_direction": "down"
+    },
+    "forecasts": [],
+    "insights": [
+      {
+        "id": "insight_J1010_001",
+        "category": "risk",
+        "priority": "high",
+        "title": "Post-Pandemic Normalization",
+        "description": "Demand declining as remote work stabilizes - inventory adjustment needed",
+        "impact_score": 7.6,
+        "confidence_score": 89
+      }
+    ],
+    "risk_factors": {
+      "supplier_risk": 2.9,
+      "demand_volatility": 4.8,
+      "inventory_risk": 4.2
+    },
+    "performance_metrics": {
+      "fill_rate": 92.1,
+      "backorder_rate": 5.3,
+      "inventory_turns": 6.4
+    }
+  },
+  {
+    "sku_id": "SKU_SEASONAL_001",
+    "sku_name": "Holiday Decorative Lighting",
+    "category": "Seasonal",
+    "metrics": {
+      "total_volume": 25600,
+      "total_value": 768000.00,
+      "avg_order_size": 12.5,
+      "frequency": 8,
+      "seasonality_index": 4.2,
+      "trend_direction": "stable"
+    },
+    "forecasts": [
+      {
+        "id": "forecast_SEASONAL_001",
+        "sku_id": "SKU_SEASONAL_001",
+        "date": "2025-01-16",
+        "predicted_value": 3200,
+        "confidence_lower": 2880,
+        "confidence_upper": 3520,
+        "horizon_days": 1
+      }
+    ],
+    "insights": [
+      {
+        "id": "insight_SEASONAL_001",
+        "category": "strategic",
+        "priority": "medium",
+        "title": "Extreme Seasonality Management",
+        "description": "Requires specialized inventory strategy due to high seasonality index",
+        "impact_score": 7.3,
+        "confidence_score": 95
+      }
+    ],
+    "risk_factors": {
+      "supplier_risk": 4.5,
+      "demand_volatility": 8.9,
+      "inventory_risk": 7.2
+    },
+    "performance_metrics": {
+      "fill_rate": 87.4,
+      "backorder_rate": 8.9,
+      "inventory_turns": 2.1
+    }
+  },
+  {
+    "sku_id": "SKU_DECLINING_001",
+    "sku_name": "DVD Player",
+    "category": "Electronics",
+    "metrics": {
+      "total_volume": 892,
+      "total_value": 89200.00,
+      "avg_order_size": 1.1,
+      "frequency": 12,
+      "seasonality_index": 0.65,
+      "trend_direction": "down"
+    },
+    "forecasts": [
+      {
+        "id": "forecast_DECLINING_001",
+        "sku_id": "SKU_DECLINING_001",
+        "date": "2025-01-16",
+        "predicted_value": 650,
+        "confidence_lower": 585,
+        "confidence_upper": 715,
+        "horizon_days": 1
+      }
+    ],
+    "insights": [
+      {
+        "id": "insight_DECLINING_001",
+        "category": "risk",
+        "priority": "high",
+        "title": "Legacy Product Phase-Out",
+        "description": "Rapid decline suggests need for inventory liquidation strategy",
+        "impact_score": 6.2,
+        "confidence_score": 92
+      }
+    ],
+    "risk_factors": {
+      "supplier_risk": 6.8,
+      "demand_volatility": 5.4,
+      "inventory_risk": 8.1
+    },
+    "performance_metrics": {
+      "fill_rate": 85.6,
+      "backorder_rate": 12.1,
+      "inventory_turns": 3.2
+    }
+  },
+  {
+    "sku_id": "SKU_VOLATILE_001",
+    "sku_name": "Gaming Graphics Card",
+    "category": "Electronics",
+    "metrics": {
+      "total_volume": 1234,
+      "total_value": 1851000.00,
+      "avg_order_size": 1.0,
+      "frequency": 156,
+      "seasonality_index": 1.88,
+      "trend_direction": "up"
+    },
+    "forecasts": [
+      {
+        "id": "forecast_VOLATILE_001",
+        "sku_id": "SKU_VOLATILE_001",
+        "date": "2025-01-16",
+        "predicted_value": 750,
+        "confidence_lower": 600,
+        "confidence_upper": 900,
+        "horizon_days": 1
+      }
+    ],
+    "insights": [
+      {
+        "id": "insight_VOLATILE_001",
+        "category": "risk",
+        "priority": "high",
+        "title": "High Volatility Management",
+        "description": "Extreme price and demand volatility requires specialized handling",
+        "impact_score": 8.9,
+        "confidence_score": 76
+      }
+    ],
+    "risk_factors": {
+      "supplier_risk": 7.2,
+      "demand_volatility": 9.4,
+      "inventory_risk": 8.8
+    },
+    "performance_metrics": {
+      "fill_rate": 78.3,
+      "backorder_rate": 18.9,
+      "inventory_turns": 4.8
+    }
+  }
+]

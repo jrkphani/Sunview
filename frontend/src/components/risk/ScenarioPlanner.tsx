@@ -194,14 +194,14 @@ const ScenarioPlanner: React.FC = () => {
           <button
             onClick={saveScenario}
             disabled={!scenarioName.trim()}
-            className="px-3 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 disabled:opacity-50 flex items-center space-x-1"
+            className="px-3 py-2 bg-primary text-primary-foreground rounded text-sm hover:bg-primary/90 disabled:opacity-50 flex items-center space-x-1"
           >
             <Save className="h-4 w-4" />
             <span>Save</span>
           </button>
           <button
             onClick={resetScenario}
-            className="px-3 py-2 border rounded text-sm hover:bg-gray-50 flex items-center space-x-1"
+            className="px-3 py-2 border rounded text-sm hover:bg-muted/50 flex items-center space-x-1"
           >
             <RotateCcw className="h-4 w-4" />
             <span>Reset</span>
@@ -209,7 +209,7 @@ const ScenarioPlanner: React.FC = () => {
           <button
             onClick={runScenario}
             disabled={isRunning}
-            className="px-4 py-2 bg-green-600 text-white rounded text-sm hover:bg-green-700 disabled:opacity-50 flex items-center space-x-1"
+            className="px-4 py-2 bg-success text-success-foreground rounded text-sm hover:bg-success/90 disabled:opacity-50 flex items-center space-x-1"
           >
             <Play className="h-4 w-4" />
             <span>{isRunning ? 'Running...' : 'Run Scenario'}</span>
@@ -347,11 +347,11 @@ const ScenarioPlanner: React.FC = () => {
               <h5 className="font-medium mb-3">Saved Scenarios</h5>
               <div className="space-y-2">
                 {savedScenarios.map((scenario, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                  <div key={index} className="flex items-center justify-between p-2 bg-muted/50 rounded">
                     <span className="text-sm">{scenario.name}</span>
                     <button
                       onClick={() => loadScenario(scenario)}
-                      className="text-xs text-blue-600 hover:text-blue-800"
+                      className="text-xs text-primary hover:text-primary/80"
                     >
                       Load
                     </button>
@@ -373,10 +373,10 @@ const ScenarioPlanner: React.FC = () => {
                   <p className="text-2xl font-bold">{currentMetrics.avgDOH.toFixed(1)}</p>
                   <div className="flex items-center space-x-1 text-xs">
                     {getMetricChange(currentMetrics.avgDOH, baselineMetrics.avgDOH).isPositive ? 
-                      <TrendingUp className="h-3 w-3 text-green-500" /> : 
-                      <TrendingDown className="h-3 w-3 text-red-500" />
+                      <TrendingUp className="h-3 w-3 text-success" /> : 
+                      <TrendingDown className="h-3 w-3 text-destructive" />
                     }
-                    <span className={getMetricChange(currentMetrics.avgDOH, baselineMetrics.avgDOH).isPositive ? 'text-green-600' : 'text-red-600'}>
+                    <span className={getMetricChange(currentMetrics.avgDOH, baselineMetrics.avgDOH).isPositive ? 'text-success' : 'text-destructive'}>
                       {getMetricChange(currentMetrics.avgDOH, baselineMetrics.avgDOH).formatted}
                     </span>
                   </div>
@@ -391,10 +391,10 @@ const ScenarioPlanner: React.FC = () => {
                   <p className="text-2xl font-bold">{currentMetrics.avgOTIF.toFixed(1)}%</p>
                   <div className="flex items-center space-x-1 text-xs">
                     {getMetricChange(currentMetrics.avgOTIF, baselineMetrics.avgOTIF).isPositive ? 
-                      <TrendingUp className="h-3 w-3 text-green-500" /> : 
-                      <TrendingDown className="h-3 w-3 text-red-500" />
+                      <TrendingUp className="h-3 w-3 text-success" /> : 
+                      <TrendingDown className="h-3 w-3 text-destructive" />
                     }
-                    <span className={getMetricChange(currentMetrics.avgOTIF, baselineMetrics.avgOTIF).isPositive ? 'text-green-600' : 'text-red-600'}>
+                    <span className={getMetricChange(currentMetrics.avgOTIF, baselineMetrics.avgOTIF).isPositive ? 'text-success' : 'text-destructive'}>
                       {getMetricChange(currentMetrics.avgOTIF, baselineMetrics.avgOTIF).formatted}
                     </span>
                   </div>
@@ -406,13 +406,13 @@ const ScenarioPlanner: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Risk Score</p>
-                  <p className="text-2xl font-bold text-red-600">{currentMetrics.riskScore.toFixed(1)}</p>
+                  <p className="text-2xl font-bold text-destructive">{currentMetrics.riskScore.toFixed(1)}</p>
                   <div className="flex items-center space-x-1 text-xs">
                     {getMetricChange(currentMetrics.riskScore, baselineMetrics.riskScore).isPositive ? 
-                      <TrendingUp className="h-3 w-3 text-red-500" /> : 
-                      <TrendingDown className="h-3 w-3 text-green-500" />
+                      <TrendingUp className="h-3 w-3 text-destructive" /> : 
+                      <TrendingDown className="h-3 w-3 text-success" />
                     }
-                    <span className={getMetricChange(currentMetrics.riskScore, baselineMetrics.riskScore).isPositive ? 'text-red-600' : 'text-green-600'}>
+                    <span className={getMetricChange(currentMetrics.riskScore, baselineMetrics.riskScore).isPositive ? 'text-destructive' : 'text-success'}>
                       {getMetricChange(currentMetrics.riskScore, baselineMetrics.riskScore).formatted}
                     </span>
                   </div>
@@ -534,7 +534,7 @@ const ScenarioPlanner: React.FC = () => {
                   <span>Total Cost:</span>
                   <span className="font-medium">
                     {formatCurrency(currentMetrics.totalCost)}
-                    <span className={`ml-2 ${getMetricChange(currentMetrics.totalCost, baselineMetrics.totalCost).isPositive ? 'text-red-600' : 'text-green-600'}`}>
+                    <span className={`ml-2 ${getMetricChange(currentMetrics.totalCost, baselineMetrics.totalCost).isPositive ? 'text-destructive' : 'text-success'}`}>
                       ({getMetricChange(currentMetrics.totalCost, baselineMetrics.totalCost).formatted})
                     </span>
                   </span>
@@ -543,7 +543,7 @@ const ScenarioPlanner: React.FC = () => {
                   <span>Stockout Days:</span>
                   <span className="font-medium">
                     {currentMetrics.stockoutDays}
-                    <span className={`ml-2 ${currentMetrics.stockoutDays > baselineMetrics.stockoutDays ? 'text-red-600' : 'text-green-600'}`}>
+                    <span className={`ml-2 ${currentMetrics.stockoutDays > baselineMetrics.stockoutDays ? 'text-destructive' : 'text-success'}`}>
                       ({currentMetrics.stockoutDays - baselineMetrics.stockoutDays > 0 ? '+' : ''}{currentMetrics.stockoutDays - baselineMetrics.stockoutDays})
                     </span>
                   </span>
@@ -552,7 +552,7 @@ const ScenarioPlanner: React.FC = () => {
                   <span>Overstock Days:</span>
                   <span className="font-medium">
                     {currentMetrics.overstockDays}
-                    <span className={`ml-2 ${currentMetrics.overstockDays > baselineMetrics.overstockDays ? 'text-red-600' : 'text-green-600'}`}>
+                    <span className={`ml-2 ${currentMetrics.overstockDays > baselineMetrics.overstockDays ? 'text-destructive' : 'text-success'}`}>
                       ({currentMetrics.overstockDays - baselineMetrics.overstockDays > 0 ? '+' : ''}{currentMetrics.overstockDays - baselineMetrics.overstockDays})
                     </span>
                   </span>
@@ -563,25 +563,25 @@ const ScenarioPlanner: React.FC = () => {
                 <h5 className="font-medium mb-2">Key Insights</h5>
                 <div className="space-y-1 text-xs">
                   {currentMetrics.riskScore > 50 && (
-                    <div className="flex items-center space-x-1 text-red-600">
+                    <div className="flex items-center space-x-1 text-destructive">
                       <AlertTriangle className="h-3 w-3" />
                       <span>High risk scenario detected</span>
                     </div>
                   )}
                   {currentMetrics.avgDOH < 10 && (
-                    <div className="flex items-center space-x-1 text-red-600">
+                    <div className="flex items-center space-x-1 text-destructive">
                       <AlertTriangle className="h-3 w-3" />
                       <span>Low inventory levels expected</span>
                     </div>
                   )}
                   {currentMetrics.avgOTIF < 90 && (
-                    <div className="flex items-center space-x-1 text-yellow-600">
+                    <div className="flex items-center space-x-1 text-warning">
                       <AlertTriangle className="h-3 w-3" />
                       <span>Service level impact predicted</span>
                     </div>
                   )}
                   {currentMetrics.stockoutDays > 3 && (
-                    <div className="flex items-center space-x-1 text-red-600">
+                    <div className="flex items-center space-x-1 text-destructive">
                       <AlertTriangle className="h-3 w-3" />
                       <span>Significant stockout risk</span>
                     </div>

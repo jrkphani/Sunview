@@ -1,0 +1,120 @@
+{
+  "current_operations": {
+    "timestamp": "2024-01-15T14:30:00Z",
+    "active_orders": 3245,
+    "orders_per_hour": 485,
+    "active_staff": 385,
+    "current_efficiency": 88.5,
+    "system_status": "optimal"
+  },
+  "live_metrics": {
+    "receiving": {
+      "trucks_at_dock": 8,
+      "trucks_waiting": 2,
+      "pallets_received_today": 1245,
+      "average_unload_time": 32,
+      "staff_assigned": 45
+    },
+    "picking": {
+      "active_pickers": 125,
+      "picks_last_hour": 15625,
+      "average_pick_time": 26.5,
+      "zones_active": 12,
+      "backlog_items": 2450
+    },
+    "packing": {
+      "active_stations": 48,
+      "packages_last_hour": 1580,
+      "average_pack_time": 34.2,
+      "quality_checks_passed": 1573,
+      "materials_level": "adequate"
+    },
+    "shipping": {
+      "shipments_today": 8945,
+      "trucks_loading": 12,
+      "next_pickup": "15:00",
+      "carrier_delays": 0,
+      "dock_utilization": 85.5
+    }
+  },
+  "alerts": [
+    {
+      "id": "ALERT-001",
+      "severity": "warning",
+      "area": "Zone B",
+      "message": "Picker productivity 15% below target",
+      "time": "14:15",
+      "action_required": true
+    },
+    {
+      "id": "ALERT-002",
+      "severity": "info",
+      "area": "Shipping",
+      "message": "FedEx pickup scheduled in 30 minutes",
+      "time": "14:25",
+      "action_required": false
+    },
+    {
+      "id": "ALERT-003",
+      "severity": "critical",
+      "area": "Equipment",
+      "message": "Conveyor Line 3 maintenance required",
+      "time": "13:45",
+      "action_required": true
+    }
+  ],
+  "productivity_tracking": {
+    "hourly_performance": [
+      { "hour": "06:00", "picks": 8500, "packs": 850, "ships": 780 },
+      { "hour": "07:00", "picks": 12500, "packs": 1150, "ships": 980 },
+      { "hour": "08:00", "picks": 15200, "packs": 1420, "ships": 1250 },
+      { "hour": "09:00", "picks": 16800, "packs": 1580, "ships": 1480 },
+      { "hour": "10:00", "picks": 17200, "packs": 1650, "ships": 1520 },
+      { "hour": "11:00", "picks": 16500, "packs": 1600, "ships": 1580 },
+      { "hour": "12:00", "picks": 14200, "packs": 1380, "ships": 1420 },
+      { "hour": "13:00", "picks": 15800, "packs": 1520, "ships": 1480 },
+      { "hour": "14:00", "picks": 15625, "packs": 1580, "ships": 1550 }
+    ],
+    "shift_comparison": {
+      "morning": {
+        "efficiency": 89.2,
+        "volume": 45000,
+        "staff": 165,
+        "incidents": 2
+      },
+      "current": {
+        "efficiency": 88.5,
+        "volume": 28500,
+        "staff": 180,
+        "incidents": 1
+      }
+    }
+  },
+  "bottlenecks": [
+    {
+      "location": "Pack Station 12-15",
+      "severity": "medium",
+      "impact": "8% throughput reduction",
+      "estimated_clear_time": "45 minutes",
+      "cause": "Material shortage"
+    },
+    {
+      "location": "Zone C Picking",
+      "severity": "low",
+      "impact": "5% delay in large items",
+      "estimated_clear_time": "20 minutes",
+      "cause": "Equipment reallocation"
+    }
+  ],
+  "predictive_insights": {
+    "next_hour_volume": 16200,
+    "staffing_recommendation": "+5 pickers, +2 packers",
+    "bottleneck_risk": "Shipping docks at 15:30",
+    "efficiency_forecast": 87.8,
+    "action_items": [
+      "Prepare additional shipping lanes for 15:00 pickup",
+      "Rotate Zone B staff to maintain productivity",
+      "Stage priority orders for next carrier pickup"
+    ]
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "daily_performance": {
+    "WH-001": {
+      "date": "2024-01-15",
+      "metrics": {
+        "inbound": {
+          "trucks_received": 45,
+          "pallets_processed": 1250,
+          "average_processing_time": 28,
+          "on_time_percentage": 92.5
+        },
+        "inventory": {
+          "cycle_count_accuracy": 99.2,
+          "inventory_turns": 12.5,
+          "shrinkage_rate": 0.05,
+          "putaway_time": 15.5
+        },
+        "outbound": {
+          "orders_shipped": 3450,
+          "lines_picked": 45678,
+          "perfect_order_rate": 98.5,
+          "on_time_shipment": 96.8
+        },
+        "labor": {
+          "total_hours": 1850,
+          "overtime_hours": 125,
+          "productivity_rate": 112.5,
+          "safety_incidents": 0
+        }
+      },
+      "hourly_throughput": [
+        { "hour": "00:00", "inbound": 45, "outbound": 125 },
+        { "hour": "01:00", "inbound": 38, "outbound": 115 },
+        { "hour": "02:00", "inbound": 42, "outbound": 108 },
+        { "hour": "03:00", "inbound": 35, "outbound": 98 },
+        { "hour": "04:00", "inbound": 48, "outbound": 102 },
+        { "hour": "05:00", "inbound": 52, "outbound": 145 },
+        { "hour": "06:00", "inbound": 85, "outbound": 285 },
+        { "hour": "07:00", "inbound": 125, "outbound": 425 },
+        { "hour": "08:00", "inbound": 145, "outbound": 485 },
+        { "hour": "09:00", "inbound": 165, "outbound": 525 },
+        { "hour": "10:00", "inbound": 158, "outbound": 545 },
+        { "hour": "11:00", "inbound": 152, "outbound": 535 },
+        { "hour": "12:00", "inbound": 125, "outbound": 485 },
+        { "hour": "13:00", "inbound": 145, "outbound": 515 },
+        { "hour": "14:00", "inbound": 155, "outbound": 525 },
+        { "hour": "15:00", "inbound": 148, "outbound": 495 },
+        { "hour": "16:00", "inbound": 135, "outbound": 445 },
+        { "hour": "17:00", "inbound": 115, "outbound": 385 },
+        { "hour": "18:00", "inbound": 85, "outbound": 285 },
+        { "hour": "19:00", "inbound": 65, "outbound": 225 },
+        { "hour": "20:00", "inbound": 55, "outbound": 185 },
+        { "hour": "21:00", "inbound": 48, "outbound": 165 },
+        { "hour": "22:00", "inbound": 42, "outbound": 145 },
+        { "hour": "23:00", "inbound": 38, "outbound": 125 }
+      ]
+    }
+  },
+  "zone_performance": {
+    "picking_zones": [
+      {
+        "zone_id": "A1",
+        "zone_type": "Fast Moving",
+        "picks_per_hour": 285,
+        "accuracy_rate": 99.5,
+        "travel_time_percentage": 25.5,
+        "congestion_level": "low",
+        "staff_assigned": 12
+      },
+      {
+        "zone_id": "A2",
+        "zone_type": "Fast Moving",
+        "picks_per_hour": 275,
+        "accuracy_rate": 99.3,
+        "travel_time_percentage": 28.2,
+        "congestion_level": "medium",
+        "staff_assigned": 11
+      },
+      {
+        "zone_id": "B1",
+        "zone_type": "Medium Moving",
+        "picks_per_hour": 185,
+        "accuracy_rate": 99.1,
+        "travel_time_percentage": 32.5,
+        "congestion_level": "low",
+        "staff_assigned": 8
+      },
+      {
+        "zone_id": "B2",
+        "zone_type": "Medium Moving",
+        "picks_per_hour": 175,
+        "accuracy_rate": 98.9,
+        "travel_time_percentage": 35.2,
+        "congestion_level": "low",
+        "staff_assigned": 7
+      },
+      {
+        "zone_id": "C1",
+        "zone_type": "Slow Moving",
+        "picks_per_hour": 85,
+        "accuracy_rate": 98.5,
+        "travel_time_percentage": 42.5,
+        "congestion_level": "low",
+        "staff_assigned": 4
+      }
+    ],
+    "heat_map": {
+      "high_activity_areas": ["A1-A2 Corridor", "Packing Station 1-10", "Shipping Dock 3-5"],
+      "bottleneck_areas": ["B2-C1 Junction", "Quality Check Station 2"],
+      "underutilized_areas": ["Zone D", "Mezzanine Level 2"]
+    }
+  },
+  "equipment_performance": {
+    "material_handling": [
+      {
+        "equipment_type": "Forklift",
+        "unit_id": "FL-001",
+        "utilization_rate": 85.5,
+        "idle_time_percentage": 14.5,
+        "distance_traveled": 125.5,
+        "loads_moved": 285,
+        "maintenance_due": "2024-01-20"
+      },
+      {
+        "equipment_type": "Pallet Jack",
+        "unit_id": "PJ-015",
+        "utilization_rate": 92.5,
+        "idle_time_percentage": 7.5,
+        "distance_traveled": 45.2,
+        "loads_moved": 125,
+        "maintenance_due": "2024-01-18"
+      },
+      {
+        "equipment_type": "Reach Truck",
+        "unit_id": "RT-008",
+        "utilization_rate": 78.5,
+        "idle_time_percentage": 21.5,
+        "distance_traveled": 85.5,
+        "loads_moved": 165,
+        "maintenance_due": "2024-01-25"
+      }
+    ],
+    "automation_systems": {
+      "conveyor_performance": {
+        "total_runtime_hours": 23.5,
+        "downtime_minutes": 30,
+        "packages_processed": 12500,
+        "jam_incidents": 2,
+        "speed_efficiency": 94.5
+      },
+      "sortation_system": {
+        "packages_sorted": 11800,
+        "sort_accuracy": 99.8,
+        "reject_rate": 0.2,
+        "throughput_rate": 2800
+      },
+      "as_rs_system": {
+        "storage_transactions": 450,
+        "retrieval_transactions": 485,
+        "average_cycle_time": 2.5,
+        "system_availability": 99.2
+      }
+    }
+  },
+  "quality_metrics": {
+    "receiving_quality": {
+      "inspections_completed": 125,
+      "defects_found": 8,
+      "vendor_compliance_rate": 94.5,
+      "documentation_accuracy": 98.2
+    },
+    "inventory_quality": {
+      "cycle_counts_performed": 250,
+      "discrepancies_found": 12,
+      "location_accuracy": 99.2,
+      "damage_incidents": 5
+    },
+    "shipping_quality": {
+      "orders_audited": 345,
+      "errors_found": 5,
+      "packaging_compliance": 99.5,
+      "labeling_accuracy": 99.8
+    }
+  },
+  "cost_metrics": {
+    "hourly_costs": {
+      "labor_cost": 2850,
+      "equipment_cost": 450,
+      "facility_cost": 625,
+      "total_hourly": 3925
+    },
+    "cost_per_unit": {
+      "receiving": 0.45,
+      "putaway": 0.28,
+      "storage": 0.15,
+      "picking": 0.82,
+      "packing": 1.15,
+      "shipping": 0.95,
+      "total": 3.80
+    },
+    "productivity_metrics": {
+      "units_per_labor_hour": 28.5,
+      "cost_per_order": 4.25,
+      "revenue_per_sqft": 125.50
+    }
+  }
+}

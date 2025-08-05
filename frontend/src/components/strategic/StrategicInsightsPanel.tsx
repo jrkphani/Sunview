@@ -49,9 +49,9 @@ interface StrategicInsightsPanelProps {
 
 const getImpactColor = (impact: string) => {
   switch (impact) {
-    case 'High': return 'text-error bg-error/10 border-error/30'
-    case 'Medium': return 'text-warning bg-warning/10 border-warning/30'
-    case 'Low': return 'text-success bg-success/10 border-success/30'
+    case 'High': return 'text-destructive bg-destructive/10 border-destructive/30'
+    case 'Medium': return 'text-yellow-600 bg-yellow-100 border-yellow-300'
+    case 'Low': return 'text-green-600 bg-green-100 border-green-300'
     default: return 'text-muted-foreground bg-muted border-border'
   }
 }
@@ -104,15 +104,15 @@ export default function StrategicInsightsPanel({
         {/* Summary metrics */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
           <div className="text-center">
-            <div className="text-2xl font-bold text-error">{criticalCount}</div>
+            <div className="text-2xl font-bold text-destructive">{criticalCount}</div>
             <div className="text-xs text-muted-foreground">Critical Issues</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-success">{opportunityCount}</div>
+            <div className="text-2xl font-bold text-green-600">{opportunityCount}</div>
             <div className="text-xs text-muted-foreground">Opportunities</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-warning">{highImpactCount}</div>
+            <div className="text-2xl font-bold text-yellow-600">{highImpactCount}</div>
             <div className="text-xs text-muted-foreground">High Impact</div>
           </div>
         </div>
@@ -166,8 +166,8 @@ export default function StrategicInsightsPanel({
                             <div className="flex items-start gap-3">
                               <ImpactIcon 
                                 className={cn("h-4 w-4 mt-0.5 flex-shrink-0", 
-                                  insight.impact === 'High' ? 'text-error' : 
-                                  insight.impact === 'Medium' ? 'text-warning' : 'text-success'
+                                  insight.impact === 'High' ? 'text-destructive' : 
+                                  insight.impact === 'Medium' ? 'text-yellow-600' : 'text-green-600'
                                 )}
                               />
                               <div className="flex-1 min-w-0">
@@ -182,7 +182,7 @@ export default function StrategicInsightsPanel({
                               </div>
                             </div>
                             
-                            <p className="text-sm text-neutral-600 leading-relaxed break-words">
+                            <p className="text-sm text-muted-foreground leading-relaxed break-words">
                               {insight.description}
                             </p>
                           </div>
@@ -198,7 +198,7 @@ export default function StrategicInsightsPanel({
                               </div>
                               
                               <div className="flex items-start space-x-3">
-                                <Clock className="h-4 w-4 mt-1 text-warning" />
+                                <Clock className="h-4 w-4 mt-1 text-yellow-600" />
                                 <div>
                                   <div className="text-sm font-medium">Timeline</div>
                                   <div className="text-sm text-muted-foreground">{insight.timeline}</div>
@@ -221,7 +221,7 @@ export default function StrategicInsightsPanel({
                           <ArrowRight className={`h-4 w-4 transition-transform ${
                             isExpanded ? 'rotate-90' : ''
                           }`} />
-                          <div className="text-xs text-neutral-500 text-right whitespace-nowrap">
+                          <div className="text-xs text-muted-foreground text-right whitespace-nowrap">
                             {insight.timeline}
                           </div>
                         </div>
@@ -233,7 +233,7 @@ export default function StrategicInsightsPanel({
               
               {insights.critical.length === 0 && (
                 <div className="text-center py-8 text-muted-foreground">
-                  <CheckCircle className="h-12 w-12 mx-auto mb-4 text-success" />
+                  <CheckCircle className="h-12 w-12 mx-auto mb-4 text-green-600" />
                   <p className="text-lg font-medium">No Critical Issues</p>
                   <p className="text-sm">All strategic metrics are within acceptable ranges</p>
                 </div>
@@ -260,7 +260,7 @@ export default function StrategicInsightsPanel({
                         <div className="flex-1 min-w-0">
                           <div className="space-y-3">
                             <div className="flex items-start gap-3">
-                              <TrendingUp className="h-4 w-4 mt-0.5 flex-shrink-0 text-success" />
+                              <TrendingUp className="h-4 w-4 mt-0.5 flex-shrink-0 text-green-600" />
                               <div className="flex-1 min-w-0">
                                 <h3 className="font-semibold text-sm leading-tight break-words mb-2">{insight.title}</h3>
                                 <Badge 
@@ -273,14 +273,14 @@ export default function StrategicInsightsPanel({
                             </div>
                           </div>
                           
-                            <p className="text-sm text-neutral-600 leading-relaxed break-words">
+                            <p className="text-sm text-muted-foreground leading-relaxed break-words">
                               {insight.description}
                             </p>
 
                           {isExpanded && (
                             <div className="space-y-3 border-t pt-3">
                               <div className="flex items-start space-x-3">
-                                <Zap className="h-4 w-4 mt-1 text-warning" />
+                                <Zap className="h-4 w-4 mt-1 text-yellow-600" />
                                 <div>
                                   <div className="text-sm font-medium">Implementation Strategy</div>
                                   <div className="text-sm text-muted-foreground">{insight.action}</div>
@@ -311,7 +311,7 @@ export default function StrategicInsightsPanel({
                           <ArrowRight className={`h-4 w-4 transition-transform ${
                             isExpanded ? 'rotate-90' : ''
                           }`} />
-                          <div className="text-xs text-neutral-500 text-right whitespace-nowrap">
+                          <div className="text-xs text-muted-foreground text-right whitespace-nowrap">
                             {insight.timeline}
                           </div>
                         </div>

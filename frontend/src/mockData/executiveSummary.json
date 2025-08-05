@@ -1,0 +1,291 @@
+{
+  "kpi_metrics": [
+    {
+      "id": "forecast_accuracy",
+      "title": "Forecast Accuracy",
+      "value": 94.2,
+      "format": "percentage",
+      "change": 2.3,
+      "changeFormat": "percentage",
+      "changeLabel": "vs last month",
+      "confidence": "real",
+      "trend": "up",
+      "icon": "target",
+      "description": "Percentage of forecasts within 5% of actual values",
+      "priority": "high"
+    },
+    {
+      "id": "otif_rate",
+      "title": "On-Time In-Full Rate",
+      "value": 87.8,
+      "format": "percentage",
+      "change": -1.5,
+      "changeFormat": "percentage",
+      "changeLabel": "vs last month",
+      "confidence": "real",
+      "trend": "down",
+      "icon": "clock",
+      "description": "Orders delivered on time and complete",
+      "priority": "high"
+    },
+    {
+      "id": "pick_rate",
+      "title": "Pick Rate Efficiency",
+      "value": 96.4,
+      "format": "percentage",
+      "change": 0.8,
+      "changeFormat": "percentage",
+      "changeLabel": "vs last month",
+      "confidence": "real",
+      "trend": "up",
+      "icon": "package",
+      "description": "Successful picks per total pick attempts",
+      "priority": "medium"
+    },
+    {
+      "id": "truck_utilization",
+      "title": "Truck Utilization",
+      "value": 82.1,
+      "format": "percentage",
+      "change": 3.2,
+      "changeFormat": "percentage",
+      "changeLabel": "vs last month",
+      "confidence": "real",
+      "trend": "up",
+      "icon": "truck",
+      "description": "Average truck capacity utilization",
+      "priority": "medium"
+    },
+    {
+      "id": "inventory_turnover",
+      "title": "Inventory Turnover",
+      "value": 8.6,
+      "format": "number",
+      "change": 0.4,
+      "changeFormat": "absolute",
+      "changeLabel": "vs last quarter",
+      "confidence": "real",
+      "trend": "up",
+      "icon": "rotate-cw",
+      "description": "Times inventory is sold and replaced per year",
+      "priority": "medium"
+    },
+    {
+      "id": "cost_per_shipment",
+      "title": "Cost per Shipment",
+      "value": 42.85,
+      "format": "currency",
+      "change": -2.15,
+      "changeFormat": "absolute",
+      "changeLabel": "vs last month",
+      "confidence": "real",
+      "trend": "down",
+      "icon": "dollar-sign",
+      "description": "Average cost to process and ship an order",
+      "priority": "high"
+    }
+  ],
+  "business_insights": [
+    {
+      "id": "peak_demand_pattern",
+      "category": "operational",
+      "priority": "high",
+      "title": "Peak Demand Pattern Identified",
+      "description": "Analysis reveals consistent 40% volume spike on Mondays and Fridays, requiring adjusted staffing models.",
+      "impact_score": 8.5,
+      "confidence_score": 92,
+      "implementation_timeline": "2-4 weeks",
+      "recommended_actions": [
+        "Implement flexible staffing schedule for peak days",
+        "Pre-position high-velocity SKUs before weekends",
+        "Consider weekend prep shifts for Monday volumes"
+      ],
+      "methodology": {
+        "data_sources": ["Daily transaction logs", "Staff productivity metrics"],
+        "analysis_method": "Time series pattern analysis",
+        "assumptions": ["Historical patterns will continue", "Staff availability remains consistent"]
+      }
+    },
+    {
+      "id": "route_optimization",
+      "category": "operational",
+      "priority": "medium",
+      "title": "Route Optimization Opportunity",
+      "description": "Current routing efficiency at 74%. Machine learning models suggest 15% improvement potential through dynamic routing.",
+      "impact_score": 7.2,
+      "confidence_score": 85,
+      "implementation_timeline": "3-6 months",
+      "recommended_actions": [
+        "Implement AI-powered route optimization",
+        "Deploy real-time traffic integration",
+        "Train drivers on new routing protocols"
+      ]
+    },
+    {
+      "id": "market_expansion",
+      "category": "strategic",
+      "priority": "high",
+      "title": "Market Expansion Readiness",
+      "description": "Current capacity utilization at 68% suggests readiness for 25-30% volume growth without infrastructure investment.",
+      "impact_score": 9.1,
+      "confidence_score": 88,
+      "implementation_timeline": "6-12 months",
+      "recommended_actions": [
+        "Target new customer segments in underserved regions",
+        "Develop partnership agreements with regional distributors",
+        "Scale customer service capabilities"
+      ]
+    },
+    {
+      "id": "premium_segment",
+      "category": "commercial",
+      "priority": "medium",
+      "title": "Premium Segment Growth",
+      "description": "High-margin premium products show 35% higher profit per unit but represent only 12% of volume.",
+      "impact_score": 8.0,
+      "confidence_score": 91,
+      "implementation_timeline": "4-8 months",
+      "recommended_actions": [
+        "Develop targeted marketing for premium segments",
+        "Create specialized handling processes for high-value items",
+        "Implement premium service tiers"
+      ]
+    },
+    {
+      "id": "supply_chain_risk",
+      "category": "risk",
+      "priority": "high",
+      "title": "Supply Chain Concentration Risk",
+      "description": "65% of volume depends on top 3 suppliers. Single point of failure risk identified in critical product categories.",
+      "impact_score": 8.8,
+      "confidence_score": 94,
+      "implementation_timeline": "3-6 months",
+      "recommended_actions": [
+        "Diversify supplier base for critical SKUs",
+        "Establish backup supplier agreements",
+        "Implement supplier risk monitoring system"
+      ]
+    }
+  ],
+  "roi_calculations": [
+    {
+      "category": "Operational Efficiency",
+      "annual_value": 2800000,
+      "description": "Route optimization and dynamic staffing improvements",
+      "confidence": "high",
+      "implementation_effort": "medium"
+    },
+    {
+      "category": "Strategic Partnership",
+      "annual_value": 4200000,
+      "description": "Market expansion and new customer acquisition",
+      "confidence": "medium",
+      "implementation_effort": "high"
+    },
+    {
+      "category": "Commercial Opportunity",
+      "annual_value": 1900000,
+      "description": "Premium segment focus and service tier optimization",
+      "confidence": "high",
+      "implementation_effort": "low"
+    },
+    {
+      "category": "Risk Mitigation",
+      "annual_value": 1500000,
+      "description": "Supply chain diversification and resilience measures",
+      "confidence": "medium",
+      "implementation_effort": "medium"
+    }
+  ],
+  "geographic_opportunities": [
+    {
+      "market": "Southeast Region",
+      "country": "USA",
+      "current_volume": 145000,
+      "growth_potential": 35,
+      "risk_level": "low",
+      "recommended_action": "Establish regional distribution center"
+    },
+    {
+      "market": "Midwest Expansion",
+      "country": "USA",
+      "current_volume": 89000,
+      "growth_potential": 28,
+      "risk_level": "medium",
+      "recommended_action": "Partner with local logistics providers"
+    },
+    {
+      "market": "Pacific Northwest",
+      "country": "USA",
+      "current_volume": 67000,
+      "growth_potential": 42,
+      "risk_level": "medium",
+      "recommended_action": "Direct market entry with new facility"
+    },
+    {
+      "market": "Ontario Region",
+      "country": "Canada",
+      "current_volume": 34000,
+      "growth_potential": 55,
+      "risk_level": "high",
+      "recommended_action": "Cross-border partnership agreement"
+    }
+  ],
+  "risk_alerts": [
+    {
+      "id": "supplier_concentration",
+      "title": "High Supplier Concentration",
+      "description": "Top 3 suppliers account for 65% of total volume, creating supply chain vulnerability",
+      "risk_level": "high",
+      "impact_score": 8.8,
+      "likelihood": 0.25,
+      "affected_skus": 847,
+      "recommended_actions": [
+        "Identify and qualify alternative suppliers",
+        "Negotiate backup supply agreements",
+        "Implement supply chain monitoring dashboard"
+      ],
+      "timeline": "3-6 months"
+    },
+    {
+      "id": "capacity_constraint",
+      "title": "Peak Season Capacity Risk",
+      "description": "Current capacity may be insufficient for projected 40% peak season demand increase",
+      "risk_level": "medium",
+      "impact_score": 7.2,
+      "likelihood": 0.35,
+      "affected_skus": 1200,
+      "recommended_actions": [
+        "Secure temporary warehouse space",
+        "Arrange seasonal staffing contracts",
+        "Implement overflow routing protocols"
+      ],
+      "timeline": "2-4 months"
+    },
+    {
+      "id": "technology_dependency",
+      "title": "Legacy System Reliability",
+      "description": "Critical forecasting system runs on aging infrastructure with 15% higher failure rates",
+      "risk_level": "medium",
+      "impact_score": 6.8,
+      "likelihood": 0.40,
+      "affected_skus": 2500,
+      "recommended_actions": [
+        "Accelerate system modernization project",
+        "Implement redundant backup systems",
+        "Create manual override procedures"
+      ],
+      "timeline": "6-12 months"
+    }
+  ],
+  "data_summary": {
+    "total_records": 487650,
+    "total_skus": 2847,
+    "date_range": {
+      "start": "2024-01-01",
+      "end": "2024-12-31"
+    },
+    "data_quality_score": 94.7,
+    "last_updated": "2025-01-15T08:30:00Z"
+  }
+}

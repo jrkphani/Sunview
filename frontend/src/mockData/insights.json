@@ -1,0 +1,602 @@
+[
+  {
+    "id": "ops_001",
+    "category": "operational",
+    "priority": "high",
+    "title": "Peak Hour Processing Bottleneck",
+    "description": "Analysis reveals 35% processing delay during 2-4 PM peak hours, with truck loading capacity becoming the primary constraint. Current throughput drops from 450 to 292 units per hour during peak periods.",
+    "impact_score": 8.7,
+    "confidence_score": 94,
+    "actionable": true,
+    "methodology": {
+      "name": "Throughput Analysis",
+      "description": "Time-series analysis of hourly processing rates with bottleneck identification",
+      "parameters": {
+        "analysis_window": "90_days",
+        "sampling_interval": "hourly",
+        "threshold_definition": "15%_deviation"
+      },
+      "confidence_factors": [
+        "Consistent pattern across 90 days",
+        "Multiple data validation sources",
+        "Statistical significance p<0.01"
+      ]
+    },
+    "data_sources": [
+      "Warehouse management system logs",
+      "Staff productivity tracking",
+      "Truck scheduling records"
+    ],
+    "created_at": "2025-01-15T10:30:00Z",
+    "implementation_timeline": "2-4 weeks",
+    "recommended_actions": [
+      "Implement staggered truck arrival scheduling",
+      "Add temporary loading dock during peak hours",
+      "Deploy real-time capacity monitoring dashboard"
+    ],
+    "expected_benefits": [
+      "Reduce peak hour delays by 60%",
+      "Improve overall daily throughput by 15%",
+      "Enhance customer delivery predictability"
+    ],
+    "risk_factors": [
+      "Staff training requirements",
+      "Capital investment for additional equipment",
+      "Coordination complexity with carriers"
+    ]
+  },
+  {
+    "id": "ops_002",
+    "category": "operational",
+    "priority": "medium",
+    "title": "Picking Route Optimization Opportunity",
+    "description": "Current picking routes average 2.4 km per order. Machine learning analysis suggests optimized routes could reduce travel distance by 22%, improving picker productivity and reducing fulfillment time.",
+    "impact_score": 7.2,
+    "confidence_score": 87,
+    "actionable": true,
+    "methodology": {
+      "name": "Route Optimization Algorithm",
+      "description": "Genetic algorithm analysis of picking patterns with distance optimization",
+      "parameters": {
+        "optimization_algorithm": "genetic",
+        "population_size": 1000,
+        "mutation_rate": 0.1
+      },
+      "confidence_factors": [
+        "Validated against 30-day historical data",
+        "Cross-validated with multiple optimization methods",
+        "Simulation testing completed"
+      ]
+    },
+    "data_sources": [
+      "Pick path tracking data",
+      "Warehouse layout mapping",
+      "Order composition analysis"
+    ],
+    "created_at": "2025-01-14T14:20:00Z",
+    "implementation_timeline": "6-8 weeks",
+    "recommended_actions": [
+      "Deploy route optimization software",
+      "Retrain picking staff on new routes",
+      "Implement real-time route adjustment system"
+    ],
+    "expected_benefits": [
+      "Reduce picking time per order by 18 minutes",
+      "Increase picker productivity by 22%",
+      "Lower operational costs by $180K annually"
+    ],
+    "risk_factors": [
+      "Initial productivity dip during transition",
+      "System integration complexity",
+      "Staff resistance to change"
+    ]
+  },
+  {
+    "id": "ops_003",
+    "category": "operational",
+    "priority": "low",
+    "title": "Inventory Cycle Count Efficiency",
+    "description": "Current cycle counting process takes 15% longer than industry benchmark. ABC classification optimization could reduce counting time while maintaining accuracy at 99.2%.",
+    "impact_score": 5.8,
+    "confidence_score": 82,
+    "actionable": true,
+    "methodology": {
+      "name": "ABC Analysis Optimization",
+      "description": "Statistical analysis of SKU velocity and value distribution for optimal counting frequency",
+      "parameters": {
+        "classification_criteria": "pareto_80_15_5",
+        "accuracy_threshold": 99.0,
+        "cost_benefit_ratio": 2.5
+      },
+      "confidence_factors": [
+        "Benchmarked against industry standards",
+        "Historical accuracy data validation",
+        "Cost-benefit analysis completed"
+      ]
+    },
+    "data_sources": [
+      "Inventory management records",
+      "Cycle count historical data",
+      "SKU velocity analytics"
+    ],
+    "created_at": "2025-01-13T09:15:00Z",
+    "implementation_timeline": "4-6 weeks",
+    "recommended_actions": [
+      "Implement dynamic ABC classification",
+      "Adjust counting frequencies by classification",
+      "Deploy mobile cycle counting technology"
+    ],
+    "expected_benefits": [
+      "Reduce cycle count labor by 25%",
+      "Maintain 99%+ inventory accuracy",
+      "Free up 40 hours weekly for value-add activities"
+    ],
+    "risk_factors": [
+      "Temporary accuracy fluctuations",
+      "Staff retraining requirements",
+      "Technology adoption curve"
+    ]
+  },
+  {
+    "id": "strategic_001",
+    "category": "strategic",
+    "priority": "high",
+    "title": "Market Expansion Readiness Assessment",
+    "description": "Current infrastructure utilization at 67% suggests capacity for 40-50% volume growth without major capital investment. Three target markets identified with combined potential of $8.2M annual revenue.",
+    "impact_score": 9.1,
+    "confidence_score": 85,
+    "actionable": true,
+    "methodology": {
+      "name": "Market Opportunity Analysis",
+      "description": "Capacity utilization modeling combined with market sizing and competitive analysis",
+      "parameters": {
+        "capacity_threshold": 85.0,
+        "market_penetration_rate": 0.05,
+        "competitive_displacement": 0.15
+      },
+      "confidence_factors": [
+        "Validated capacity calculations",
+        "Third-party market research data",
+        "Competitive intelligence analysis"
+      ]
+    },
+    "data_sources": [
+      "Capacity utilization reports",
+      "Market research data",
+      "Competitive analysis",
+      "Customer demand patterns"
+    ],
+    "created_at": "2025-01-12T16:45:00Z",
+    "implementation_timeline": "6-12 months",
+    "recommended_actions": [
+      "Develop market entry strategy for Southeast region",
+      "Establish partnerships with regional distributors",
+      "Create dedicated business development team"
+    ],
+    "expected_benefits": [
+      "Generate $8.2M in new annual revenue",
+      "Diversify customer base across regions",
+      "Achieve market leadership in 2 new territories"
+    ],
+    "risk_factors": [
+      "Market competition intensity",
+      "Regulatory compliance requirements",
+      "Customer acquisition costs"
+    ]
+  },
+  {
+    "id": "strategic_002",
+    "category": "strategic",
+    "priority": "medium",
+    "title": "Technology Modernization ROI",
+    "description": "Legacy system modernization project shows 3.2x ROI potential over 3 years. Cloud migration could reduce IT costs by 35% while improving system reliability from 94.2% to 99.5%.",
+    "impact_score": 8.0,
+    "confidence_score": 78,
+    "actionable": true,
+    "methodology": {
+      "name": "Technology ROI Analysis",
+      "description": "Total cost of ownership analysis with reliability and performance modeling",
+      "parameters": {
+        "analysis_period": "3_years",
+        "discount_rate": 0.08,
+        "reliability_improvement": 5.3
+      },
+      "confidence_factors": [
+        "Vendor performance guarantees",
+        "Comparable migration case studies",
+        "Independent technical assessment"
+      ]
+    },
+    "data_sources": [
+      "Current IT cost structure",
+      "System performance metrics",
+      "Vendor proposals and benchmarks"
+    ],
+    "created_at": "2025-01-11T11:30:00Z",
+    "implementation_timeline": "12-18 months",
+    "recommended_actions": [
+      "Initiate cloud migration planning",
+      "Negotiate vendor service level agreements",
+      "Establish migration timeline and milestones"
+    ],
+    "expected_benefits": [
+      "$2.1M in cost savings over 3 years",
+      "Improve system uptime to 99.5%",
+      "Enable advanced analytics capabilities"
+    ],
+    "risk_factors": [
+      "Migration complexity and timeline",
+      "Staff training and change management",
+      "Data security during transition"
+    ]
+  },
+  {
+    "id": "strategic_003",
+    "category": "strategic",
+    "priority": "medium",
+    "title": "Sustainability Initiative Value Creation",
+    "description": "Green logistics program could reduce carbon footprint by 28% while generating $1.4M in annual cost savings through optimized routing and renewable energy adoption.",
+    "impact_score": 7.5,
+    "confidence_score": 80,
+    "actionable": true,
+    "methodology": {
+      "name": "Sustainability Impact Analysis",
+      "description": "Carbon footprint calculation with cost-benefit analysis of green initiatives",
+      "parameters": {
+        "carbon_price": 50.0,
+        "efficiency_improvement": 0.28,
+        "implementation_cost": 800000
+      },
+      "confidence_factors": [
+        "Industry benchmark validation",
+        "Utility provider commitments",
+        "Regulatory incentive analysis"
+      ]
+    },
+    "data_sources": [
+      "Energy consumption data",
+      "Transportation fuel usage",
+      "Sustainability benchmarks"
+    ],
+    "created_at": "2025-01-10T13:20:00Z",
+    "implementation_timeline": "9-15 months",
+    "recommended_actions": [
+      "Install solar panel system on warehouse roof",
+      "Transition fleet to hybrid/electric vehicles",
+      "Implement carbon tracking dashboard"
+    ],
+    "expected_benefits": [
+      "Reduce carbon emissions by 28%",
+      "Generate $1.4M annual cost savings",
+      "Enhance brand reputation and customer appeal"
+    ],
+    "risk_factors": [
+      "Technology adoption timeline",
+      "Regulatory changes impact",
+      "Initial capital investment requirements"
+    ]
+  },
+  {
+    "id": "commercial_001",
+    "category": "commercial",
+    "priority": "high",
+    "title": "Premium Service Tier Opportunity",
+    "description": "Customer willingness-to-pay analysis reveals 34% would accept 15% premium for same-day delivery. This represents $3.2M annual revenue opportunity with 18% higher margins.",
+    "impact_score": 8.8,
+    "confidence_score": 89,
+    "actionable": true,
+    "methodology": {
+      "name": "Price Sensitivity Analysis",
+      "description": "Van Westendorp pricing model with customer survey data and competitive benchmarking",
+      "parameters": {
+        "sample_size": 1247,
+        "confidence_level": 95,
+        "price_elasticity": -1.8
+      },
+      "confidence_factors": [
+        "Large representative customer sample",
+        "Cross-validated with purchase behavior",
+        "Competitive pricing analysis"
+      ]
+    },
+    "data_sources": [
+      "Customer survey responses",
+      "Historical pricing data",
+      "Competitive intelligence",
+      "Purchase behavior analytics"
+    ],
+    "created_at": "2025-01-14T08:45:00Z",
+    "implementation_timeline": "3-5 months",
+    "recommended_actions": [
+      "Launch premium same-day delivery service",
+      "Develop tiered service level agreements",
+      "Create premium customer communication strategy"
+    ],
+    "expected_benefits": [
+      "Generate $3.2M in additional annual revenue",
+      "Improve average order margin by 18%",
+      "Strengthen customer loyalty and retention"
+    ],
+    "risk_factors": [
+      "Service level consistency requirements",
+      "Operational complexity increase",
+      "Customer price sensitivity changes"
+    ]
+  },
+  {
+    "id": "commercial_002",
+    "category": "commercial",
+    "priority": "medium",
+    "title": "Cross-Selling Revenue Enhancement",
+    "description": "Customers purchasing Category A products show 67% likelihood to purchase Category B within 90 days. Targeted cross-selling could increase average order value by 24%.",
+    "impact_score": 7.4,
+    "confidence_score": 86,
+    "actionable": true,
+    "methodology": {
+      "name": "Market Basket Analysis",
+      "description": "Association rule mining with customer purchase sequence analysis",
+      "parameters": {
+        "min_support": 0.1,
+        "min_confidence": 0.6,
+        "lift_threshold": 2.0
+      },
+      "confidence_factors": [
+        "12 months of transaction data",
+        "Statistical significance testing",
+        "Customer segment validation"
+      ]
+    },
+    "data_sources": [
+      "Customer purchase history",
+      "Product catalog relationships",
+      "Customer segmentation data"
+    ],
+    "created_at": "2025-01-13T15:10:00Z",
+    "implementation_timeline": "2-4 months",
+    "recommended_actions": [
+      "Implement automated cross-selling recommendations",
+      "Train sales team on product associations",
+      "Develop bundled product offerings"
+    ],
+    "expected_benefits": [
+      "Increase average order value by 24%",
+      "Improve customer lifetime value by 16%",
+      "Generate $1.8M additional annual revenue"
+    ],
+    "risk_factors": [
+      "Customer response rates",
+      "Sales team adoption",
+      "System integration complexity"
+    ]
+  },
+  {
+    "id": "commercial_003",
+    "category": "commercial",
+    "priority": "low",
+    "title": "Customer Retention Program Optimization",
+    "description": "Churn prediction model identifies at-risk customers 45 days in advance with 82% accuracy. Proactive retention efforts could reduce churn by 35% and save $950K in annual revenue.",
+    "impact_score": 6.9,
+    "confidence_score": 82,
+    "actionable": true,
+    "methodology": {
+      "name": "Churn Prediction Modeling",
+      "description": "Machine learning classification model using customer behavior and transaction patterns",
+      "parameters": {
+        "model_type": "random_forest",
+        "prediction_horizon": 45,
+        "accuracy_threshold": 0.8
+      },
+      "confidence_factors": [
+        "Model validated on holdout data",
+        "Feature importance analysis",
+        "Cross-validation testing"
+      ]
+    },
+    "data_sources": [
+      "Customer transaction history",
+      "Service interaction logs",
+      "Payment behavior data"
+    ],
+    "created_at": "2025-01-12T12:25:00Z",
+    "implementation_timeline": "4-6 months",
+    "recommended_actions": [
+      "Deploy churn prediction dashboard",
+      "Create proactive customer outreach program",
+      "Develop retention incentive framework"
+    ],
+    "expected_benefits": [
+      "Reduce customer churn by 35%",
+      "Save $950K in annual revenue",
+      "Improve customer satisfaction scores"
+    ],
+    "risk_factors": [
+      "Model accuracy degradation over time",
+      "Customer privacy concerns",
+      "Resource requirements for outreach"
+    ]
+  },
+  {
+    "id": "risk_001",
+    "category": "risk",
+    "priority": "high",
+    "title": "Supply Chain Concentration Risk",
+    "description": "Critical dependency identified: 72% of volume relies on top 3 suppliers. Single supplier failure could disrupt 28% of operations within 48 hours, with estimated $2.1M weekly impact.",
+    "impact_score": 9.2,
+    "confidence_score": 91,
+    "actionable": true,
+    "methodology": {
+      "name": "Supply Chain Risk Assessment",
+      "description": "Dependency analysis with failure impact modeling and supplier reliability scoring",
+      "parameters": {
+        "concentration_threshold": 0.5,
+        "impact_calculation": "revenue_at_risk",
+        "recovery_time": 7
+      },
+      "confidence_factors": [
+        "Historical supplier performance data",
+        "Industry disruption case studies",
+        "Financial impact validation"
+      ]
+    },
+    "data_sources": [
+      "Supplier performance records",
+      "Purchase order analytics",
+      "Business continuity assessments"
+    ],
+    "created_at": "2025-01-15T07:30:00Z",
+    "implementation_timeline": "3-6 months",
+    "recommended_actions": [
+      "Diversify supplier base for critical components",
+      "Establish backup supplier agreements",
+      "Implement supplier risk monitoring system"
+    ],
+    "expected_benefits": [
+      "Reduce supply disruption risk by 65%",
+      "Maintain business continuity during crises",
+      "Negotiate better terms through supplier competition"
+    ],
+    "risk_factors": [
+      "Supplier relationship management complexity",
+      "Quality consistency across suppliers",
+      "Increased procurement management overhead"
+    ]
+  },
+  {
+    "id": "risk_002",
+    "category": "risk",
+    "priority": "medium",
+    "title": "Demand Volatility Risk Management",
+    "description": "15 SKUs show extreme demand volatility (CV > 1.5), representing 23% of revenue. Improved forecasting accuracy could reduce safety stock requirements by $450K while maintaining 98% service levels.",
+    "impact_score": 7.8,
+    "confidence_score": 84,
+    "actionable": true,
+    "methodology": {
+      "name": "Demand Variability Analysis",
+      "description": "Coefficient of variation analysis with safety stock optimization modeling",
+      "parameters": {
+        "volatility_threshold": 1.5,
+        "service_level_target": 98.0,
+        "safety_stock_method": "dynamic"
+      },
+      "confidence_factors": [
+        "24 months of demand history",
+        "Seasonal pattern identification",
+        "Statistical forecasting validation"
+      ]
+    },
+    "data_sources": [
+      "Historical demand data",
+      "Forecast accuracy metrics",
+      "Inventory level tracking"
+    ],
+    "created_at": "2025-01-14T09:20:00Z",
+    "implementation_timeline": "4-7 months",
+    "recommended_actions": [
+      "Implement advanced demand sensing technology",
+      "Deploy dynamic safety stock calculations",
+      "Establish demand collaboration with key customers"
+    ],
+    "expected_benefits": [
+      "Reduce safety stock investment by $450K",
+      "Improve forecast accuracy by 12%",
+      "Maintain 98% service level performance"
+    ],
+    "risk_factors": [
+      "Customer demand pattern changes",
+      "Market volatility increases",
+      "Technology implementation challenges"
+    ]
+  },
+  {
+    "id": "risk_003",
+    "category": "risk",
+    "priority": "medium",
+    "title": "Cybersecurity Vulnerability Assessment",
+    "description": "Security audit reveals 8 critical vulnerabilities in legacy systems. Estimated cyber attack probability at 12% annually with potential $3.5M impact from system downtime and data breach.",
+    "impact_score": 8.1,
+    "confidence_score": 77,
+    "actionable": true,
+    "methodology": {
+      "name": "Cybersecurity Risk Analysis",
+      "description": "Penetration testing results combined with industry threat intelligence and impact modeling",
+      "parameters": {
+        "vulnerability_scoring": "CVSS_v3",
+        "threat_probability": 0.12,
+        "business_impact": "high"
+      },
+      "confidence_factors": [
+        "Independent security audit",
+        "Industry benchmark comparison",
+        "Insurance provider risk assessment"
+      ]
+    },
+    "data_sources": [
+      "Security audit reports",
+      "System vulnerability scans",
+      "Industry threat intelligence"
+    ],
+    "created_at": "2025-01-13T14:15:00Z",
+    "implementation_timeline": "2-5 months",
+    "recommended_actions": [
+      "Implement multi-factor authentication",
+      "Deploy advanced threat detection system",
+      "Conduct comprehensive staff security training"
+    ],
+    "expected_benefits": [
+      "Reduce cyber attack risk by 85%",
+      "Protect against $3.5M potential losses",
+      "Achieve compliance with security standards"
+    ],
+    "risk_factors": [
+      "Evolving threat landscape",
+      "Staff compliance challenges",
+      "System integration complexities"
+    ]
+  },
+  {
+    "id": "risk_004",
+    "category": "risk",
+    "priority": "low",
+    "title": "Regulatory Compliance Monitoring",
+    "description": "Three upcoming regulatory changes in Q2 2025 could impact operations. Proactive compliance preparation needed to avoid potential $280K in penalties and operational disruptions.",
+    "impact_score": 6.2,
+    "confidence_score": 88,
+    "actionable": true,
+    "methodology": {
+      "name": "Regulatory Impact Analysis",
+      "description": "Compliance requirement mapping with operational impact assessment and penalty calculation",
+      "parameters": {
+        "compliance_timeline": "Q2_2025",
+        "penalty_calculation": "regulatory_framework",
+        "operational_impact": "medium"
+      },
+      "confidence_factors": [
+        "Official regulatory guidance",
+        "Legal counsel consultation",
+        "Industry compliance benchmarks"
+      ]
+    },
+    "data_sources": [
+      "Regulatory announcements",
+      "Legal compliance database",
+      "Industry best practices"
+    ],
+    "created_at": "2025-01-11T16:40:00Z",
+    "implementation_timeline": "3-4 months",
+    "recommended_actions": [
+      "Update operational procedures for compliance",
+      "Implement regulatory change monitoring system",
+      "Train staff on new compliance requirements"
+    ],
+    "expected_benefits": [
+      "Avoid $280K in potential penalties",
+      "Maintain operational continuity",
+      "Establish proactive compliance framework"
+    ],
+    "risk_factors": [
+      "Regulatory interpretation uncertainties",
+      "Implementation timeline constraints",
+      "Staff training effectiveness"
+    ]
+  }
+]

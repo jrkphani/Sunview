@@ -12,6 +12,7 @@ import { MockDataIndicator, useDataSourceStatus } from '@/components/ui/mock-dat
 // Import individual components
 import ForecastAccuracyKPI from './ForecastAccuracyKPI'
 import TopSKUErrorsChart from './TopSKUErrorsChart'
+import SeasonalityOverviewChart from './SeasonalityOverviewChart'
 import TruckUtilizationAreaChart from './TruckUtilizationAreaChart'
 import DOHLineChart from './DOHLineChart'
 import OTIFStackedBarChart from './OTIFStackedBarChart'
@@ -120,7 +121,7 @@ export default function ExecutiveSummarySection({
         <div className="flex flex-wrap items-center gap-2">
           {/* Filter Controls */}
           <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-neutral-600" />
+            <Filter className="h-4 w-4 text-muted-foreground" />
             <Select value={filters.timeRange} onValueChange={(value) => updateFilter('timeRange', value)}>
               <SelectTrigger className="w-[120px]">
                 <Calendar className="h-4 w-4" />
@@ -247,6 +248,7 @@ export default function ExecutiveSummarySection({
             <TabsContent value="overview" className="space-y-4">
               <div className="grid grid-cols-1 gap-4">
                 <TopSKUErrorsChart filters={filters} />
+                <SeasonalityOverviewChart />
               </div>
             </TabsContent>
 
@@ -281,15 +283,15 @@ export default function ExecutiveSummarySection({
             <CardContent className="space-y-3">
               <div className="text-xs space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-neutral-600">Top Priority:</span>
+                  <span className="text-muted-foreground">Top Priority:</span>
                   <span className="font-medium">Forecast Accuracy</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-neutral-600">Trend:</span>
+                  <span className="text-muted-foreground">Trend:</span>
                   <Badge variant="secondary" className="text-xs">Improving</Badge>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-neutral-600">Next Review:</span>
+                  <span className="text-muted-foreground">Next Review:</span>
                   <span className="font-medium">Tomorrow</span>
                 </div>
               </div>

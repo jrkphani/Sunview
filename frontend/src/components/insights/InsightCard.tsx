@@ -53,14 +53,14 @@ export default function InsightCard({
 
   return (
     <Card className={cn('hover:shadow-md transition-shadow', className)} role="article" aria-labelledby={`insight-title-${title.replace(/\s+/g, '-').toLowerCase()}`}>
-      <CardHeader style={{ paddingBottom: compact ? 'var(--spacing-2)' : 'var(--spacing-3)' }}>
+      <CardHeader className={compact ? "pb-2" : "pb-3"}>
         <div className="flex items-start justify-between">
-          <CardTitle id={`insight-title-${title.replace(/\s+/g, '-').toLowerCase()}`} className={compact ? "text-sm" : "text-base"}>
+          <CardTitle id={`insight-title-${title.replace(/\s+/g, '-').toLowerCase()}`} className={cn(compact ? "text-sm" : "text-base", "truncate pr-2")}>
             {title}
           </CardTitle>
-          <Icon className="h-4 w-4 text-muted-foreground flex-shrink-0" style={{ marginLeft: 'var(--spacing-2)' }} aria-hidden="true" />
+          <Icon className="h-4 w-4 text-muted-foreground flex-shrink-0 ml-2" aria-hidden="true" />
         </div>
-        <div className="flex items-center" style={{ gap: 'var(--spacing-2)' }}>
+        <div className="flex items-center gap-2">
           <Badge variant="outline" className={cn("text-xs", config.color)} role="status" aria-label={`Category: ${config.label}`}>
             {config.label}
           </Badge>
@@ -75,12 +75,13 @@ export default function InsightCard({
       <CardContent>
         <p className={cn(
           "text-muted-foreground",
-          compact ? "text-xs" : "text-sm"
+          compact ? "text-xs" : "text-sm",
+          "line-clamp-3"
         )}>
           {description}
         </p>
         {!compact && (
-          <div className="flex items-center justify-between text-xs text-muted-foreground" style={{ marginTop: 'var(--spacing-3)' }}>
+          <div className="flex items-center justify-between text-xs text-muted-foreground mt-3">
             <span>Impact Score: {impact}/10</span>
             <span>Confidence: {confidenceLevel}</span>
           </div>

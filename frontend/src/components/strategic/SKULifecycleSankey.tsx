@@ -46,10 +46,10 @@ interface SKULifecycleSankeyProps {
 }
 
 const stageColors = {
-  'Introduction': 'hsl(120, 70%, 50%)', // Green
-  'Growth': 'hsl(60, 70%, 50%)',       // Yellow-green
-  'Maturity': 'hsl(210, 70%, 50%)',    // Blue
-  'Decline': 'hsl(0, 70%, 50%)'        // Red
+  'Introduction': 'hsl(var(--chart-2))', // Green
+  'Growth': 'hsl(var(--warning))',       // Yellow-green
+  'Maturity': 'hsl(var(--chart-1))',    // Blue
+  'Decline': 'hsl(var(--chart-5))'        // Red
 }
 
 const stageIcons = {
@@ -196,7 +196,7 @@ export default function SKULifecycleSankey({
                           <div className="text-lg font-bold">
                             {data.summary.stageDistribution[stage]?.toLocaleString()}
                           </div>
-                          <div className="text-xs text-neutral-500">
+                          <div className="text-xs text-muted-foreground">
                             {((data.summary.stageDistribution[stage] / data.summary.totalProducts) * 100).toFixed(1)}% of SKUs
                           </div>
                           
@@ -207,7 +207,7 @@ export default function SKULifecycleSankey({
                               ) : stageData.trend === 'shrinking' ? (
                                 <ArrowDown className="h-3 w-3 text-red-500" />
                               ) : (
-                                <ArrowRight className="h-3 w-3 text-neutral-400" />
+                                <ArrowRight className="h-3 w-3 text-muted-foreground" />
                               )}
                               <span className="text-xs">
                                 {stageData.trend}
@@ -237,12 +237,12 @@ export default function SKULifecycleSankey({
                 <div className="space-y-4">
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="font-semibold text-sm">Lifecycle Transitions</h4>
-                    <div className="text-xs text-neutral-500">
+                    <div className="text-xs text-muted-foreground">
                       {data.transitions.length} transitions • Click to view details
                     </div>
                   </div>
                   
-                  <div className="max-h-96 overflow-y-auto space-y-2">
+                  <div className="max-h-60 overflow-y-auto overflow-x-hidden space-y-2 pr-2">
                     {data.transitions.map((transition, index) => {
                     const sourceIndex = data.stages.indexOf(transition.source)
                     const targetIndex = data.stages.indexOf(transition.target)
@@ -253,34 +253,34 @@ export default function SKULifecycleSankey({
                       <div
                         key={`${transition.source}-${transition.target}`}
                         className={`
-                          flex items-center justify-between p-3 rounded-lg border cursor-pointer
+                          flex items-center justify-between p-2 rounded-lg border cursor-pointer
                           transition-all duration-200 hover:border-primary hover:shadow-md
                           ${isSelected ? 'border-primary bg-primary/5' : 'border-border'}
                         `}
                         onClick={() => setSelectedTransition(isSelected ? null : transition)}
                       >
-                        <div className="flex items-center min-w-0 flex-1">
-                          <div className="flex items-center space-x-1 min-w-0">
+                        <div className="flex items-center gap-1 min-w-0 flex-1 mr-2">
+                          <div className="flex items-center gap-1 min-w-0 max-w-[45%]">
                             <div 
-                              className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                              className="w-2 h-2 rounded-full flex-shrink-0"
                               style={{ backgroundColor: stageColors[transition.source as keyof typeof stageColors] }}
                             />
                             <span className="text-xs font-medium truncate">{transition.source}</span>
                           </div>
                           
-                          <ArrowRight className="h-3 w-3 text-muted-foreground mx-1 flex-shrink-0" />
+                          <ArrowRight className="h-3 w-3 text-muted-foreground flex-shrink-0" />
                           
-                          <div className="flex items-center space-x-1 min-w-0">
+                          <div className="flex items-center gap-1 min-w-0 max-w-[45%]">
                             <div 
-                              className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                              className="w-2 h-2 rounded-full flex-shrink-0"
                               style={{ backgroundColor: stageColors[transition.target as keyof typeof stageColors] }}
                             />
                             <span className="text-xs font-medium truncate">{transition.target}</span>
                           </div>
                         </div>
                         
-                        <div className="text-right flex-shrink-0 ml-2">
-                          <div className="text-sm font-bold">{transition.products.toLocaleString()}</div>
+                        <div className="text-right flex-shrink-0">
+                          <div className="text-xs font-bold">{transition.products.toLocaleString()}</div>
                           <div className="text-xs text-muted-foreground">
                             {((transition.value / data.summary.totalProducts) * 100).toFixed(1)}%
                           </div>
@@ -309,20 +309,20 @@ export default function SKULifecycleSankey({
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       <div className="space-y-1">
-                        <span className="text-sm text-neutral-600">Products Moving:</span>
-                        <div className="text-lg font-mono font-bold text-neutral-900 break-words">
+                        <span className="text-sm text-muted-foreground">Products Moving:</span>
+                        <div className="text-lg font-mono font-bold text-foreground break-words">
                           {selectedTransition.products.toLocaleString()}
                         </div>
                       </div>
                       <div className="space-y-1">
-                        <span className="text-sm text-neutral-600">Transition Rate:</span>
-                        <div className="text-lg font-mono font-bold text-neutral-900 break-words">
+                        <span className="text-sm text-muted-foreground">Transition Rate:</span>
+                        <div className="text-lg font-mono font-bold text-foreground break-words">
                           {((selectedTransition.value / data.summary.stageDistribution[selectedTransition.source]) * 100).toFixed(1)}%
                         </div>
                       </div>
                       <div className="space-y-1 sm:col-span-2 lg:col-span-1">
-                        <span className="text-sm text-neutral-600">Impact:</span>
-                        <div className="text-lg font-mono font-bold text-neutral-900 break-words">
+                        <span className="text-sm text-muted-foreground">Impact:</span>
+                        <div className="text-lg font-mono font-bold text-foreground break-words">
                           {((selectedTransition.value / data.summary.totalProducts) * 100).toFixed(1)}% of total
                         </div>
                       </div>
@@ -330,7 +330,7 @@ export default function SKULifecycleSankey({
                     
                     {/* Additional context */}
                     <div className="mt-4 pt-3 border-t border-primary/10">
-                      <div className="text-xs text-neutral-500 flex flex-wrap items-center gap-1">
+                      <div className="text-xs text-muted-foreground flex flex-wrap items-center gap-1">
                         <span>Transition from</span>
                         <span className="font-medium text-primary px-1 py-0.5 bg-primary/10 rounded">
                           {selectedTransition.source}
@@ -370,28 +370,28 @@ export default function SKULifecycleSankey({
                     <CardContent>
                       <div className="space-y-3">
                         <div className="flex justify-between">
-                          <span className="text-sm text-neutral-600">Current Products:</span>
+                          <span className="text-sm text-muted-foreground">Current Products:</span>
                           <span className="font-mono font-bold">{stageData.currentProducts.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-sm text-neutral-600">Incoming Flow:</span>
+                          <span className="text-sm text-muted-foreground">Incoming Flow:</span>
                           <span className="font-mono">{stageData.incomingValue.toFixed(1)}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-sm text-neutral-600">Outgoing Flow:</span>
+                          <span className="text-sm text-muted-foreground">Outgoing Flow:</span>
                           <span className="font-mono">{stageData.outgoingValue.toFixed(1)}</span>
                         </div>
                         <div className="flex justify-between border-t pt-2">
-                          <span className="text-sm text-neutral-600">Net Flow:</span>
+                          <span className="text-sm text-muted-foreground">Net Flow:</span>
                           <span className={`font-mono font-bold ${
                             stageData.netFlow > 0 ? 'text-green-600' : 
-                            stageData.netFlow < 0 ? 'text-error' : 'text-neutral-600'
+                            stageData.netFlow < 0 ? 'text-destructive' : 'text-muted-foreground'
                           }`}>
                             {stageData.netFlow > 0 ? '+' : ''}{stageData.netFlow.toFixed(1)}
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-sm text-neutral-600">Health Score:</span>
+                          <span className="text-sm text-muted-foreground">Health Score:</span>
                           <div className="flex items-center space-x-2">
                             <span className="font-mono">{(stageData.healthScore * 100).toFixed(0)}%</span>
                             <div className={`w-3 h-3 rounded-full ${
@@ -423,7 +423,7 @@ export default function SKULifecycleSankey({
                           />
                           <span className="font-medium">{transition.source}</span>
                         </div>
-                        <ArrowRight className="h-4 w-4 text-neutral-400" />
+                        <ArrowRight className="h-4 w-4 text-muted-foreground" />
                         <div className="flex items-center space-x-2">
                           <div 
                             className="w-4 h-4 rounded-full"
@@ -435,7 +435,7 @@ export default function SKULifecycleSankey({
                       
                       <div className="text-right">
                         <div className="font-bold">{transition.rate.toFixed(1)}%</div>
-                        <div className="text-sm text-neutral-500">
+                        <div className="text-sm text-muted-foreground">
                           {transition.products.toLocaleString()} products
                         </div>
                       </div>

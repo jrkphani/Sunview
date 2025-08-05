@@ -7,7 +7,7 @@ const getPageTitle = (pathname: string) => {
   if (pathname === '/dashboard/forecasts') return 'Forecasts'
   if (pathname === '/dashboard/insights') return 'Insights' 
   if (pathname === '/dashboard/analytics') return 'Analytics'
-  return 'GXO Forecasting Platform'
+  return 'Supply Chain Forecasting Platform'
 }
 
 export function SiteHeader() {

@@ -129,6 +129,46 @@ export const analyticsService = {
     return response.data
   },
 
+  // Seasonality Data
+  async getSeasonalityData(params?: {
+    year?: number
+    metric?: 'accuracy' | 'volume'
+  }): Promise<Array<{
+    day: string
+    value: number
+  }>> {
+    const response = await api.get('/api/v1/analytics/seasonality', { params })
+    return response.data
+  },
+
+  // Top SKU Errors
+  async getTopSKUErrors(params?: {
+    limit?: number
+    category?: string
+    timeRange?: string
+  }): Promise<{
+    top_sku_errors: Array<{
+      sku: string
+      name: string
+      category: string
+      error_percentage: number
+      volume: number
+      historical_comparison: Array<{
+        period: string
+        error_percentage: number
+      }>
+    }>
+    metadata: {
+      generated_at: string
+      calculation_method: string
+      time_range: string
+      threshold: number
+    }
+  }> {
+    const response = await api.get('/api/v1/analytics/top-sku-errors', { params })
+    return response.data
+  },
+
   // Export Functions
   async exportAnalytics(params: {
     format: 'json' | 'csv'

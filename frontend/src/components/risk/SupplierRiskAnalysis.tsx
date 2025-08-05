@@ -84,10 +84,10 @@ const SupplierRiskAnalysis: React.FC<SupplierRiskAnalysisProps> = () => {
     const singleSupplierCount = singleSupplierSKUs.length;
     
     const riskDistribution = [
-      { name: 'Critical Risk', value: singleSupplierSKUs.filter(s => s.riskLevel === 'critical').length, color: '#ef4444' },
-      { name: 'High Risk', value: singleSupplierSKUs.filter(s => s.riskLevel === 'high').length, color: '#f59e0b' },
-      { name: 'Medium Risk', value: singleSupplierSKUs.filter(s => s.riskLevel === 'medium').length, color: '#10b981' },
-      { name: 'Low Risk', value: singleSupplierSKUs.filter(s => s.riskLevel === 'low').length, color: '#3b82f6' }
+      { name: 'Critical Risk', value: singleSupplierSKUs.filter(s => s.riskLevel === 'critical').length, color: 'hsl(var(--chart-5))' },
+      { name: 'High Risk', value: singleSupplierSKUs.filter(s => s.riskLevel === 'high').length, color: 'hsl(var(--chart-4))' },
+      { name: 'Medium Risk', value: singleSupplierSKUs.filter(s => s.riskLevel === 'medium').length, color: 'hsl(var(--chart-2))' },
+      { name: 'Low Risk', value: singleSupplierSKUs.filter(s => s.riskLevel === 'low').length, color: 'hsl(var(--chart-1))' }
     ];
     
     return { singleSupplierCount, totalSKUs, riskDistribution, singleSupplierSKUs };
@@ -105,11 +105,11 @@ const SupplierRiskAnalysis: React.FC<SupplierRiskAnalysisProps> = () => {
 
   const getRiskColor = (riskLevel: string) => {
     switch (riskLevel) {
-      case 'critical': return '#ef4444';
-      case 'high': return '#f59e0b';
-      case 'medium': return '#10b981';
-      case 'low': return '#3b82f6';
-      default: return '#6b7280';
+      case 'critical': return 'hsl(var(--chart-5))';
+      case 'high': return 'hsl(var(--chart-4))';
+      case 'medium': return 'hsl(var(--chart-2))';
+      case 'low': return 'hsl(var(--chart-1))';
+      default: return 'hsl(var(--muted))';
     }
   };
 
@@ -263,23 +263,23 @@ const SupplierRiskAnalysis: React.FC<SupplierRiskAnalysisProps> = () => {
                 <PieChart>
                   <Pie
                     data={[
-                      { name: 'Critical', value: filteredSuppliers.filter(s => s.riskLevel === 'critical').length, color: '#ef4444' },
-                      { name: 'High', value: filteredSuppliers.filter(s => s.riskLevel === 'high').length, color: '#f59e0b' },
-                      { name: 'Medium', value: filteredSuppliers.filter(s => s.riskLevel === 'medium').length, color: '#10b981' },
-                      { name: 'Low', value: filteredSuppliers.filter(s => s.riskLevel === 'low').length, color: '#3b82f6' }
+                      { name: 'Critical', value: filteredSuppliers.filter(s => s.riskLevel === 'critical').length, color: 'hsl(var(--chart-5))' },
+                      { name: 'High', value: filteredSuppliers.filter(s => s.riskLevel === 'high').length, color: 'hsl(var(--chart-4))' },
+                      { name: 'Medium', value: filteredSuppliers.filter(s => s.riskLevel === 'medium').length, color: 'hsl(var(--chart-2))' },
+                      { name: 'Low', value: filteredSuppliers.filter(s => s.riskLevel === 'low').length, color: 'hsl(var(--chart-1))' }
                     ]}
                     cx="50%"
                     cy="50%"
                     outerRadius={80}
-                    fill="#8884d8"
+                    fill="hsl(var(--chart-1))"
                     dataKey="value"
                     label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                   >
                     {[
-                      { name: 'Critical', value: filteredSuppliers.filter(s => s.riskLevel === 'critical').length, color: '#ef4444' },
-                      { name: 'High', value: filteredSuppliers.filter(s => s.riskLevel === 'high').length, color: '#f59e0b' },
-                      { name: 'Medium', value: filteredSuppliers.filter(s => s.riskLevel === 'medium').length, color: '#10b981' },
-                      { name: 'Low', value: filteredSuppliers.filter(s => s.riskLevel === 'low').length, color: '#3b82f6' }
+                      { name: 'Critical', value: filteredSuppliers.filter(s => s.riskLevel === 'critical').length, color: 'hsl(var(--chart-5))' },
+                      { name: 'High', value: filteredSuppliers.filter(s => s.riskLevel === 'high').length, color: 'hsl(var(--chart-4))' },
+                      { name: 'Medium', value: filteredSuppliers.filter(s => s.riskLevel === 'medium').length, color: 'hsl(var(--chart-2))' },
+                      { name: 'Low', value: filteredSuppliers.filter(s => s.riskLevel === 'low').length, color: 'hsl(var(--chart-1))' }
                     ].map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
@@ -301,7 +301,7 @@ const SupplierRiskAnalysis: React.FC<SupplierRiskAnalysisProps> = () => {
                     cx="50%"
                     cy="50%"
                     outerRadius={80}
-                    fill="#8884d8"
+                    fill="hsl(var(--chart-1))"
                     dataKey="value"
                     label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                   >
@@ -389,7 +389,7 @@ const SupplierRiskAnalysis: React.FC<SupplierRiskAnalysisProps> = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div>
-                          <div className="text-sm font-medium text-gray-900">{supplier.name}</div>
+                          <div className="text-sm font-medium text-gray-900 truncate max-w-[200px]">{supplier.name}</div>
                           <div className="text-sm text-gray-500 flex items-center">
                             <MapPin className="h-3 w-3 mr-1" />
                             {supplier.country}
@@ -450,7 +450,7 @@ const SupplierRiskAnalysis: React.FC<SupplierRiskAnalysisProps> = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-96 overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold">{selectedSupplier.name}</h3>
+              <h3 className="text-lg font-semibold truncate">{selectedSupplier.name}</h3>
               <button 
                 onClick={() => setSelectedSupplier(null)}
                 className="p-1 hover:bg-gray-100 rounded"

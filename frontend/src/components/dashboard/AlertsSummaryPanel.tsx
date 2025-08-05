@@ -125,10 +125,10 @@ export default function AlertsSummaryPanel({
 
   const getSeverityColor = (severity: AlertData['severity']) => {
     switch (severity) {
-      case 'critical': return 'text-red-600'
-      case 'high': return 'text-orange-600'
-      case 'medium': return 'text-yellow-600'
-      case 'low': return 'text-blue-600'
+      case 'critical': return 'text-destructive'
+      case 'high': return 'text-warning'
+      case 'medium': return 'text-warning'
+      case 'low': return 'text-primary'
     }
   }
 
@@ -160,9 +160,9 @@ export default function AlertsSummaryPanel({
 
   const getStatusColor = (status: AlertData['status']) => {
     switch (status) {
-      case 'active': return 'text-red-600'
-      case 'acknowledged': return 'text-yellow-600'
-      case 'resolved': return 'text-green-600'
+      case 'active': return 'text-destructive'
+      case 'acknowledged': return 'text-warning'
+      case 'resolved': return 'text-success'
     }
   }
 
@@ -252,7 +252,7 @@ export default function AlertsSummaryPanel({
                   
                   <div className="flex-1 space-y-1">
                     <div className="flex items-center justify-between">
-                      <div className="font-medium text-sm">{alert.title}</div>
+                      <div className="font-medium text-sm truncate">{alert.title}</div>
                       <div className="flex items-center gap-2">
                         <Badge variant={getSeverityBadge(alert.severity)}>
                           {alert.severity}
@@ -263,7 +263,7 @@ export default function AlertsSummaryPanel({
                       </div>
                     </div>
                     
-                    <div className="text-xs text-muted-foreground">
+                    <div className="text-xs text-muted-foreground line-clamp-2">
                       {alert.description}
                     </div>
                     
@@ -321,7 +321,7 @@ export default function AlertsSummaryPanel({
               className="justify-start gap-2"
               onClick={onNavigateToRisk}
             >
-              <AlertTriangle className="h-4 w-4 text-red-600" />
+              <AlertTriangle className="h-4 w-4 text-destructive" />
               Risk Analysis Panel
               <Badge variant="destructive" className="ml-auto">
                 {data.filter(a => a.drill_down_link?.includes('/risk-analysis')).length}
@@ -334,7 +334,7 @@ export default function AlertsSummaryPanel({
               className="justify-start gap-2"
               onClick={onNavigateToResilience}
             >
-              <Package className="h-4 w-4 text-blue-600" />
+              <Package className="h-4 w-4 text-primary" />
               Resilience Panel
               <Badge variant="secondary" className="ml-auto">
                 {data.filter(a => a.drill_down_link?.includes('/resilience')).length}
@@ -401,11 +401,11 @@ export default function AlertsSummaryPanel({
                   </div>
                   <div className="text-center">
                     <div className="text-xs text-muted-foreground">Active</div>
-                    <div className="text-2xl font-bold text-red-600">{alertStats.active}</div>
+                    <div className="text-2xl font-bold text-destructive">{alertStats.active}</div>
                   </div>
                   <div className="text-center">
                     <div className="text-xs text-muted-foreground">Critical</div>
-                    <div className="text-2xl font-bold text-red-600">{alertStats.critical}</div>
+                    <div className="text-2xl font-bold text-destructive">{alertStats.critical}</div>
                   </div>
                   <div className="text-center">
                     <div className="text-xs text-muted-foreground">Avg Impact</div>
@@ -437,7 +437,7 @@ export default function AlertsSummaryPanel({
                               <SeverityIcon className="h-5 w-5" />
                             </div>
                             <div>
-                              <div className="font-medium">{alert.title}</div>
+                              <div className="font-medium truncate">{alert.title}</div>
                               <div className="text-sm text-muted-foreground">
                                 {new Date(alert.created_at).toLocaleString()}
                               </div>
@@ -454,7 +454,7 @@ export default function AlertsSummaryPanel({
                           </div>
                         </div>
                         
-                        <div className="text-sm">{alert.description}</div>
+                        <div className="text-sm line-clamp-3">{alert.description}</div>
                         
                         <div className="flex items-center gap-4 text-xs text-muted-foreground">
                           <div className="flex items-center gap-1">
@@ -467,7 +467,7 @@ export default function AlertsSummaryPanel({
                         
                         <div className="bg-primary/10 p-3 rounded text-sm">
                           <div className="font-medium text-primary">Recommended Action:</div>
-                          <div className="text-neutral-700">{alert.recommended_action}</div>
+                          <div className="text-muted-foreground line-clamp-2">{alert.recommended_action}</div>
                         </div>
                         
                         <div className="flex items-center justify-between">

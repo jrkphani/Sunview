@@ -11,7 +11,7 @@ import {
   DialogTitle, 
   DialogTrigger 
 } from '@/components/ui/dialog'
-import { BarChart3, TrendingUp, TrendingDown, ChevronRight, AlertTriangle, Package } from 'lucide-react'
+import { BarChart3, TrendingUp, TrendingDown, ChevronRight, AlertTriangle, Package, Loader2 } from 'lucide-react'
 import { InsightExplainer, ExplainerTrigger } from '@/components/ui/insight-explainer'
 import { topSkuErrorExplainer } from '@/components/explainers/executive-summary-explainers'
 import { cn } from '@/lib/utils'
@@ -33,6 +33,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from '@/components/ui/chart'
+import { useTopSKUErrors } from '@/hooks/useAnalytics'
 
 import type { DrillDownFilters, TopSKUErrorData } from '@/types/api'
 
@@ -41,104 +42,47 @@ interface TopSKUErrorsChartProps {
   className?: string
 }
 
-// Mock data - replace with actual API call
-const mockTopSKUErrors: TopSKUErrorData[] = [
-  {
-    sku: 'SKU-001',
-    name: 'Gaming Laptop Pro',
-    category: 'Electronics',
-    error_percentage: 24.5,
-    volume: 450,
-    historical_comparison: [
-      { period: '6 months ago', error_percentage: 18.2 },
-      { period: '5 months ago', error_percentage: 19.8 },
-      { period: '4 months ago', error_percentage: 21.3 },
-      { period: '3 months ago', error_percentage: 22.7 },
-      { period: '2 months ago', error_percentage: 23.9 },
-      { period: '1 month ago', error_percentage: 24.5 }
-    ]
-  },
-  {
-    sku: 'SKU-002',
-    name: 'Wireless Headphones Elite',
-    category: 'Electronics',
-    error_percentage: 18.7,
-    volume: 1250,
-    historical_comparison: [
-      { period: '6 months ago', error_percentage: 22.1 },
-      { period: '5 months ago', error_percentage: 21.3 },
-      { period: '4 months ago', error_percentage: 20.5 },
-      { period: '3 months ago', error_percentage: 19.8 },
-      { period: '2 months ago', error_percentage: 19.2 },
-      { period: '1 month ago', error_percentage: 18.7 }
-    ]
-  },
-  {
-    sku: 'SKU-003',
-    name: 'Running Shoes Premium',
-    category: 'Apparel',
-    error_percentage: 16.3,
-    volume: 890,
-    historical_comparison: [
-      { period: '6 months ago', error_percentage: 14.8 },
-      { period: '5 months ago', error_percentage: 15.2 },
-      { period: '4 months ago', error_percentage: 15.9 },
-      { period: '3 months ago', error_percentage: 16.1 },
-      { period: '2 months ago', error_percentage: 16.0 },
-      { period: '1 month ago', error_percentage: 16.3 }
-    ]
-  },
-  {
-    sku: 'SKU-004',
-    name: 'Smart Home Hub',
-    category: 'Electronics',
-    error_percentage: 15.9,
-    volume: 320,
-    historical_comparison: [
-      { period: '6 months ago', error_percentage: 12.3 },
-      { period: '5 months ago', error_percentage: 13.1 },
-      { period: '4 months ago', error_percentage: 14.2 },
-      { period: '3 months ago', error_percentage: 14.8 },
-      { period: '2 months ago', error_percentage: 15.4 },
-      { period: '1 month ago', error_percentage: 15.9 }
-    ]
-  },
-  {
-    sku: 'SKU-005',
-    name: 'Outdoor Camping Gear',
-    category: 'Sports',
-    error_percentage: 14.2,
-    volume: 560,
-    historical_comparison: [
-      { period: '6 months ago', error_percentage: 16.8 },
-      { period: '5 months ago', error_percentage: 16.1 },
-      { period: '4 months ago', error_percentage: 15.5 },
-      { period: '3 months ago', error_percentage: 15.0 },
-      { period: '2 months ago', error_percentage: 14.6 },
-      { period: '1 month ago', error_percentage: 14.2 }
-    ]
-  }
-]
-
 export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsChartProps) {
   const [selectedSKU, setSelectedSKU] = useState<TopSKUErrorData | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [explainerOpen, setExplainerOpen] = useState(false)
   
-  const data = mockTopSKUErrors // In real app: useTopSKUErrors(filters)
+  const { data: skuErrorData, isLoading, isError } = useTopSKUErrors({
+    limit: 10,
+    category: filters?.category,
+    timeRange: filters?.timeRange
+  })
+  
+  const data = skuErrorData?.top_sku_errors || []
 
   const chartConfig = {
     error_percentage: {
-      label: "Forecast Error %",
+      label: "Forecast Error",
+      color: "hsl(var(--chart-1))",
+    },
+    critical: {
+      label: "Critical",
       color: "hsl(var(--destructive))",
+    },
+    high: {
+      label: "High", 
+      color: "hsl(var(--chart-2))",
+    },
+    medium: {
+      label: "Medium",
+      color: "hsl(var(--chart-3))",
+    },
+    low: {
+      label: "Low",
+      color: "hsl(var(--chart-4))",
     },
   } satisfies ChartConfig
 
   const getErrorSeverity = (errorPercent: number) => {
-    if (errorPercent >= 20) return { level: 'critical', color: '#dc2626', label: 'Critical' } // Red 600
-    if (errorPercent >= 15) return { level: 'high', color: '#ea580c', label: 'High' } // Orange 600
-    if (errorPercent >= 10) return { level: 'medium', color: '#ca8a04', label: 'Medium' } // Yellow 600
-    return { level: 'low', color: '#16a34a', label: 'Low' } // Green 600
+    if (errorPercent >= 20) return { level: 'critical', color: 'hsl(var(--destructive))', label: 'Critical' }
+    if (errorPercent >= 15) return { level: 'high', color: 'hsl(var(--chart-4))', label: 'High' }
+    if (errorPercent >= 10) return { level: 'medium', color: 'hsl(var(--chart-3))', label: 'Medium' }
+    return { level: 'low', color: 'hsl(var(--chart-2))', label: 'Low' }
   }
 
   const getTrend = (historical: TopSKUErrorData['historical_comparison']) => {
@@ -160,7 +104,7 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <BarChart3 className="h-5 w-5 text-neutral-600" />
+            <BarChart3 className="h-5 w-5 text-muted-foreground" />
             <CardTitle>Top 10 SKUs by Forecast Error</CardTitle>
             <ExplainerTrigger onClick={() => setExplainerOpen(true)} />
           </div>
@@ -177,137 +121,231 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
             </Tooltip>
           </TooltipProvider>
         </div>
-        <p className="text-sm text-neutral-600">
+        <p className="text-sm text-muted-foreground">
           Click on any bar to view historical forecast comparison
         </p>
       </CardHeader>
       
       <CardContent>
+        {isLoading && (
+          <div className="flex items-center justify-center h-[400px]">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        )}
+        
+        {isError && (
+          <div className="flex items-center justify-center h-[400px]">
+            <div className="text-center">
+              <AlertTriangle className="h-8 w-8 text-destructive mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground">Failed to load SKU error data</p>
+            </div>
+          </div>
+        )}
+        
+        {!isLoading && !isError && data.length === 0 && (
+          <div className="flex items-center justify-center h-[400px]">
+            <div className="text-center">
+              <Package className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground">No SKU error data available</p>
+            </div>
+          </div>
+        )}
+        
+        {!isLoading && !isError && data.length > 0 && (
+          <>
         <ChartContainer config={chartConfig} className="h-[400px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart 
-              data={data} 
-              layout="horizontal"
-              margin={{ top: 20, right: 30, left: 120, bottom: 20 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.3} />
-              <XAxis 
-                type="number"
-                domain={[0, 30]}
-                fontSize={12}
-                tickFormatter={(value) => `${value}%`}
-                tick={{ fill: 'hsl(var(--muted-foreground))' }}
-              />
-              <YAxis 
-                type="category"
-                dataKey="name"
-                fontSize={12}
-                tick={{ fill: 'hsl(var(--muted-foreground))' }}
-                width={110}
-                tickFormatter={(value) => value.length > 15 ? `${value.substring(0, 15)}...` : value}
-              />
-              
-              <ChartTooltip 
-                content={({ active, payload, label }) => {
-                  if (active && payload && payload.length) {
-                    const data = payload[0].payload
-                    const severity = getErrorSeverity(data.error_percentage)
-                    const trend = getTrend(data.historical_comparison)
-                    const trendIcon = trend === 'improving' ? '📈' : trend === 'worsening' ? '📉' : '➡️'
+          <BarChart 
+            data={data} 
+            layout="horizontal"
+            margin={{ 
+              top: 5, 
+              right: 30, 
+              left: 150, 
+              bottom: 5 
+            }}
+            accessibilityLayer
+          >
+            <CartesianGrid 
+              horizontal={false} 
+              strokeDasharray="3 3" 
+              className="stroke-muted/20"
+            />
+            <XAxis 
+              type="number"
+              dataKey="error_percentage"
+              domain={[0, 'dataMax + 5']}
+              tickFormatter={(value) => `${value}%`}
+              className="text-xs"
+              axisLine={false}
+              tickLine={false}
+            />
+            <YAxis 
+              type="category"
+              dataKey="name"
+              className="text-xs"
+              axisLine={false}
+              tickLine={false}
+              width={140}
+              tick={({ x, y, payload }) => (
+                <g transform={`translate(${x},${y})`}>
+                  <text
+                    x={-10}
+                    y={0}
+                    dy={4}
+                    textAnchor="end"
+                    fill="currentColor"
+                    className="fill-muted-foreground text-xs font-medium"
+                  >
+                    {payload.value.length > 20 
+                      ? `${payload.value.substring(0, 20)}...` 
+                      : payload.value}
+                  </text>
+                </g>
+              )}
+            />
+            
+            <ChartTooltip 
+              cursor={{ fill: 'hsl(var(--muted))', opacity: 0.1 }}
+              content={
+                <ChartTooltipContent 
+                  className="w-[280px]"
+                  labelClassName="font-semibold"
+                  formatter={(value, name, props) => {
+                    const item = props.payload
+                    const severity = getErrorSeverity(item.error_percentage)
+                    const trend = getTrend(item.historical_comparison)
                     
                     return (
-                      <div className="rounded-lg border bg-background p-3 shadow-md">
-                        <div className="space-y-2">
-                          <div className="font-medium">{label}</div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-muted-foreground">Forecast Error:</span>
-                            <span className="font-mono font-bold text-destructive">
-                              {data.error_percentage.toFixed(1)}%
-                            </span>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-muted-foreground">Error Rate:</span>
+                          <span className="font-mono font-bold" style={{ color: severity.color }}>
+                            {Number(value).toFixed(1)}%
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-muted-foreground">SKU:</span>
+                          <span className="font-medium">{item.sku}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-muted-foreground">Category:</span>
+                          <span>{item.category}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-muted-foreground">Volume:</span>
+                          <span className="font-mono">{item.volume.toLocaleString()}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-muted-foreground">Severity:</span>
+                          <Badge 
+                            variant={severity.level === 'critical' ? 'destructive' : 
+                                   severity.level === 'high' ? 'default' : 'secondary'}
+                            className="h-5 text-xs"
+                          >
+                            {severity.label}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-muted-foreground">Trend:</span>
+                          <div className="flex items-center gap-1">
+                            {trend === 'improving' && <TrendingDown className="h-3 w-3 text-success" />}
+                            {trend === 'worsening' && <TrendingUp className="h-3 w-3 text-destructive" />}
+                            {trend === 'stable' && <ChevronRight className="h-3 w-3 text-muted-foreground" />}
+                            <span className="capitalize">{trend}</span>
                           </div>
-                          <div className="space-y-1 text-xs">
-                            <div className="flex justify-between">
-                              <span className="text-muted-foreground">Category:</span>
-                              <span className="font-medium">{data.category}</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-muted-foreground">Volume:</span>
-                              <span className="font-mono">{data.volume.toLocaleString()}</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-muted-foreground">Severity:</span>
-                              <Badge variant={severity.level === 'critical' ? 'destructive' : 'secondary'}>
-                                {severity.label}
-                              </Badge>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-muted-foreground">Trend:</span>
-                              <span className="flex items-center gap-1">
-                                {trendIcon} {trend}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="pt-1 border-t">
-                            <p className="text-xs text-muted-foreground">Click to view historical comparison</p>
-                          </div>
+                        </div>
+                        <div className="mt-1 pt-1 border-t text-xs text-muted-foreground">
+                          Click to view historical comparison
                         </div>
                       </div>
                     )
-                  }
-                  return null
-                }}
-              />
-              
-              <ReferenceLine x={15} stroke="hsl(var(--destructive))" strokeDasharray="3 3" />
-              
-              <Bar 
-                dataKey="error_percentage" 
-                radius={[0, 4, 4, 0]}
-                onClick={(data) => handleSKUClick(data)}
-                style={{ cursor: 'pointer' }}
-              >
-                {data.map((entry, index) => {
-                  const severity = getErrorSeverity(entry.error_percentage)
-                  return (
-                    <Cell 
-                      key={`cell-${index}`} 
-                      fill={severity.color}
-                      stroke="none"
-                    />
-                  )
-                })}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+                  }}
+                />
+              }
+            />
+            
+            <ReferenceLine 
+              x={15} 
+              stroke="hsl(var(--destructive))" 
+              strokeDasharray="5 5"
+              opacity={0.5}
+              label={{
+                value: "Target",
+                position: "top",
+                className: "fill-destructive text-xs",
+              }}
+            />
+            
+            <Bar 
+              dataKey="error_percentage" 
+              radius={[0, 4, 4, 0]}
+              onClick={(data) => handleSKUClick(data)}
+              className="cursor-pointer transition-opacity hover:opacity-80"
+              animationDuration={600}
+              animationBegin={0}
+            >
+              {data.map((entry, index) => {
+                const severity = getErrorSeverity(entry.error_percentage)
+                const colorVar = severity.level === 'critical' ? 'hsl(var(--destructive))' :
+                               severity.level === 'high' ? 'hsl(var(--chart-2))' :
+                               severity.level === 'medium' ? 'hsl(var(--chart-3))' :
+                               'hsl(var(--chart-4))'
+                return (
+                  <Cell 
+                    key={`cell-${index}`} 
+                    fill={colorVar}
+                  />
+                )
+              })}
+            </Bar>
+          </BarChart>
         </ChartContainer>
 
         {/* Quick Stats */}
-        <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          <div className="space-y-1">
-            <div className="text-xs text-neutral-500">Avg Error</div>
-            <div className="text-lg font-bold text-error">
-              {(data.reduce((acc, item) => acc + item.error_percentage, 0) / data.length).toFixed(1)}%
+        <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="rounded-lg border bg-card p-3">
+            <div className="flex flex-col items-center justify-center space-y-1">
+              <div className="text-xs font-medium text-muted-foreground">Average Error</div>
+              <div className="text-2xl font-bold tabular-nums text-destructive">
+                {(data.reduce((acc, item) => acc + item.error_percentage, 0) / data.length).toFixed(1)}%
+              </div>
             </div>
           </div>
-          <div className="space-y-1">
-            <div className="text-xs text-neutral-500">Critical SKUs</div>
-            <div className="text-lg font-bold text-error">
-              {data.filter(item => item.error_percentage >= 20).length}
+          <div className="rounded-lg border bg-card p-3">
+            <div className="flex flex-col items-center justify-center space-y-1">
+              <div className="text-xs font-medium text-muted-foreground">Critical SKUs</div>
+              <div className="flex items-baseline gap-1">
+                <span className="text-2xl font-bold tabular-nums text-destructive">
+                  {data.filter(item => item.error_percentage >= 20).length}
+                </span>
+                <span className="text-sm text-muted-foreground">/ {data.length}</span>
+              </div>
             </div>
           </div>
-          <div className="space-y-1">
-            <div className="text-xs text-neutral-500">Total Volume</div>
-            <div className="text-lg font-bold">
-              {data.reduce((acc, item) => acc + item.volume, 0).toLocaleString()}
+          <div className="rounded-lg border bg-card p-3">
+            <div className="flex flex-col items-center justify-center space-y-1">
+              <div className="text-xs font-medium text-muted-foreground">Total Volume</div>
+              <div className="text-2xl font-bold tabular-nums">
+                {(data.reduce((acc, item) => acc + item.volume, 0) / 1000).toFixed(1)}K
+              </div>
             </div>
           </div>
-          <div className="space-y-1">
-            <div className="text-xs text-neutral-500">Categories</div>
-            <div className="text-lg font-bold">
-              {new Set(data.map(item => item.category)).size}
+          <div className="rounded-lg border bg-card p-3">
+            <div className="flex flex-col items-center justify-center space-y-1">
+              <div className="text-xs font-medium text-muted-foreground">Categories</div>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl font-bold tabular-nums">
+                  {new Set(data.map(item => item.category)).size}
+                </span>
+                <Badge variant="secondary" className="text-xs">
+                  Unique
+                </Badge>
+              </div>
             </div>
           </div>
         </div>
+        </>
+        )}
       </CardContent>
 
       {/* Historical Comparison Dialog */}
@@ -345,9 +383,9 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
                   <div className="text-xs text-muted-foreground">Trend</div>
                   <div className="flex items-center gap-1">
                     {getTrend(selectedSKU.historical_comparison) === 'improving' ? (
-                      <><TrendingDown className="h-4 w-4 text-green-600" /> <span className="text-green-600">Improving</span></>
+                      <><TrendingDown className="h-4 w-4 text-success" /> <span className="text-success">Improving</span></>
                     ) : getTrend(selectedSKU.historical_comparison) === 'worsening' ? (
-                      <><TrendingUp className="h-4 w-4 text-red-600" /> <span className="text-red-600">Worsening</span></>
+                      <><TrendingUp className="h-4 w-4 text-destructive" /> <span className="text-destructive">Worsening</span></>
                     ) : (
                       <><span className="text-muted-foreground">Stable</span></>
                     )}

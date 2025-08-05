@@ -103,19 +103,19 @@ export default function DOHLineChart({ filters: _filters, className }: DOHLineCh
   const chartConfig = {
     Electronics: {
       label: "Electronics",
-      color: "#3b82f6",
+      color: "hsl(var(--chart-1))",
     },
     Apparel: {
       label: "Apparel", 
-      color: "#10b981",
+      color: "hsl(var(--chart-2))",
     },
     'Home & Garden': {
       label: "Home & Garden",
-      color: "#f59e0b",
+      color: "hsl(var(--chart-3))",
     },
     Sports: {
       label: "Sports",
-      color: "#8b5cf6",
+      color: "hsl(var(--chart-4))",
     },
   } satisfies ChartConfig
 
@@ -129,9 +129,9 @@ export default function DOHLineChart({ filters: _filters, className }: DOHLineCh
 
   const getAgingColor = (category: 'healthy' | 'aging' | 'excess') => {
     switch (category) {
-      case 'healthy': return 'text-green-600'
-      case 'aging': return 'text-yellow-600'
-      case 'excess': return 'text-red-600'
+      case 'healthy': return 'text-success'
+      case 'aging': return 'text-warning'
+      case 'excess': return 'text-destructive'
     }
   }
 
@@ -144,10 +144,10 @@ export default function DOHLineChart({ filters: _filters, className }: DOHLineCh
   }
 
   const getDOHLevel = (doh: number) => {
-    if (doh <= 20) return { level: 'excellent', color: '#22c55e', label: 'Optimal' }
-    if (doh <= 30) return { level: 'good', color: '#3b82f6', label: 'Good' }
-    if (doh <= 40) return { level: 'warning', color: '#eab308', label: 'High' }
-    return { level: 'critical', color: '#ef4444', label: 'Excess' }
+    if (doh <= 20) return { level: 'excellent', color: 'hsl(var(--success))', label: 'Optimal' }
+    if (doh <= 30) return { level: 'good', color: 'hsl(var(--chart-1))', label: 'Good' }
+    if (doh <= 40) return { level: 'warning', color: 'hsl(var(--warning))', label: 'High' }
+    return { level: 'critical', color: 'hsl(var(--destructive))', label: 'Excess' }
   }
 
   const handleGroupClick = (groupName: string) => {
@@ -298,13 +298,13 @@ export default function DOHLineChart({ filters: _filters, className }: DOHLineCh
           </div>
           <div className="space-y-1">
             <div className="text-xs text-muted-foreground">Aging Items</div>
-            <div className="text-lg font-bold text-yellow-600">
+            <div className="text-lg font-bold text-warning">
               {overallStats.agingSKUs}
             </div>
           </div>
           <div className="space-y-1">
             <div className="text-xs text-muted-foreground">Excess Items</div>
-            <div className="text-lg font-bold text-red-600">
+            <div className="text-lg font-bold text-destructive">
               {overallStats.excessSKUs}
             </div>
           </div>
@@ -316,8 +316,8 @@ export default function DOHLineChart({ filters: _filters, className }: DOHLineCh
             const level = getDOHLevel(group.average_doh)
             const trendIcon = group.trend_direction === 'up' ? TrendingUp : 
                              group.trend_direction === 'down' ? TrendingDown : null
-            const trendColor = group.trend_direction === 'up' ? 'text-red-600' : 
-                              group.trend_direction === 'down' ? 'text-green-600' : 'text-muted-foreground'
+            const trendColor = group.trend_direction === 'up' ? 'text-destructive' : 
+                              group.trend_direction === 'down' ? 'text-success' : 'text-muted-foreground'
             
             return (
               <Card 
@@ -398,11 +398,11 @@ export default function DOHLineChart({ filters: _filters, className }: DOHLineCh
                           </div>
                           <div className="text-center">
                             <div className="text-xs text-muted-foreground">Healthy Items</div>
-                            <div className="text-lg font-bold text-green-600">{healthyCount}</div>
+                            <div className="text-lg font-bold text-success">{healthyCount}</div>
                           </div>
                           <div className="text-center">
                             <div className="text-xs text-muted-foreground">Risk Items</div>
-                            <div className="text-lg font-bold text-red-600">{agingCount + excessCount}</div>
+                            <div className="text-lg font-bold text-destructive">{agingCount + excessCount}</div>
                           </div>
                         </>
                       )

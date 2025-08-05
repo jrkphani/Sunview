@@ -167,10 +167,10 @@ export default function ClientVolatilityHeatmap({ className }: ClientVolatilityH
 
   const getRiskColor = (level: string) => {
     switch (level) {
-      case 'critical': return 'bg-error'
-      case 'high': return 'bg-forecast-medium'
-      case 'medium': return 'bg-warning'
-      case 'low': return 'bg-success'
+      case 'critical': return 'bg-destructive'
+      case 'high': return 'bg-orange-500'
+      case 'medium': return 'bg-yellow-500'
+      case 'low': return 'bg-green-500'
       default: return 'bg-muted'
     }
   }
@@ -179,8 +179,8 @@ export default function ClientVolatilityHeatmap({ className }: ClientVolatilityH
     // Return base text color - we'll handle backgrounds separately for better contrast
     if (score >= 80) return 'text-white'
     if (score >= 60) return 'text-white'
-    if (score >= 40) return 'text-neutral-800'
-    return 'text-neutral-800'
+    if (score >= 40) return 'text-foreground'
+    return 'text-foreground'
   }
 
   const getIntensity = (score: number) => {
@@ -189,8 +189,8 @@ export default function ClientVolatilityHeatmap({ className }: ClientVolatilityH
 
   const getTrendIcon = (trend: string) => {
     switch (trend) {
-      case 'up': return <TrendingUp className="h-3 w-3 text-error" />
-      case 'down': return <TrendingDown className="h-3 w-3 text-success" />
+      case 'up': return <TrendingUp className="h-3 w-3 text-destructive" />
+      case 'down': return <TrendingDown className="h-3 w-3 text-green-600" />
       default: return <Activity className="h-3 w-3 text-muted-foreground" />
     }
   }
@@ -264,19 +264,19 @@ export default function ClientVolatilityHeatmap({ className }: ClientVolatilityH
             <h4 className="font-semibold text-sm">Volatility Heatmap</h4>
             <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 bg-success rounded" />
+                <div className="w-3 h-3 bg-green-500 rounded" />
                 <span>Low (0-40)</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 bg-warning rounded" />
+                <div className="w-3 h-3 bg-yellow-500 rounded" />
                 <span>Medium (40-60)</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 bg-forecast-medium rounded" />
+                <div className="w-3 h-3 bg-orange-500 rounded" />
                 <span>High (60-80)</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 bg-error rounded" />
+                <div className="w-3 h-3 bg-destructive rounded" />
                 <span>Critical (80+)</span>
               </div>
             </div>
@@ -290,10 +290,10 @@ export default function ClientVolatilityHeatmap({ className }: ClientVolatilityH
                   "relative p-4 rounded-lg border-2 hover:shadow-md transition-all cursor-pointer min-h-[200px] flex flex-col",
                   getVolatilityColor(client.volatilityScore),
                   // Enhanced background colors with proper contrast
-                  client.volatilityScore >= 80 ? 'bg-error/80 border-error' :
-                  client.volatilityScore >= 60 ? 'bg-forecast-medium/80 border-forecast-medium' :
-                  client.volatilityScore >= 40 ? 'bg-warning/60 border-warning' :
-                  'bg-success/60 border-success'
+                  client.volatilityScore >= 80 ? 'bg-destructive/80 border-destructive' :
+                  client.volatilityScore >= 60 ? 'bg-orange-500/80 border-orange-500' :
+                  client.volatilityScore >= 40 ? 'bg-yellow-500/60 border-yellow-500' :
+                  'bg-green-500/60 border-green-500'
                 )}
               >
                 <div className="space-y-3 flex-1">
@@ -311,7 +311,7 @@ export default function ClientVolatilityHeatmap({ className }: ClientVolatilityH
                       variant="secondary" 
                       className={cn(
                         "text-xs w-fit",
-                        client.volatilityScore >= 60 ? 'bg-white/90 text-neutral-800' : 'bg-neutral-800/90 text-white'
+                        client.volatilityScore >= 60 ? 'bg-white/90 text-foreground' : 'bg-foreground/90 text-white'
                       )}
                     >
                       {getPercentileRank(client.percentile)}
@@ -353,7 +353,7 @@ export default function ClientVolatilityHeatmap({ className }: ClientVolatilityH
                       variant="outline" 
                       className={cn("text-xs font-semibold", {
                         'border-white text-white bg-white/20': client.riskLevel === 'critical' || client.riskLevel === 'high',
-                        'border-neutral-800 text-neutral-800 bg-neutral-800/20': client.riskLevel === 'medium' || client.riskLevel === 'low'
+                        'border-foreground text-foreground bg-foreground/20': client.riskLevel === 'medium' || client.riskLevel === 'low'
                       })}
                     >
                       {client.riskLevel.toUpperCase()}
@@ -363,7 +363,7 @@ export default function ClientVolatilityHeatmap({ className }: ClientVolatilityH
                       variant="ghost" 
                       className={cn(
                         "h-6 px-2 text-xs",
-                        client.volatilityScore >= 60 ? 'text-white hover:bg-white/20' : 'text-neutral-800 hover:bg-neutral-800/20'
+                        client.volatilityScore >= 60 ? 'text-white hover:bg-white/20' : 'text-foreground hover:bg-foreground/20'
                       )}
                     >
                       <Eye className="h-3 w-3" />
@@ -409,9 +409,9 @@ export default function ClientVolatilityHeatmap({ className }: ClientVolatilityH
                           key={index}
                           className={cn(
                             "w-2 h-4 rounded-sm",
-                            variance > 30 ? 'bg-error' : 
-                            variance > 20 ? 'bg-forecast-medium' : 
-                            variance > 10 ? 'bg-warning' : 'bg-success'
+                            variance > 30 ? 'bg-destructive' : 
+                            variance > 20 ? 'bg-orange-500' : 
+                            variance > 10 ? 'bg-yellow-500' : 'bg-green-500'
                           )}
                           style={{
                             opacity: 0.3 + (variance / 50) * 0.7
@@ -429,7 +429,7 @@ export default function ClientVolatilityHeatmap({ className }: ClientVolatilityH
         <div className="pt-4 border-t">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-warning" />
+              <AlertTriangle className="h-4 w-4 text-yellow-600" />
               <span className="text-sm font-medium">
                 {filteredData.filter(c => c.riskLevel === 'critical' || c.riskLevel === 'high').length} clients 
                 require immediate attention

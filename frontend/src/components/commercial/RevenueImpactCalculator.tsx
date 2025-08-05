@@ -197,17 +197,17 @@ export default function RevenueImpactCalculator({ className }: RevenueImpactCalc
     switch (risk) {
       case 'low': return 'text-green-600 bg-green-100 border-green-300'
       case 'medium': return 'text-yellow-600 bg-yellow-100 border-yellow-300'
-      case 'high': return 'text-red-600 bg-red-100 border-red-300'
-      default: return 'text-gray-600 bg-gray-100 border-gray-300'
+      case 'high': return 'text-destructive bg-destructive/10 border-destructive/30'
+      default: return 'text-muted-foreground bg-muted border-border'
     }
   }
 
   const breakdownData = [
-    { name: 'Price Impact', value: impact.breakdown.priceImpact, color: '#22c55e' },
-    { name: 'Volume Impact', value: Math.abs(impact.breakdown.volumeImpact), color: '#ef4444' },
-    { name: 'New Services', value: impact.breakdown.newServiceImpact, color: '#3b82f6' },
-    { name: 'Market Expansion', value: impact.breakdown.marketExpansionImpact, color: '#8b5cf6' },
-    { name: 'Retention Impact', value: Math.abs(impact.breakdown.retentionImpact), color: '#f59e0b' }
+    { name: 'Price Impact', value: impact.breakdown.priceImpact, color: 'hsl(var(--chart-2))' },
+    { name: 'Volume Impact', value: Math.abs(impact.breakdown.volumeImpact), color: 'hsl(var(--chart-5))' },
+    { name: 'New Services', value: impact.breakdown.newServiceImpact, color: 'hsl(var(--chart-1))' },
+    { name: 'Market Expansion', value: impact.breakdown.marketExpansionImpact, color: 'hsl(var(--chart-3))' },
+    { name: 'Retention Impact', value: Math.abs(impact.breakdown.retentionImpact), color: 'hsl(var(--chart-4))' }
   ]
 
   return (
@@ -352,16 +352,16 @@ export default function RevenueImpactCalculator({ className }: RevenueImpactCalc
                 {/* Key Metrics */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center p-3 bg-success/10 rounded-lg border border-success/30">
-                    <div className="text-sm text-neutral-600">Revenue Increase</div>
-                    <div className="text-xl font-bold text-success">{formatCurrency(impact.revenueIncrease)}</div>
-                    <div className="text-xs text-neutral-600">
+                    <div className="text-sm text-muted-foreground">Revenue Increase</div>
+                    <div className="text-xl font-bold text-green-600">{formatCurrency(impact.revenueIncrease)}</div>
+                    <div className="text-xs text-muted-foreground">
                       {formatPercent((impact.revenueIncrease / baselineMetrics.currentRevenue) * 100)} growth
                     </div>
                   </div>
                   <div className="text-center p-3 bg-primary/10 rounded-lg border border-primary/30">
-                    <div className="text-sm text-neutral-600">Margin Improvement</div>
+                    <div className="text-sm text-muted-foreground">Margin Improvement</div>
                     <div className="text-xl font-bold text-primary">{formatPercent(impact.marginImprovement)}</div>
-                    <div className="text-xs text-neutral-600">
+                    <div className="text-xs text-muted-foreground">
                       From {baselineMetrics.currentMargin.toFixed(1)}% to {impact.newMargin.toFixed(1)}%
                     </div>
                   </div>
@@ -566,10 +566,10 @@ export default function RevenueImpactCalculator({ className }: RevenueImpactCalc
                     <Line 
                       type="monotone" 
                       dataKey="revenue" 
-                      stroke="#22c55e" 
+                      stroke="hsl(var(--chart-2))" 
                       strokeWidth={3}
-                      dot={{ fill: '#22c55e', strokeWidth: 2, r: 4 }}
-                      activeDot={{ r: 6, stroke: '#22c55e', strokeWidth: 2 }}
+                      dot={{ fill: 'hsl(var(--chart-2))', strokeWidth: 2, r: 4 }}
+                      activeDot={{ r: 6, stroke: 'hsl(var(--chart-2))', strokeWidth: 2 }}
                     />
                   </LineChart>
                 </ResponsiveContainer>

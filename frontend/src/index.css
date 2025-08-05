@@ -5,14 +5,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design Tokens CSS Variables - GXO Signify Forecasting */
+/* Design Tokens CSS Variables - Supply Chain Forecasting */
 :root {
-  /* Core shadcn/ui Colors with GXO Branding */
+  /* Core shadcn/ui Colors with Professional Branding */
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
   
-  /* Primary Brand - Light Blue for GXO */
-  --primary: 210 83% 53%;           /* Updated to more vibrant GXO blue */
+  /* Primary Brand - Professional Blue */
+  --primary: 217 91% 60%;           /* Neutral professional blue */
   --primary-foreground: 210 40% 98%;
   
   /* Secondary */
@@ -34,7 +34,7 @@
   /* Border, Input, Ring */
   --border: 214.3 31.8% 91.4%;
   --input: 214.3 31.8% 91.4%;
-  --ring: 210 83% 53%;
+  --ring: 217 91% 60%;
   --radius: 0.5rem;
   
   /* Card and Popover */
@@ -44,7 +44,7 @@
   --popover-foreground: 222.2 84% 4.9%;
   
   /* Chart Colors for Recharts Integration */
-  --chart-1: 210 83% 53%;           /* Primary GXO blue */
+  --chart-1: 217 91% 60%;           /* Primary blue */
   --chart-2: 142 76% 36%;           /* Operational green */
   --chart-3: 262 83% 58%;           /* Commercial purple */
   --chart-4: 45 93% 47%;            /* Warning amber */

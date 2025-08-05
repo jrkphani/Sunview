@@ -110,13 +110,13 @@ export default function TruckUtilizationAreaChart({ filters: _filters, className
   } satisfies ChartConfig
 
   const trendIcon = data.trend_direction === 'up' ? TrendingUp : TrendingDown
-  const trendColor = data.trend_direction === 'up' ? 'text-green-600' : 'text-red-600'
+  const trendColor = data.trend_direction === 'up' ? 'text-success' : 'text-destructive'
   
   const getUtilizationLevel = (util: number) => {
-    if (util >= 85) return { level: 'excellent', color: '#22c55e', label: 'Excellent' }
-    if (util >= 75) return { level: 'good', color: '#3b82f6', label: 'Good' }
-    if (util >= 65) return { level: 'fair', color: '#eab308', label: 'Fair' }
-    return { level: 'poor', color: '#ef4444', label: 'Needs Improvement' }
+    if (util >= 85) return { level: 'excellent', color: 'hsl(var(--success))', label: 'Excellent' }
+    if (util >= 75) return { level: 'good', color: 'hsl(var(--chart-1))', label: 'Good' }
+    if (util >= 65) return { level: 'fair', color: 'hsl(var(--warning))', label: 'Fair' }
+    return { level: 'poor', color: 'hsl(var(--destructive))', label: 'Needs Improvement' }
   }
 
   const currentLevel = getUtilizationLevel(data.seven_day_average)
@@ -216,7 +216,7 @@ export default function TruckUtilizationAreaChart({ filters: _filters, className
                           </div>
                           <div className="flex justify-between">
                             <span className="text-muted-foreground">vs Target (80%):</span>
-                            <span className={util >= 80 ? 'text-green-600' : 'text-red-600'}>
+                            <span className={util >= 80 ? 'text-success' : 'text-destructive'}>
                               {util >= 80 ? '+' : ''}{(util - 80).toFixed(1)}%
                             </span>
                           </div>
@@ -267,7 +267,7 @@ export default function TruckUtilizationAreaChart({ filters: _filters, className
         <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
           <div className="space-y-1">
             <div className="text-xs text-muted-foreground">Peak Utilization</div>
-            <div className="text-lg font-bold text-green-600">
+            <div className="text-lg font-bold text-success">
               {Math.max(...data.time_series.map(d => d.utilization)).toFixed(1)}%
             </div>
           </div>
@@ -279,7 +279,7 @@ export default function TruckUtilizationAreaChart({ filters: _filters, className
           </div>
           <div className="space-y-1">
             <div className="text-xs text-muted-foreground">Potential Savings</div>
-            <div className="text-lg font-bold text-blue-600">
+            <div className="text-lg font-bold text-primary">
               ${totalSavings.toLocaleString()}
             </div>
           </div>
@@ -345,13 +345,13 @@ export default function TruckUtilizationAreaChart({ filters: _filters, className
                     </div>
                     <div className="text-center">
                       <div className="text-xs text-muted-foreground">Best Day</div>
-                      <div className="text-lg font-bold text-green-600">
+                      <div className="text-lg font-bold text-success">
                         {Math.max(...data.time_series.map(d => d.utilization)).toFixed(1)}%
                       </div>
                     </div>
                     <div className="text-center">
                       <div className="text-xs text-muted-foreground">Worst Day</div>
-                      <div className="text-lg font-bold text-red-600">
+                      <div className="text-lg font-bold text-destructive">
                         {Math.min(...data.time_series.map(d => d.utilization)).toFixed(1)}%
                       </div>
                     </div>
@@ -382,7 +382,7 @@ export default function TruckUtilizationAreaChart({ filters: _filters, className
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-base flex items-center gap-2">
-                      <DollarSign className="h-4 w-4 text-green-600" />
+                      <DollarSign className="h-4 w-4 text-success" />
                       Potential Monthly Savings: ${totalSavings.toLocaleString()}
                     </CardTitle>
                   </CardHeader>
@@ -444,13 +444,13 @@ export default function TruckUtilizationAreaChart({ filters: _filters, className
                           <div className="grid grid-cols-2 gap-4 text-sm">
                             <div>
                               <div className="text-muted-foreground">Current Utilization</div>
-                              <div className="font-medium text-red-600">
+                              <div className="font-medium text-destructive">
                                 {opportunity.current_utilization.toFixed(1)}%
                               </div>
                             </div>
                             <div>
                               <div className="text-muted-foreground">Optimized Utilization</div>
-                              <div className="font-medium text-green-600">
+                              <div className="font-medium text-success">
                                 {opportunity.optimized_utilization.toFixed(1)}%
                               </div>
                             </div>
@@ -458,7 +458,7 @@ export default function TruckUtilizationAreaChart({ filters: _filters, className
                           
                           <div className="flex items-center gap-2">
                             <div className="text-xs text-muted-foreground">Improvement:</div>
-                            <div className="text-xs font-medium text-green-600">
+                            <div className="text-xs font-medium text-success">
                               +{(opportunity.optimized_utilization - opportunity.current_utilization).toFixed(1)}%
                             </div>
                           </div>

@@ -54,16 +54,16 @@ export interface ExplainerProps {
 }
 
 const difficultyColors = {
-  beginner: 'bg-green-100 text-green-800 border-green-200',
-  intermediate: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-  advanced: 'bg-red-100 text-red-800 border-red-200'
+  beginner: 'bg-success/10 text-success border-success/20',
+  intermediate: 'bg-warning/10 text-warning border-warning/20',
+  advanced: 'bg-destructive/10 text-destructive border-destructive/20'
 }
 
 const gradeColors = {
-  excellent: 'text-green-600',
-  good: 'text-blue-600',
-  fair: 'text-yellow-600',
-  poor: 'text-red-600'
+  excellent: 'text-success',
+  good: 'text-primary',
+  fair: 'text-warning',
+  poor: 'text-destructive'
 }
 
 const gradeIcons = {
@@ -96,7 +96,7 @@ export function InsightExplainer({
         <DialogHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <BookOpen className="h-6 w-6 text-blue-600" />
+              <BookOpen className="h-6 w-6 text-primary" />
               <DialogTitle className="text-xl font-semibold">{title}</DialogTitle>
             </div>
             <div className="flex items-center gap-2">
@@ -130,7 +130,7 @@ export function InsightExplainer({
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="bg-slate-50 p-4 rounded-lg font-mono text-sm border">
+                <div className="bg-muted p-4 rounded-lg font-mono text-sm border">
                   {formula}
                 </div>
               </CardContent>
@@ -231,23 +231,23 @@ export function InsightExplainer({
                     <p className="text-sm text-muted-foreground">{example.description}</p>
                     
                     {example.calculation && (
-                      <div className="bg-slate-50 p-3 rounded border">
-                        <p className="text-xs font-medium text-slate-600 mb-1">Calculation:</p>
+                      <div className="bg-muted p-3 rounded border">
+                        <p className="text-xs font-medium text-muted-foreground mb-1">Calculation:</p>
                         <code className="text-sm">{example.calculation}</code>
                       </div>
                     )}
                     
                     {example.result && (
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-medium text-slate-600">Result:</span>
+                        <span className="text-xs font-medium text-muted-foreground">Result:</span>
                         <Badge variant="secondary">{example.result}</Badge>
                       </div>
                     )}
                     
                     {example.interpretation && (
-                      <div className="bg-blue-50 p-3 rounded border-l-4 border-blue-200">
-                        <p className="text-xs font-medium text-blue-800 mb-1">Interpretation:</p>
-                        <p className="text-sm text-blue-700">{example.interpretation}</p>
+                      <div className="bg-primary/5 p-3 rounded border-l-4 border-primary/20">
+                        <p className="text-xs font-medium text-primary mb-1">Interpretation:</p>
+                        <p className="text-sm text-primary/80">{example.interpretation}</p>
                       </div>
                     )}
                     
@@ -306,8 +306,8 @@ export function ExplainerTrigger({
       size="sm"
       onClick={onClick}
       className={cn(
-        "h-6 w-6 p-0 hover:bg-slate-100 rounded-full",
-        "text-slate-500 hover:text-slate-700",
+        "h-6 w-6 p-0 hover:bg-muted rounded-full",
+        "text-muted-foreground hover:text-foreground",
         className
       )}
     >

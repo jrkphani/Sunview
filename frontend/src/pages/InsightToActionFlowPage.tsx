@@ -27,7 +27,7 @@ export default function InsightToActionFlowPage() {
                 <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
                   <Truck className="h-5 w-5 text-white" />
                 </div>
-                <span className="text-xl font-semibold text-neutral-900">GXO Forecasting Platform</span>
+                <span className="text-xl font-semibold text-neutral-900">Supply Chain Forecasting Platform</span>
               </div>
             </div>
           </div>
@@ -43,7 +43,7 @@ export default function InsightToActionFlowPage() {
       <footer className="bg-neutral-900 text-neutral-300 py-8 mt-24">
         <div className="container mx-auto px-6 text-center">
           <p className="text-sm">
-            © 2024 1CloudHub. GXO Forecasting Platform - Strategic Demo Site
+            © 2024 Supply Chain Forecasting Platform - Strategic Demo Site
           </p>
         </div>
       </footer>

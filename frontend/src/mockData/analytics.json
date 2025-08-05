@@ -1,0 +1,323 @@
+{
+  "processing_timestamp": "2025-01-15T14:30:00Z",
+  "overall_statistics": {
+    "total_skus_analyzed": 2847,
+    "active_skus": 1895,
+    "inactive_skus": 952,
+    "high_risk_skus": 247,
+    "total_inbound_quantity": 2847650,
+    "total_outbound_quantity": 2798420,
+    "unique_suppliers": 156,
+    "unique_customers": 892,
+    "unique_countries": 24,
+    "total_revenue": 285647000.00,
+    "avg_order_value": 387.45
+  },
+  "category_breakdown": {
+    "Electronics": {
+      "sku_count": 1420,
+      "total_volume": 1623450,
+      "total_value": 162345000.00,
+      "avg_margin": 24.5,
+      "growth_rate": 12.8
+    },
+    "Furniture": {
+      "sku_count": 687,
+      "total_volume": 456780,
+      "total_value": 91356000.00,
+      "avg_margin": 31.2,
+      "growth_rate": 8.4
+    },
+    "Office Supplies": {
+      "sku_count": 523,
+      "total_volume": 589420,
+      "total_value": 29471000.00,
+      "avg_margin": 18.9,
+      "growth_rate": 3.2
+    },
+    "Seasonal": {
+      "sku_count": 145,
+      "total_volume": 125600,
+      "total_value": 12560000.00,
+      "avg_margin": 45.8,
+      "growth_rate": -2.1
+    },
+    "Industrial": {
+      "sku_count": 72,
+      "total_volume": 42400,
+      "total_value": 8480000.00,
+      "avg_margin": 28.7,
+      "growth_rate": 15.6
+    }
+  },
+  "risk_distribution": {
+    "low_risk": {
+      "count": 1658,
+      "percentage": 58.2,
+      "avg_risk_score": 2.1
+    },
+    "medium_risk": {
+      "count": 942,
+      "percentage": 33.1,
+      "avg_risk_score": 5.4
+    },
+    "high_risk": {
+      "count": 247,
+      "percentage": 8.7,
+      "avg_risk_score": 8.2
+    }
+  },
+  "performance_metrics": {
+    "forecast_accuracy": 94.2,
+    "inventory_turnover": 8.6,
+    "fill_rate": 96.8,
+    "perfect_order_rate": 87.3,
+    "cost_per_order": 42.85,
+    "order_cycle_time": 18.5
+  },
+  "trend_analysis": {
+    "demand_volatility": {
+      "low": 1424,
+      "medium": 987,
+      "high": 436
+    },
+    "growth_patterns": {
+      "growing": 1289,
+      "stable": 892,
+      "declining": 666
+    },
+    "seasonality_impact": {
+      "high_seasonal": 234,
+      "moderate_seasonal": 678,
+      "non_seasonal": 1935
+    }
+  },
+  "top_volume_skus": [
+    {
+      "sku": "SKU_A1001",
+      "description": "Premium Wireless Headphones",
+      "category": "Electronics",
+      "total_volume": 15420,
+      "total_value": 2313000.00,
+      "growth_rate": 28.4,
+      "risk_score": 2.8,
+      "forecast_accuracy": 96.2
+    },
+    {
+      "sku": "SKU_F6006",
+      "description": "Wireless Mouse",
+      "category": "Electronics",
+      "total_volume": 12890,
+      "total_value": 644500.00,
+      "growth_rate": 2.1,
+      "risk_score": 1.2,
+      "forecast_accuracy": 98.7
+    },
+    {
+      "sku": "SKU_H8008",
+      "description": "USB-C Hub",
+      "category": "Electronics",
+      "total_volume": 9456,
+      "total_value": 1418400.00,
+      "growth_rate": 34.7,
+      "risk_score": 2.5,
+      "forecast_accuracy": 93.1
+    },
+    {
+      "sku": "SKU_B2002",
+      "description": "Bluetooth Smart Speaker",
+      "category": "Electronics",
+      "total_volume": 8965,
+      "total_value": 895600.00,
+      "growth_rate": -15.2,
+      "risk_score": 3.5,
+      "forecast_accuracy": 89.4
+    },
+    {
+      "sku": "SKU_D4004",
+      "description": "Ergonomic Keyboard",
+      "category": "Electronics",
+      "total_volume": 7892,
+      "total_value": 789200.00,
+      "growth_rate": 0.8,
+      "risk_score": 1.5,
+      "forecast_accuracy": 97.9
+    }
+  ],
+  "highest_risk_skus": [
+    {
+      "sku": "SKU_VOLATILE_001",
+      "description": "Gaming Graphics Card",
+      "category": "Electronics",
+      "total_volume": 1234,
+      "total_value": 1851000.00,
+      "risk_score": 8.5,
+      "primary_risk_factors": ["demand_volatility", "supplier_risk", "price_volatility"],
+      "recommended_actions": ["Increase safety stock", "Diversify suppliers", "Implement dynamic pricing"]
+    },
+    {
+      "sku": "SKU_DECLINING_001",
+      "description": "DVD Player",
+      "category": "Electronics",
+      "total_volume": 892,
+      "total_value": 89200.00,
+      "risk_score": 6.8,
+      "primary_risk_factors": ["declining_demand", "obsolescence_risk", "excess_inventory"],
+      "recommended_actions": ["Implement clearance strategy", "Stop new procurement", "Find liquidation channels"]
+    },
+    {
+      "sku": "SKU_SEASONAL_001",
+      "description": "Holiday Decorative Lighting",
+      "category": "Seasonal",
+      "total_volume": 25600,
+      "total_value": 768000.00,
+      "risk_score": 6.7,
+      "primary_risk_factors": ["extreme_seasonality", "inventory_carrying_cost", "demand_concentration"],
+      "recommended_actions": ["Optimize seasonal ordering", "Negotiate supplier terms", "Develop off-season channels"]
+    }
+  ],
+  "supplier_performance": [
+    {
+      "supplier": "TechCorp International",
+      "total_volume": 485670,
+      "unique_skus": 234,
+      "avg_lead_time": 14.2,
+      "quality_score": 94.8,
+      "delivery_performance": 96.2,
+      "risk_score": 2.1
+    },
+    {
+      "supplier": "Global Electronics Supply",
+      "total_volume": 367890,
+      "unique_skus": 189,
+      "avg_lead_time": 18.7,
+      "quality_score": 92.4,
+      "delivery_performance": 93.8,
+      "risk_score": 3.4
+    },
+    {
+      "supplier": "Office Furniture Plus",
+      "total_volume": 298450,
+      "unique_skus": 156,
+      "avg_lead_time": 21.3,
+      "quality_score": 96.7,
+      "delivery_performance": 94.5,
+      "risk_score": 2.8
+    },
+    {
+      "supplier": "Premium Component Dist",
+      "total_volume": 234560,
+      "unique_skus": 67,
+      "avg_lead_time": 12.1,
+      "quality_score": 97.9,
+      "delivery_performance": 98.1,
+      "risk_score": 1.6
+    }
+  ],
+  "customer_analysis": {
+    "total_customers": 892,
+    "customer_segments": {
+      "enterprise": {
+        "count": 89,
+        "avg_order_value": 1250.00,
+        "total_revenue": 142890000.00,
+        "retention_rate": 94.2
+      },
+      "mid_market": {
+        "count": 234,
+        "avg_order_value": 456.00,
+        "total_revenue": 89340000.00,
+        "retention_rate": 89.6
+      },
+      "small_business": {
+        "count": 569,
+        "avg_order_value": 187.00,
+        "total_revenue": 53417000.00,
+        "retention_rate": 82.1
+      }
+    },
+    "customer_concentration": {
+      "top_10_percent": 67.8,
+      "top_20_percent": 82.4,
+      "top_50_percent": 94.7
+    }
+  },
+  "geographic_performance": [
+    {
+      "region": "North America",
+      "total_volume": 1423890,
+      "total_value": 171446800.00,
+      "unique_customers": 542,
+      "growth_rate": 8.9,
+      "market_share": 15.2
+    },
+    {
+      "region": "Europe",
+      "total_volume": 867540,
+      "total_value": 86754000.00,
+      "unique_customers": 234,
+      "growth_rate": 12.4,
+      "market_share": 8.7
+    },
+    {
+      "region": "Asia Pacific",
+      "total_volume": 456780,
+      "total_value": 22839000.00,
+      "unique_customers": 89,
+      "growth_rate": 28.6,
+      "market_share": 3.1
+    },
+    {
+      "region": "Latin America",
+      "total_volume": 89670,
+      "total_value": 4483500.00,
+      "unique_customers": 27,
+      "growth_rate": 18.9,
+      "market_share": 1.2
+    }
+  ],
+  "insights_generated": 47,
+  "data_quality_metrics": {
+    "completeness": 97.8,
+    "accuracy": 94.2,
+    "consistency": 96.1,
+    "timeliness": 98.9,
+    "overall_score": 96.8
+  },
+  "forecast_performance": {
+    "overall_accuracy": 94.2,
+    "by_horizon": {
+      "1_day": 97.8,
+      "7_day": 95.1,
+      "14_day": 92.4,
+      "28_day": 87.9
+    },
+    "by_category": {
+      "Electronics": 93.8,
+      "Furniture": 95.6,
+      "Office Supplies": 96.2,
+      "Seasonal": 85.4,
+      "Industrial": 94.7
+    },
+    "by_risk_level": {
+      "low_risk": 96.8,
+      "medium_risk": 93.2,
+      "high_risk": 84.7
+    }
+  },
+  "operational_insights": {
+    "peak_days_per_month": 4.2,
+    "average_daily_volume": 7657,
+    "capacity_utilization": 73.2,
+    "seasonal_multiplier": 1.35,
+    "weekend_factor": 0.42
+  },
+  "financial_summary": {
+    "total_revenue": 285647000.00,
+    "total_cost_of_goods": 197937290.00,
+    "gross_profit": 87709710.00,
+    "gross_margin_percent": 30.7,
+    "inventory_value": 23847320.00,
+    "working_capital": 45678123.00
+  }
+}

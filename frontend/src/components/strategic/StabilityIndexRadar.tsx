@@ -57,12 +57,12 @@ interface StabilityIndexRadarProps {
 }
 
 const metricColors = [
-  'hsl(210, 70%, 50%)', // Blue
-  'hsl(120, 70%, 50%)', // Green
-  'hsl(30, 70%, 50%)',  // Orange
-  'hsl(280, 70%, 50%)', // Purple
-  'hsl(0, 70%, 50%)',   // Red
-  'hsl(60, 70%, 50%)'   // Yellow
+  'hsl(var(--chart-1))', // Blue
+  'hsl(var(--chart-2))', // Green
+  'hsl(var(--chart-4))',  // Orange
+  'hsl(var(--chart-3))', // Purple
+  'hsl(var(--chart-5))',   // Red
+  'hsl(var(--warning))'   // Yellow
 ]
 
 const stabilityThresholds = {
@@ -326,13 +326,13 @@ export default function StabilityIndexRadar({
                         <h3 className="font-semibold text-sm truncate flex-1 mr-2">{score.site}</h3>
                         <div className="flex items-center space-x-1 flex-shrink-0">
                           {score.category === 'excellent' ? (
-                            <CheckCircle className="h-4 w-4 text-success" />
+                            <CheckCircle className="h-4 w-4 text-green-600" />
                           ) : score.category === 'good' ? (
                             <Target className="h-4 w-4 text-primary" />
                           ) : score.category === 'fair' ? (
-                            <AlertTriangle className="h-4 w-4 text-warning" />
+                            <AlertTriangle className="h-4 w-4 text-yellow-600" />
                           ) : (
-                            <XCircle className="h-4 w-4 text-error" />
+                            <XCircle className="h-4 w-4 text-destructive" />
                           )}
                         </div>
                       </div>
@@ -346,7 +346,7 @@ export default function StabilityIndexRadar({
                           <div className="space-y-1">
                             <div className="text-muted-foreground">Target Gap</div>
                             <div className={`font-mono text-sm font-semibold ${
-                              score.targetGap <= 5 ? 'text-success' : 'text-error'
+                              score.targetGap <= 5 ? 'text-green-600' : 'text-destructive'
                             }`}>
                               {score.targetGap.toFixed(1)}%
                             </div>
@@ -355,7 +355,7 @@ export default function StabilityIndexRadar({
                         
                         <div className="flex items-center justify-between text-xs">
                           <span className="text-muted-foreground">Improving</span>
-                          <span className="font-mono text-sm font-semibold text-success">
+                          <span className="font-mono text-sm font-semibold text-green-600">
                             {score.improvingMetrics}/{score.totalMetrics}
                           </span>
                         </div>

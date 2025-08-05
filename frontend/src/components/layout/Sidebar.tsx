@@ -33,8 +33,8 @@ const secondaryNavigation = [
 export default function Sidebar() {
   return (
     <aside className="flex h-full w-64 flex-col bg-white border-r" role="navigation" aria-label="Main navigation">
-      <nav className="flex-1" style={{ gap: 'var(--spacing-1)', padding: 'var(--spacing-4) var(--spacing-4) var(--spacing-6) var(--spacing-4)' }}>
-        <div style={{ gap: 'var(--spacing-1)', display: 'flex', flexDirection: 'column' }}>
+      <nav className="flex-1 gap-1 px-4 pt-4 pb-6">
+        <div className="flex flex-col gap-1">
           {navigation.map((item) => (
             <NavLink
               key={item.name}
@@ -47,21 +47,21 @@ export default function Sidebar() {
                     : 'text-foreground hover:bg-muted/50'
                 )
               }
-              style={{ padding: 'var(--spacing-3)' }}
+              className="p-3"
             >
-              <item.icon className="h-5 w-5 flex-shrink-0" style={{ marginRight: 'var(--spacing-3)' }} aria-hidden="true" />
+              <item.icon className="h-5 w-5 flex-shrink-0 mr-3" aria-hidden="true" />
               {item.name}
             </NavLink>
           ))}
         </div>
         
-        <div style={{ paddingTop: 'var(--spacing-6)' }}>
-          <div style={{ padding: 'var(--spacing-3) var(--spacing-3) var(--spacing-2) var(--spacing-3)' }}>
+        <div className="pt-6">
+          <div className="px-3 pt-3 pb-2">
             <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               Tools
             </h2>
           </div>
-          <div style={{ gap: 'var(--spacing-1)', display: 'flex', flexDirection: 'column' }}>
+          <div className="flex flex-col gap-1">
             {secondaryNavigation.map((item) => (
               <NavLink
                 key={item.name}
@@ -74,9 +74,9 @@ export default function Sidebar() {
                       : 'text-foreground hover:bg-muted/50'
                   )
                 }
-                style={{ padding: 'var(--spacing-3)' }}
+                className="p-3"
                 >
-                <item.icon className="h-5 w-5 flex-shrink-0" style={{ marginRight: 'var(--spacing-3)' }} aria-hidden="true" />
+                <item.icon className="h-5 w-5 flex-shrink-0 mr-3" aria-hidden="true" />
                 {item.name}
               </NavLink>
             ))}
@@ -84,7 +84,7 @@ export default function Sidebar() {
         </div>
       </nav>
       
-      <footer className="border-t" style={{ padding: 'var(--spacing-4)' }}>
+      <footer className="border-t p-4">
         <div className="text-xs text-muted-foreground">
           <p>Data Source: S3 + Amazon Forecast</p>
           <p>Last Updated: {new Date().toLocaleTimeString()}</p>

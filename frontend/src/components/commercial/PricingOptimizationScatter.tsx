@@ -234,21 +234,21 @@ export default function PricingOptimizationScatter({ className }: PricingOptimiz
   const getOpportunityColor = (opportunity: string, strategy: string) => {
     if (viewMode === 'opportunity') {
       switch (opportunity) {
-        case 'high': return '#22c55e'
-        case 'medium': return '#eab308'
-        case 'low': return '#ef4444'
-        default: return '#6b7280'
+        case 'high': return 'hsl(var(--chart-2))'
+        case 'medium': return 'hsl(var(--warning))'
+        case 'low': return 'hsl(var(--chart-5))'
+        default: return 'hsl(var(--muted-foreground))'
       }
     } else if (viewMode === 'strategy') {
       switch (strategy) {
-        case 'increase': return '#22c55e'
-        case 'premium': return '#8b5cf6'
-        case 'decrease': return '#ef4444'
-        case 'maintain': return '#6b7280'
-        default: return '#f97316'
+        case 'increase': return 'hsl(var(--chart-2))'
+        case 'premium': return 'hsl(var(--chart-3))'
+        case 'decrease': return 'hsl(var(--chart-5))'
+        case 'maintain': return 'hsl(var(--muted-foreground))'
+        default: return 'hsl(var(--chart-4))'
       }
     } else {
-      return '#3b82f6' // default blue for market position
+      return 'hsl(var(--chart-1))' // default blue for market position
     }
   }
 

@@ -1,0 +1,432 @@
+[
+  {
+    "id": "forecast_001",
+    "sku_id": "SKU_A1001",
+    "date": "2025-01-16",
+    "predicted_value": 1250,
+    "confidence_lower": 1150,
+    "confidence_upper": 1350,
+    "actual_value": null,
+    "horizon_days": 1
+  },
+  {
+    "id": "forecast_002",
+    "sku_id": "SKU_A1001",
+    "date": "2025-01-17",
+    "predicted_value": 1275,
+    "confidence_lower": 1165,
+    "confidence_upper": 1385,
+    "actual_value": null,
+    "horizon_days": 2
+  },
+  {
+    "id": "forecast_003",
+    "sku_id": "SKU_A1001",
+    "date": "2025-01-23",
+    "predicted_value": 1320,
+    "confidence_lower": 1180,
+    "confidence_upper": 1460,
+    "actual_value": null,
+    "horizon_days": 7
+  },
+  {
+    "id": "forecast_004",
+    "sku_id": "SKU_A1001",
+    "date": "2025-01-30",
+    "predicted_value": 1380,
+    "confidence_lower": 1210,
+    "confidence_upper": 1550,
+    "actual_value": null,
+    "horizon_days": 14
+  },
+  {
+    "id": "forecast_005",
+    "sku_id": "SKU_A1001",
+    "date": "2025-02-13",
+    "predicted_value": 1450,
+    "confidence_lower": 1230,
+    "confidence_upper": 1670,
+    "actual_value": null,
+    "horizon_days": 28
+  },
+  {
+    "id": "forecast_006",
+    "sku_id": "SKU_B2002",
+    "date": "2025-01-16",
+    "predicted_value": 850,
+    "confidence_lower": 780,
+    "confidence_upper": 920,
+    "actual_value": null,
+    "horizon_days": 1
+  },
+  {
+    "id": "forecast_007",
+    "sku_id": "SKU_B2002",
+    "date": "2025-01-17",
+    "predicted_value": 840,
+    "confidence_lower": 765,
+    "confidence_upper": 915,
+    "actual_value": null,
+    "horizon_days": 2
+  },
+  {
+    "id": "forecast_008",
+    "sku_id": "SKU_B2002",
+    "date": "2025-01-23",
+    "predicted_value": 820,
+    "confidence_lower": 720,
+    "confidence_upper": 920,
+    "actual_value": null,
+    "horizon_days": 7
+  },
+  {
+    "id": "forecast_009",
+    "sku_id": "SKU_B2002",
+    "date": "2025-01-30",
+    "predicted_value": 795,
+    "confidence_lower": 685,
+    "confidence_upper": 905,
+    "actual_value": null,
+    "horizon_days": 14
+  },
+  {
+    "id": "forecast_010",
+    "sku_id": "SKU_B2002",
+    "date": "2025-02-13",
+    "predicted_value": 760,
+    "confidence_lower": 635,
+    "confidence_upper": 885,
+    "actual_value": null,
+    "horizon_days": 28
+  },
+  {
+    "id": "forecast_011",
+    "sku_id": "SKU_C3003",
+    "date": "2025-01-16",
+    "predicted_value": 2100,
+    "confidence_lower": 1980,
+    "confidence_upper": 2220,
+    "actual_value": null,
+    "horizon_days": 1
+  },
+  {
+    "id": "forecast_012",
+    "sku_id": "SKU_C3003",
+    "date": "2025-01-17",
+    "predicted_value": 2150,
+    "confidence_lower": 2025,
+    "confidence_upper": 2275,
+    "actual_value": null,
+    "horizon_days": 2
+  },
+  {
+    "id": "forecast_013",
+    "sku_id": "SKU_C3003",
+    "date": "2025-01-23",
+    "predicted_value": 2280,
+    "confidence_lower": 2100,
+    "confidence_upper": 2460,
+    "actual_value": null,
+    "horizon_days": 7
+  },
+  {
+    "id": "forecast_014",
+    "sku_id": "SKU_C3003",
+    "date": "2025-01-30",
+    "predicted_value": 2420,
+    "confidence_lower": 2180,
+    "confidence_upper": 2660,
+    "actual_value": null,
+    "horizon_days": 14
+  },
+  {
+    "id": "forecast_015",
+    "sku_id": "SKU_C3003",
+    "date": "2025-02-13",
+    "predicted_value": 2650,
+    "confidence_lower": 2320,
+    "confidence_upper": 2980,
+    "actual_value": null,
+    "horizon_days": 28
+  },
+  {
+    "id": "forecast_016",
+    "sku_id": "SKU_D4004",
+    "date": "2025-01-16",
+    "predicted_value": 450,
+    "confidence_lower": 420,
+    "confidence_upper": 480,
+    "actual_value": null,
+    "horizon_days": 1
+  },
+  {
+    "id": "forecast_017",
+    "sku_id": "SKU_D4004",
+    "date": "2025-01-17",
+    "predicted_value": 445,
+    "confidence_lower": 410,
+    "confidence_upper": 480,
+    "actual_value": null,
+    "horizon_days": 2
+  },
+  {
+    "id": "forecast_018",
+    "sku_id": "SKU_D4004",
+    "date": "2025-01-23",
+    "predicted_value": 435,
+    "confidence_lower": 385,
+    "confidence_upper": 485,
+    "actual_value": null,
+    "horizon_days": 7
+  },
+  {
+    "id": "forecast_019",
+    "sku_id": "SKU_D4004",
+    "date": "2025-01-30",
+    "predicted_value": 420,
+    "confidence_lower": 355,
+    "confidence_upper": 485,
+    "actual_value": null,
+    "horizon_days": 14
+  },
+  {
+    "id": "forecast_020",
+    "sku_id": "SKU_D4004",
+    "date": "2025-02-13",
+    "predicted_value": 395,
+    "confidence_lower": 315,
+    "confidence_upper": 475,
+    "actual_value": null,
+    "horizon_days": 28
+  },
+  {
+    "id": "forecast_021",
+    "sku_id": "SKU_E5005",
+    "date": "2025-01-16",
+    "predicted_value": 1800,
+    "confidence_lower": 1680,
+    "confidence_upper": 1920,
+    "actual_value": null,
+    "horizon_days": 1
+  },
+  {
+    "id": "forecast_022",
+    "sku_id": "SKU_E5005",
+    "date": "2025-01-17",
+    "predicted_value": 1825,
+    "confidence_lower": 1700,
+    "confidence_upper": 1950,
+    "actual_value": null,
+    "horizon_days": 2
+  },
+  {
+    "id": "forecast_023",
+    "sku_id": "SKU_E5005",
+    "date": "2025-01-23",
+    "predicted_value": 1890,
+    "confidence_lower": 1740,
+    "confidence_upper": 2040,
+    "actual_value": null,
+    "horizon_days": 7
+  },
+  {
+    "id": "forecast_024",
+    "sku_id": "SKU_E5005",
+    "date": "2025-01-30",
+    "predicted_value": 1965,
+    "confidence_lower": 1785,
+    "confidence_upper": 2145,
+    "actual_value": null,
+    "horizon_days": 14
+  },
+  {
+    "id": "forecast_025",
+    "sku_id": "SKU_E5005",
+    "date": "2025-02-13",
+    "predicted_value": 2080,
+    "confidence_lower": 1860,
+    "confidence_upper": 2300,
+    "actual_value": null,
+    "horizon_days": 28
+  },
+  {
+    "id": "historical_001",
+    "sku_id": "SKU_A1001",
+    "date": "2025-01-15",
+    "predicted_value": 1240,
+    "confidence_lower": 1140,
+    "confidence_upper": 1340,
+    "actual_value": 1265,
+    "horizon_days": 1
+  },
+  {
+    "id": "historical_002",
+    "sku_id": "SKU_A1001",
+    "date": "2025-01-14",
+    "predicted_value": 1235,
+    "confidence_lower": 1135,
+    "confidence_upper": 1335,
+    "actual_value": 1220,
+    "horizon_days": 1
+  },
+  {
+    "id": "historical_003",
+    "sku_id": "SKU_A1001",
+    "date": "2025-01-13",
+    "predicted_value": 1230,
+    "confidence_lower": 1130,
+    "confidence_upper": 1330,
+    "actual_value": 1245,
+    "horizon_days": 1
+  },
+  {
+    "id": "historical_004",
+    "sku_id": "SKU_B2002",
+    "date": "2025-01-15",
+    "predicted_value": 860,
+    "confidence_lower": 790,
+    "confidence_upper": 930,
+    "actual_value": 845,
+    "horizon_days": 1
+  },
+  {
+    "id": "historical_005",
+    "sku_id": "SKU_B2002",
+    "date": "2025-01-14",
+    "predicted_value": 865,
+    "confidence_lower": 795,
+    "confidence_upper": 935,
+    "actual_value": 880,
+    "horizon_days": 1
+  },
+  {
+    "id": "historical_006",
+    "sku_id": "SKU_C3003",
+    "date": "2025-01-15",
+    "predicted_value": 2080,
+    "confidence_lower": 1960,
+    "confidence_upper": 2200,
+    "actual_value": 2095,
+    "horizon_days": 1
+  },
+  {
+    "id": "historical_007",
+    "sku_id": "SKU_C3003",
+    "date": "2025-01-14",
+    "predicted_value": 2070,
+    "confidence_lower": 1950,
+    "confidence_upper": 2190,
+    "actual_value": 2040,
+    "horizon_days": 1
+  },
+  {
+    "id": "historical_008",
+    "sku_id": "SKU_D4004",
+    "date": "2025-01-15",
+    "predicted_value": 455,
+    "confidence_lower": 425,
+    "confidence_upper": 485,
+    "actual_value": 470,
+    "horizon_days": 1
+  },
+  {
+    "id": "historical_009",
+    "sku_id": "SKU_E5005",
+    "date": "2025-01-15",
+    "predicted_value": 1790,
+    "confidence_lower": 1670,
+    "confidence_upper": 1910,
+    "actual_value": 1815,
+    "horizon_days": 1
+  },
+  {
+    "id": "seasonal_001",
+    "sku_id": "SKU_SEASONAL_001",
+    "date": "2025-01-16",
+    "predicted_value": 3200,
+    "confidence_lower": 2880,
+    "confidence_upper": 3520,
+    "actual_value": null,
+    "horizon_days": 1
+  },
+  {
+    "id": "seasonal_002",
+    "sku_id": "SKU_SEASONAL_001",
+    "date": "2025-01-30",
+    "predicted_value": 3450,
+    "confidence_lower": 2950,
+    "confidence_upper": 3950,
+    "actual_value": null,
+    "horizon_days": 14
+  },
+  {
+    "id": "seasonal_003",
+    "sku_id": "SKU_SEASONAL_001",
+    "date": "2025-02-13",
+    "predicted_value": 3800,
+    "confidence_lower": 3100,
+    "confidence_upper": 4500,
+    "actual_value": null,
+    "horizon_days": 28
+  },
+  {
+    "id": "declining_001",
+    "sku_id": "SKU_DECLINING_001",
+    "date": "2025-01-16",
+    "predicted_value": 650,
+    "confidence_lower": 585,
+    "confidence_upper": 715,
+    "actual_value": null,
+    "horizon_days": 1
+  },
+  {
+    "id": "declining_002",
+    "sku_id": "SKU_DECLINING_001",
+    "date": "2025-01-30",
+    "predicted_value": 580,
+    "confidence_lower": 490,
+    "confidence_upper": 670,
+    "actual_value": null,
+    "horizon_days": 14
+  },
+  {
+    "id": "declining_003",
+    "sku_id": "SKU_DECLINING_001",
+    "date": "2025-02-13",
+    "predicted_value": 520,
+    "confidence_lower": 420,
+    "confidence_upper": 620,
+    "actual_value": null,
+    "horizon_days": 28
+  },
+  {
+    "id": "volatile_001",
+    "sku_id": "SKU_VOLATILE_001",
+    "date": "2025-01-16",
+    "predicted_value": 750,
+    "confidence_lower": 600,
+    "confidence_upper": 900,
+    "actual_value": null,
+    "horizon_days": 1
+  },
+  {
+    "id": "volatile_002",
+    "sku_id": "SKU_VOLATILE_001",
+    "date": "2025-01-30",
+    "predicted_value": 780,
+    "confidence_lower": 550,
+    "confidence_upper": 1010,
+    "actual_value": null,
+    "horizon_days": 14
+  },
+  {
+    "id": "volatile_003",
+    "sku_id": "SKU_VOLATILE_001",
+    "date": "2025-02-13",
+    "predicted_value": 820,
+    "confidence_lower": 500,
+    "confidence_upper": 1140,
+    "actual_value": null,
+    "horizon_days": 28
+  }
+]

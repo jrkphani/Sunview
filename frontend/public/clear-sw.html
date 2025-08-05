@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Service Workers</title>
+</head>
+<body>
+    <h1>Clearing Service Workers...</h1>
+    <div id="status"></div>
+    <script>
+        async function clearServiceWorkers() {
+            const status = document.getElementById('status');
+            
+            try {
+                // Get all service worker registrations
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                
+                // Unregister each one
+                for (const registration of registrations) {
+                    await registration.unregister();
+                    status.innerHTML += `<p>Unregistered: ${registration.scope}</p>`;
+                }
+                
+                // Clear caches
+                const cacheNames = await caches.keys();
+                for (const cacheName of cacheNames) {
+                    await caches.delete(cacheName);
+                    status.innerHTML += `<p>Deleted cache: ${cacheName}</p>`;
+                }
+                
+                status.innerHTML += '<p style="color: green; font-weight: bold;">All service workers and caches cleared! You can close this tab and return to the app.</p>';
+                
+                // Redirect back to main app after 2 seconds
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+                
+            } catch (error) {
+                status.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+        
+        clearServiceWorkers();
+    </script>
+</body>
+</html>

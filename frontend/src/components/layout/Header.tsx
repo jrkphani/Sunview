@@ -6,11 +6,11 @@ export default function Header() {
       <div className="flex h-16 items-center px-6">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 bg-primary rounded-lg flex items-center justify-center" role="img" aria-label="GXO Signify logo">
-              <span className="text-primary-foreground font-bold text-sm" aria-hidden="true">GS</span>
+            <div className="h-8 w-8 bg-primary rounded-lg flex items-center justify-center" role="img" aria-label="Supply Chain logo">
+              <span className="text-primary-foreground font-bold text-sm" aria-hidden="true">SC</span>
             </div>
             <div>
-              <h1 className="text-lg font-semibold">GXO × Signify</h1>
+              <h1 className="text-lg font-semibold">Supply Chain Analytics</h1>
               <p className="text-xs text-muted-foreground">Forecasting Platform</p>
             </div>
           </div>

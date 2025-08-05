@@ -113,11 +113,11 @@ export default function ServiceTierParetoChart({ className }: ServiceTierParetoC
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'critical': return '#ef4444'
-      case 'high': return '#f97316'
-      case 'medium': return '#eab308'
-      case 'low': return '#22c55e'
-      default: return '#6b7280'
+      case 'critical': return 'hsl(var(--chart-5))'
+      case 'high': return 'hsl(var(--chart-4))'
+      case 'medium': return 'hsl(var(--warning))'
+      case 'low': return 'hsl(var(--chart-2))'
+      default: return 'hsl(var(--muted-foreground))'
     }
   }
 

@@ -55,12 +55,12 @@ interface ProductMixShiftChartProps {
 }
 
 const categoryColors = [
-  'hsl(210, 70%, 50%)', // Blue
-  'hsl(120, 70%, 50%)', // Green
-  'hsl(30, 70%, 50%)',  // Orange
-  'hsl(280, 70%, 50%)', // Purple
-  'hsl(0, 70%, 50%)',   // Red
-  'hsl(60, 70%, 50%)'   // Yellow
+  'hsl(var(--chart-1))', // Blue
+  'hsl(var(--chart-2))', // Green
+  'hsl(var(--chart-4))',  // Orange
+  'hsl(var(--chart-3))', // Purple
+  'hsl(var(--chart-5))',   // Red
+  'hsl(var(--warning))'   // Yellow
 ]
 
 export default function ProductMixShiftChart({ 

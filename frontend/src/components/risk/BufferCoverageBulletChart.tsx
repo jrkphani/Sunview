@@ -98,27 +98,27 @@ const BufferCoverageBulletChart: React.FC<BufferCoverageBulletChartProps> = ({ c
 
   const getRiskColor = (riskLevel: string) => {
     switch (riskLevel) {
-      case 'critical': return '#ef4444';
-      case 'warning': return '#f59e0b';
-      case 'good': return '#10b981';
-      default: return '#6b7280';
+      case 'critical': return 'hsl(var(--chart-5))';
+      case 'warning': return 'hsl(var(--chart-4))';
+      case 'good': return 'hsl(var(--chart-2))';
+      default: return 'hsl(var(--muted))';
     }
   };
 
   const getRiskBgColor = (riskLevel: string) => {
     switch (riskLevel) {
-      case 'critical': return 'bg-red-50';
-      case 'warning': return 'bg-yellow-50';
-      case 'good': return 'bg-green-50';
-      default: return 'bg-gray-50';
+      case 'critical': return 'bg-destructive/10';
+      case 'warning': return 'bg-warning/10';
+      case 'good': return 'bg-success/10';
+      default: return 'bg-muted/50';
     }
   };
 
   const getTrendIcon = (trend: string) => {
     switch (trend) {
-      case 'up': return <TrendingUp className="h-4 w-4 text-green-500" />;
-      case 'down': return <TrendingDown className="h-4 w-4 text-red-500" />;
-      default: return <div className="h-4 w-4 bg-gray-300 rounded-full" />;
+      case 'up': return <TrendingUp className="h-4 w-4 text-success" />;
+      case 'down': return <TrendingDown className="h-4 w-4 text-destructive" />;
+      default: return <div className="h-4 w-4 bg-muted rounded-full" />;
     }
   };
 
@@ -129,17 +129,17 @@ const BufferCoverageBulletChart: React.FC<BufferCoverageBulletChartProps> = ({ c
       <div className="space-y-4">
         {/* Summary Cards */}
         <div className="grid grid-cols-3 gap-4">
-          <div className="bg-red-50 p-3 rounded">
-            <div className="text-sm text-red-600">Critical</div>
-            <div className="text-xl font-bold text-red-700">{summary.critical}</div>
+          <div className="bg-destructive/10 p-3 rounded">
+            <div className="text-sm text-destructive">Critical</div>
+            <div className="text-xl font-bold text-destructive">{summary.critical}</div>
           </div>
-          <div className="bg-yellow-50 p-3 rounded">
-            <div className="text-sm text-yellow-600">Warning</div>
-            <div className="text-xl font-bold text-yellow-700">{summary.warning}</div>
+          <div className="bg-warning/10 p-3 rounded">
+            <div className="text-sm text-warning">Warning</div>
+            <div className="text-xl font-bold text-warning">{summary.warning}</div>
           </div>
-          <div className="bg-green-50 p-3 rounded">
-            <div className="text-sm text-green-600">Good</div>
-            <div className="text-xl font-bold text-green-700">{summary.good}</div>
+          <div className="bg-success/10 p-3 rounded">
+            <div className="text-sm text-success">Good</div>
+            <div className="text-xl font-bold text-success">{summary.good}</div>
           </div>
         </div>
 
@@ -147,14 +147,14 @@ const BufferCoverageBulletChart: React.FC<BufferCoverageBulletChartProps> = ({ c
         <div className="space-y-2">
           <h4 className="text-sm font-medium">Critical Buffer SKUs</h4>
           {topRiskSKUs.map(item => (
-            <div key={item.sku} className="flex items-center justify-between p-2 bg-red-50 rounded">
+            <div key={item.sku} className="flex items-center justify-between p-2 bg-destructive/10 rounded">
               <div>
                 <div className="text-sm font-medium">{item.sku}</div>
-                <div className="text-xs text-gray-500">{item.category}</div>
+                <div className="text-xs text-muted-foreground">{item.category}</div>
               </div>
               <div className="text-right">
                 <div className="text-sm font-medium">{item.daysOnHand}d</div>
-                <div className="text-xs text-gray-500">DOH</div>
+                <div className="text-xs text-muted-foreground">DOH</div>
               </div>
             </div>
           ))}
@@ -169,14 +169,14 @@ const BufferCoverageBulletChart: React.FC<BufferCoverageBulletChartProps> = ({ c
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold">Buffer Coverage Analysis</h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-muted-foreground">
             Monitoring {summary.total} SKUs - Avg DOH: {summary.avgDaysOnHand.toFixed(1)} days
           </p>
         </div>
         
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
-            <Search className="h-4 w-4 text-gray-400" />
+            <Search className="h-4 w-4 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search SKU..."
@@ -214,47 +214,47 @@ const BufferCoverageBulletChart: React.FC<BufferCoverageBulletChartProps> = ({ c
 
       {/* Summary Dashboard */}
       <div className="grid grid-cols-4 gap-6">
-        <div className="bg-red-50 rounded-lg p-4">
+        <div className="bg-destructive/10 rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-red-600">Critical Risk</p>
-              <p className="text-2xl font-bold text-red-700">{summary.critical}</p>
-              <p className="text-xs text-red-500">{((summary.critical / summary.total) * 100).toFixed(1)}% of total</p>
+              <p className="text-sm text-destructive">Critical Risk</p>
+              <p className="text-2xl font-bold text-destructive">{summary.critical}</p>
+              <p className="text-xs text-destructive">{((summary.critical / summary.total) * 100).toFixed(1)}% of total</p>
             </div>
-            <AlertTriangle className="h-8 w-8 text-red-500" />
+            <AlertTriangle className="h-8 w-8 text-destructive" />
           </div>
         </div>
 
-        <div className="bg-yellow-50 rounded-lg p-4">
+        <div className="bg-warning/10 rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-yellow-600">Warning</p>
-              <p className="text-2xl font-bold text-yellow-700">{summary.warning}</p>
-              <p className="text-xs text-yellow-500">{((summary.warning / summary.total) * 100).toFixed(1)}% of total</p>
+              <p className="text-sm text-warning">Warning</p>
+              <p className="text-2xl font-bold text-warning">{summary.warning}</p>
+              <p className="text-xs text-warning">{((summary.warning / summary.total) * 100).toFixed(1)}% of total</p>
             </div>
-            <AlertTriangle className="h-8 w-8 text-yellow-500" />
+            <AlertTriangle className="h-8 w-8 text-warning" />
           </div>
         </div>
 
-        <div className="bg-green-50 rounded-lg p-4">
+        <div className="bg-success/10 rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-green-600">Good</p>
-              <p className="text-2xl font-bold text-green-700">{summary.good}</p>
-              <p className="text-xs text-green-500">{((summary.good / summary.total) * 100).toFixed(1)}% of total</p>
+              <p className="text-sm text-success">Good</p>
+              <p className="text-2xl font-bold text-success">{summary.good}</p>
+              <p className="text-xs text-success">{((summary.good / summary.total) * 100).toFixed(1)}% of total</p>
             </div>
-            <TrendingUp className="h-8 w-8 text-green-500" />
+            <TrendingUp className="h-8 w-8 text-success" />
           </div>
         </div>
 
-        <div className="bg-blue-50 rounded-lg p-4">
+        <div className="bg-primary/10 rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-blue-600">Avg Days on Hand</p>
-              <p className="text-2xl font-bold text-blue-700">{summary.avgDaysOnHand.toFixed(1)}</p>
-              <p className="text-xs text-blue-500">days</p>
+              <p className="text-sm text-primary">Avg Days on Hand</p>
+              <p className="text-2xl font-bold text-primary">{summary.avgDaysOnHand.toFixed(1)}</p>
+              <p className="text-xs text-primary">days</p>
             </div>
-            <TrendingUp className="h-8 w-8 text-blue-500" />
+            <TrendingUp className="h-8 w-8 text-primary" />
           </div>
         </div>
       </div>
@@ -291,9 +291,9 @@ const BufferCoverageBulletChart: React.FC<BufferCoverageBulletChartProps> = ({ c
                     <span>DOH: {item.daysOnHand}d</span>
                     <span>Velocity: {item.velocity}/day</span>
                     <span className={`px-2 py-1 rounded-full text-xs ${
-                      item.riskLevel === 'critical' ? 'bg-red-100 text-red-800' :
-                      item.riskLevel === 'warning' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-green-100 text-green-800'
+                      item.riskLevel === 'critical' ? 'bg-destructive/10 text-destructive' :
+                      item.riskLevel === 'warning' ? 'bg-warning/10 text-warning' :
+                      'bg-success/10 text-success'
                     }`}>
                       {item.riskLevel}
                     </span>
@@ -303,10 +303,10 @@ const BufferCoverageBulletChart: React.FC<BufferCoverageBulletChartProps> = ({ c
                 {/* Bullet Chart */}
                 <div className="relative">
                   {/* Background bar (max stock) */}
-                  <div className="w-full h-6 bg-gray-200 rounded">
+                  <div className="w-full h-6 bg-muted rounded">
                     {/* Safety stock threshold */}
                     <div 
-                      className="absolute h-6 bg-gray-300 rounded-l"
+                      className="absolute h-6 bg-muted-foreground/30 rounded-l"
                       style={{ width: `${safetyPercentage}%` }}
                     />
                     {/* Current stock */}
@@ -319,13 +319,13 @@ const BufferCoverageBulletChart: React.FC<BufferCoverageBulletChartProps> = ({ c
                     />
                     {/* Safety stock line */}
                     <div 
-                      className="absolute h-6 w-0.5 bg-red-600"
+                      className="absolute h-6 w-0.5 bg-destructive"
                       style={{ left: `${safetyPercentage}%` }}
                     />
                   </div>
                   
                   {/* Labels */}
-                  <div className="flex justify-between text-xs text-gray-600 mt-1">
+                  <div className="flex justify-between text-xs text-muted-foreground mt-1">
                     <span>0</span>
                     <span>Safety: {item.safetyStock}</span>
                     <span>Current: {item.currentStock}</span>
@@ -334,7 +334,7 @@ const BufferCoverageBulletChart: React.FC<BufferCoverageBulletChartProps> = ({ c
                 </div>
                 
                 {/* Additional Info */}
-                <div className="flex justify-between text-xs text-gray-500 mt-2">
+                <div className="flex justify-between text-xs text-muted-foreground mt-2">
                   <span>Supplier: {item.supplier}</span>
                   <span>Lead Time: {item.leadTime} days</span>
                 </div>
@@ -350,11 +350,11 @@ const BufferCoverageBulletChart: React.FC<BufferCoverageBulletChartProps> = ({ c
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={[
-              { range: '0-5', count: filteredData.filter(d => d.daysOnHand <= 5).length, color: '#ef4444' },
-              { range: '6-10', count: filteredData.filter(d => d.daysOnHand > 5 && d.daysOnHand <= 10).length, color: '#f59e0b' },
-              { range: '11-20', count: filteredData.filter(d => d.daysOnHand > 10 && d.daysOnHand <= 20).length, color: '#10b981' },
-              { range: '21-30', count: filteredData.filter(d => d.daysOnHand > 20 && d.daysOnHand <= 30).length, color: '#3b82f6' },
-              { range: '30+', count: filteredData.filter(d => d.daysOnHand > 30).length, color: '#6366f1' }
+              { range: '0-5', count: filteredData.filter(d => d.daysOnHand <= 5).length, color: 'hsl(var(--chart-5))' },
+              { range: '6-10', count: filteredData.filter(d => d.daysOnHand > 5 && d.daysOnHand <= 10).length, color: 'hsl(var(--chart-4))' },
+              { range: '11-20', count: filteredData.filter(d => d.daysOnHand > 10 && d.daysOnHand <= 20).length, color: 'hsl(var(--chart-2))' },
+              { range: '21-30', count: filteredData.filter(d => d.daysOnHand > 20 && d.daysOnHand <= 30).length, color: 'hsl(var(--chart-1))' },
+              { range: '30+', count: filteredData.filter(d => d.daysOnHand > 30).length, color: 'hsl(var(--chart-3))' }
             ]}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="range" />
@@ -362,11 +362,11 @@ const BufferCoverageBulletChart: React.FC<BufferCoverageBulletChartProps> = ({ c
               <Tooltip />
               <Bar dataKey="count">
                 {[
-                  { range: '0-5', count: filteredData.filter(d => d.daysOnHand <= 5).length, color: '#ef4444' },
-                  { range: '6-10', count: filteredData.filter(d => d.daysOnHand > 5 && d.daysOnHand <= 10).length, color: '#f59e0b' },
-                  { range: '11-20', count: filteredData.filter(d => d.daysOnHand > 10 && d.daysOnHand <= 20).length, color: '#10b981' },
-                  { range: '21-30', count: filteredData.filter(d => d.daysOnHand > 20 && d.daysOnHand <= 30).length, color: '#3b82f6' },
-                  { range: '30+', count: filteredData.filter(d => d.daysOnHand > 30).length, color: '#6366f1' }
+                  { range: '0-5', count: filteredData.filter(d => d.daysOnHand <= 5).length, color: 'hsl(var(--chart-5))' },
+                  { range: '6-10', count: filteredData.filter(d => d.daysOnHand > 5 && d.daysOnHand <= 10).length, color: 'hsl(var(--chart-4))' },
+                  { range: '11-20', count: filteredData.filter(d => d.daysOnHand > 10 && d.daysOnHand <= 20).length, color: 'hsl(var(--chart-2))' },
+                  { range: '21-30', count: filteredData.filter(d => d.daysOnHand > 20 && d.daysOnHand <= 30).length, color: 'hsl(var(--chart-1))' },
+                  { range: '30+', count: filteredData.filter(d => d.daysOnHand > 30).length, color: 'hsl(var(--chart-3))' }
                 ].map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}

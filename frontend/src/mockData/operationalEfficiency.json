@@ -1,0 +1,304 @@
+{
+  "warehouse_operations": {
+    "summary": {
+      "total_warehouses": 12,
+      "active_warehouses": 11,
+      "total_capacity": 2500000,
+      "current_utilization": 78.5,
+      "efficiency_score": 87.3
+    },
+    "warehouses": [
+      {
+        "id": "WH-001",
+        "name": "Central Distribution Center",
+        "location": "Chicago, IL",
+        "type": "Primary Hub",
+        "capacity": 500000,
+        "current_utilization": 82.5,
+        "efficiency_metrics": {
+          "pick_rate": 125,
+          "pack_rate": 98,
+          "ship_rate": 92,
+          "accuracy_rate": 99.2
+        },
+        "staff_count": 245,
+        "automation_level": "High",
+        "status": "operational"
+      },
+      {
+        "id": "WH-002",
+        "name": "East Coast Fulfillment Center",
+        "location": "Newark, NJ",
+        "type": "Regional Hub",
+        "capacity": 350000,
+        "current_utilization": 76.8,
+        "efficiency_metrics": {
+          "pick_rate": 118,
+          "pack_rate": 95,
+          "ship_rate": 89,
+          "accuracy_rate": 98.8
+        },
+        "staff_count": 180,
+        "automation_level": "Medium",
+        "status": "operational"
+      },
+      {
+        "id": "WH-003",
+        "name": "West Coast Distribution Hub",
+        "location": "Los Angeles, CA",
+        "type": "Regional Hub",
+        "capacity": 400000,
+        "current_utilization": 79.2,
+        "efficiency_metrics": {
+          "pick_rate": 132,
+          "pack_rate": 102,
+          "ship_rate": 95,
+          "accuracy_rate": 99.5
+        },
+        "staff_count": 210,
+        "automation_level": "High",
+        "status": "operational"
+      },
+      {
+        "id": "WH-004",
+        "name": "Southeast Regional Center",
+        "location": "Atlanta, GA",
+        "type": "Regional Hub",
+        "capacity": 300000,
+        "current_utilization": 81.3,
+        "efficiency_metrics": {
+          "pick_rate": 120,
+          "pack_rate": 94,
+          "ship_rate": 88,
+          "accuracy_rate": 98.9
+        },
+        "staff_count": 165,
+        "automation_level": "Medium",
+        "status": "operational"
+      },
+      {
+        "id": "WH-005",
+        "name": "Texas Logistics Center",
+        "location": "Dallas, TX",
+        "type": "Secondary Hub",
+        "capacity": 250000,
+        "current_utilization": 74.5,
+        "efficiency_metrics": {
+          "pick_rate": 115,
+          "pack_rate": 90,
+          "ship_rate": 85,
+          "accuracy_rate": 98.5
+        },
+        "staff_count": 140,
+        "automation_level": "Low",
+        "status": "operational"
+      }
+    ],
+    "performance_trends": {
+      "daily": [
+        { "date": "2024-01-08", "efficiency": 85.2, "volume": 45000, "errors": 125 },
+        { "date": "2024-01-09", "efficiency": 86.8, "volume": 48000, "errors": 118 },
+        { "date": "2024-01-10", "efficiency": 87.5, "volume": 52000, "errors": 105 },
+        { "date": "2024-01-11", "efficiency": 88.1, "volume": 49000, "errors": 98 },
+        { "date": "2024-01-12", "efficiency": 87.3, "volume": 46000, "errors": 112 },
+        { "date": "2024-01-13", "efficiency": 86.9, "volume": 38000, "errors": 95 },
+        { "date": "2024-01-14", "efficiency": 87.8, "volume": 41000, "errors": 102 }
+      ],
+      "weekly": [
+        { "week": "W1", "efficiency": 84.5, "volume": 285000, "errors": 780 },
+        { "week": "W2", "efficiency": 85.8, "volume": 298000, "errors": 745 },
+        { "week": "W3", "efficiency": 86.9, "volume": 312000, "errors": 698 },
+        { "week": "W4", "efficiency": 87.3, "volume": 305000, "errors": 712 }
+      ]
+    }
+  },
+  "fulfillment_metrics": {
+    "order_processing": {
+      "total_orders_today": 12450,
+      "orders_processed": 11890,
+      "orders_pending": 560,
+      "average_processing_time": 2.4,
+      "on_time_fulfillment_rate": 94.8,
+      "same_day_fulfillment_rate": 42.3,
+      "next_day_fulfillment_rate": 38.7,
+      "standard_fulfillment_rate": 19.0
+    },
+    "pick_pack_ship": {
+      "pick_metrics": {
+        "total_picks": 156000,
+        "picks_per_hour": 125,
+        "pick_accuracy": 99.2,
+        "average_pick_time": 28.5
+      },
+      "pack_metrics": {
+        "total_packages": 11890,
+        "packs_per_hour": 98,
+        "pack_accuracy": 99.5,
+        "average_pack_time": 36.2
+      },
+      "ship_metrics": {
+        "total_shipments": 11500,
+        "on_time_ship_rate": 96.8,
+        "carrier_performance": {
+          "fedex": { "volume": 4500, "on_time": 97.2 },
+          "ups": { "volume": 3800, "on_time": 96.5 },
+          "usps": { "volume": 2200, "on_time": 95.8 },
+          "other": { "volume": 1000, "on_time": 96.0 }
+        }
+      }
+    },
+    "quality_metrics": {
+      "order_accuracy_rate": 99.1,
+      "damage_rate": 0.3,
+      "return_rate": 2.1,
+      "customer_satisfaction": 4.6,
+      "quality_issues": [
+        { "type": "Wrong Item", "count": 45, "percentage": 38.5 },
+        { "type": "Damaged", "count": 28, "percentage": 23.9 },
+        { "type": "Missing Item", "count": 32, "percentage": 27.4 },
+        { "type": "Other", "count": 12, "percentage": 10.2 }
+      ]
+    }
+  },
+  "resource_utilization": {
+    "labor": {
+      "total_staff": 1450,
+      "active_staff": 1385,
+      "productivity_rate": 92.5,
+      "overtime_percentage": 8.2,
+      "shift_distribution": {
+        "morning": 480,
+        "afternoon": 520,
+        "night": 385,
+        "flexible": 65
+      },
+      "department_breakdown": {
+        "receiving": 180,
+        "picking": 420,
+        "packing": 350,
+        "shipping": 280,
+        "quality_control": 120,
+        "management": 100
+      }
+    },
+    "equipment": {
+      "forklifts": {
+        "total": 85,
+        "in_use": 72,
+        "maintenance": 8,
+        "available": 5,
+        "utilization_rate": 84.7
+      },
+      "conveyors": {
+        "total_lines": 24,
+        "active_lines": 22,
+        "efficiency_rate": 91.2,
+        "downtime_hours": 2.3
+      },
+      "scanning_stations": {
+        "total": 145,
+        "active": 138,
+        "scans_per_hour": 2450,
+        "error_rate": 0.05
+      },
+      "automated_systems": {
+        "robotic_pickers": 12,
+        "automated_sorters": 8,
+        "agv_units": 15,
+        "system_uptime": 98.5
+      }
+    },
+    "space": {
+      "total_sqft": 2500000,
+      "storage_sqft": 1800000,
+      "operations_sqft": 500000,
+      "office_sqft": 200000,
+      "storage_utilization": 78.5,
+      "vertical_utilization": 82.3,
+      "zones": [
+        { "zone": "A - Fast Moving", "utilization": 92.5, "turnover_rate": 15.2 },
+        { "zone": "B - Medium Moving", "utilization": 78.8, "turnover_rate": 8.5 },
+        { "zone": "C - Slow Moving", "utilization": 65.3, "turnover_rate": 2.1 },
+        { "zone": "D - Seasonal", "utilization": 45.2, "turnover_rate": 0.8 }
+      ]
+    }
+  },
+  "efficiency_insights": [
+    {
+      "id": "EFF-001",
+      "category": "labor_optimization",
+      "title": "Peak Hour Staffing Imbalance",
+      "description": "Analysis shows 15% understaffing during 2-4 PM peak hours",
+      "impact": "high",
+      "potential_savings": 125000,
+      "recommended_action": "Adjust shift schedules to align with demand patterns",
+      "confidence": 0.89
+    },
+    {
+      "id": "EFF-002",
+      "category": "equipment_optimization",
+      "title": "Conveyor System Bottleneck",
+      "description": "Line 3 operating at 65% capacity due to sorter limitations",
+      "impact": "medium",
+      "potential_savings": 85000,
+      "recommended_action": "Upgrade sorter capacity or redistribute volume",
+      "confidence": 0.92
+    },
+    {
+      "id": "EFF-003",
+      "category": "space_optimization",
+      "title": "Zone C Underutilization",
+      "description": "Slow-moving inventory zone has 35% unused capacity",
+      "impact": "medium",
+      "potential_savings": 45000,
+      "recommended_action": "Consolidate zones or repurpose for seasonal storage",
+      "confidence": 0.85
+    },
+    {
+      "id": "EFF-004",
+      "category": "process_improvement",
+      "title": "Cross-Docking Opportunity",
+      "description": "18% of shipments eligible for cross-dock bypass",
+      "impact": "high",
+      "potential_savings": 156000,
+      "recommended_action": "Implement cross-docking for high-velocity SKUs",
+      "confidence": 0.88
+    }
+  ],
+  "cost_analysis": {
+    "operational_costs": {
+      "labor_cost": 4250000,
+      "equipment_cost": 850000,
+      "facility_cost": 1200000,
+      "technology_cost": 450000,
+      "other_costs": 250000,
+      "total_monthly": 7000000
+    },
+    "cost_per_unit": {
+      "picking": 0.82,
+      "packing": 1.15,
+      "shipping": 2.45,
+      "total_fulfillment": 4.42
+    },
+    "cost_trends": [
+      { "month": "Oct", "total": 6850000, "per_unit": 4.38 },
+      { "month": "Nov", "total": 7200000, "per_unit": 4.25 },
+      { "month": "Dec", "total": 7500000, "per_unit": 4.18 },
+      { "month": "Jan", "total": 7000000, "per_unit": 4.42 }
+    ]
+  },
+  "benchmarks": {
+    "industry_comparison": {
+      "pick_rate": { "company": 125, "industry_avg": 110, "top_quartile": 135 },
+      "accuracy_rate": { "company": 99.2, "industry_avg": 98.5, "top_quartile": 99.5 },
+      "fulfillment_time": { "company": 2.4, "industry_avg": 3.2, "top_quartile": 2.0 },
+      "cost_per_order": { "company": 4.42, "industry_avg": 5.25, "top_quartile": 3.85 }
+    },
+    "internal_benchmarks": {
+      "best_warehouse": "WH-003",
+      "best_pick_rate": 132,
+      "best_accuracy": 99.5,
+      "best_utilization": 82.5
+    }
+  }
+}

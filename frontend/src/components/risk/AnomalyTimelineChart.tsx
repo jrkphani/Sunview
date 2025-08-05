@@ -92,27 +92,27 @@ const AnomalyTimelineChart: React.FC<AnomalyTimelineChartProps> = ({ compact = f
 
   const getAnomalyIcon = (type: string) => {
     switch (type) {
-      case 'critical': return <AlertTriangle className="h-4 w-4 text-red-500" />;
-      case 'warning': return <AlertCircle className="h-4 w-4 text-yellow-500" />;
-      default: return <Info className="h-4 w-4 text-blue-500" />;
+      case 'critical': return <AlertTriangle className="h-4 w-4 text-destructive" />;
+      case 'warning': return <AlertCircle className="h-4 w-4 text-warning" />;
+      default: return <Info className="h-4 w-4 text-primary" />;
     }
   };
 
   const getAnomalyColor = (type: string) => {
     switch (type) {
-      case 'critical': return '#ef4444';
-      case 'warning': return '#f59e0b';
-      default: return '#3b82f6';
+      case 'critical': return 'hsl(var(--chart-5))';
+      case 'warning': return 'hsl(var(--chart-4))';
+      default: return 'hsl(var(--chart-1))';
     }
   };
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'demand': return '#8b5cf6';
-      case 'supply': return '#10b981';
-      case 'quality': return '#f59e0b';
-      case 'delivery': return '#ef4444';
-      default: return '#6b7280';
+      case 'demand': return 'hsl(var(--chart-3))';
+      case 'supply': return 'hsl(var(--chart-2))';
+      case 'quality': return 'hsl(var(--chart-4))';
+      case 'delivery': return 'hsl(var(--chart-5))';
+      default: return 'hsl(var(--muted))';
     }
   };
 
@@ -126,25 +126,25 @@ const AnomalyTimelineChart: React.FC<AnomalyTimelineChartProps> = ({ compact = f
               <XAxis dataKey="date" />
               <YAxis />
               <Tooltip />
-              <Line type="monotone" dataKey="critical" stroke="#ef4444" strokeWidth={2} />
-              <Line type="monotone" dataKey="warning" stroke="#f59e0b" strokeWidth={2} />
-              <Line type="monotone" dataKey="info" stroke="#3b82f6" strokeWidth={2} />
+              <Line type="monotone" dataKey="critical" stroke="hsl(var(--chart-5))" strokeWidth={2} />
+              <Line type="monotone" dataKey="warning" stroke="hsl(var(--chart-4))" strokeWidth={2} />
+              <Line type="monotone" dataKey="info" stroke="hsl(var(--chart-1))" strokeWidth={2} />
             </LineChart>
           </ResponsiveContainer>
         </div>
         
         <div className="space-y-2">
           {filteredAnomalies.slice(0, 3).map(anomaly => (
-            <div key={anomaly.id} className="flex items-center space-x-3 p-2 bg-gray-50 rounded">
+            <div key={anomaly.id} className="flex items-center space-x-3 p-2 bg-muted/50 rounded">
               {getAnomalyIcon(anomaly.type)}
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">{anomaly.title}</p>
-                <p className="text-xs text-gray-500">{anomaly.timestamp.toLocaleDateString()}</p>
+                <p className="text-sm font-medium text-foreground truncate">{anomaly.title}</p>
+                <p className="text-xs text-muted-foreground">{anomaly.timestamp.toLocaleDateString()}</p>
               </div>
               <span className={`px-2 py-1 text-xs rounded-full ${
-                anomaly.type === 'critical' ? 'bg-red-100 text-red-800' :
-                anomaly.type === 'warning' ? 'bg-yellow-100 text-yellow-800' :
-                'bg-blue-100 text-blue-800'
+                anomaly.type === 'critical' ? 'bg-destructive/10 text-destructive' :
+                anomaly.type === 'warning' ? 'bg-warning/10 text-warning' :
+                'bg-primary/10 text-primary'
               }`}>
                 {anomaly.category}
               </span>
@@ -162,7 +162,7 @@ const AnomalyTimelineChart: React.FC<AnomalyTimelineChartProps> = ({ compact = f
         <h3 className="text-lg font-semibold">Anomaly Detection Timeline</h3>
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
-            <Filter className="h-4 w-4 text-gray-500" />
+            <Filter className="h-4 w-4 text-muted-foreground" />
             <select
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
@@ -213,9 +213,9 @@ const AnomalyTimelineChart: React.FC<AnomalyTimelineChartProps> = ({ compact = f
                   return (
                     <div className="bg-white p-3 border rounded shadow-lg">
                       <p className="font-medium">{label}</p>
-                      <p className="text-sm text-red-600">Critical: {data.critical}</p>
-                      <p className="text-sm text-yellow-600">Warning: {data.warning}</p>
-                      <p className="text-sm text-blue-600">Info: {data.info}</p>
+                      <p className="text-sm text-destructive">Critical: {data.critical}</p>
+                      <p className="text-sm text-warning">Warning: {data.warning}</p>
+                      <p className="text-sm text-primary">Info: {data.info}</p>
                       <p className="text-sm font-medium">Total: {data.total}</p>
                     </div>
                   );
@@ -224,9 +224,9 @@ const AnomalyTimelineChart: React.FC<AnomalyTimelineChartProps> = ({ compact = f
               }}
             />
             <Legend />
-            <Line type="monotone" dataKey="critical" stroke="#ef4444" strokeWidth={2} name="Critical" />
-            <Line type="monotone" dataKey="warning" stroke="#f59e0b" strokeWidth={2} name="Warning" />
-            <Line type="monotone" dataKey="info" stroke="#3b82f6" strokeWidth={2} name="Info" />
+            <Line type="monotone" dataKey="critical" stroke="hsl(var(--chart-5))" strokeWidth={2} name="Critical" />
+            <Line type="monotone" dataKey="warning" stroke="hsl(var(--chart-4))" strokeWidth={2} name="Warning" />
+            <Line type="monotone" dataKey="info" stroke="hsl(var(--chart-1))" strokeWidth={2} name="Info" />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -238,26 +238,26 @@ const AnomalyTimelineChart: React.FC<AnomalyTimelineChartProps> = ({ compact = f
           {filteredAnomalies.map(anomaly => (
             <div 
               key={anomaly.id} 
-              className="flex items-center justify-between p-4 border rounded hover:bg-gray-50 cursor-pointer"
+              className="flex items-center justify-between p-4 border rounded hover:bg-muted/50 cursor-pointer"
               onClick={() => setSelectedAnomaly(anomaly)}
             >
               <div className="flex items-center space-x-4">
                 {getAnomalyIcon(anomaly.type)}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center space-x-2">
-                    <p className="text-sm font-medium text-gray-900">{anomaly.title}</p>
+                    <p className="text-sm font-medium text-foreground">{anomaly.title}</p>
                     {anomaly.resolved && (
-                      <span className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">
+                      <span className="px-2 py-1 text-xs bg-success/10 text-success rounded-full">
                         Resolved
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-gray-500">{anomaly.description}</p>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{anomaly.description}</p>
                   <div className="flex items-center space-x-4 mt-1">
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-muted-foreground">
                       {anomaly.timestamp.toLocaleString()}
                     </span>
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-muted-foreground">
                       ML Confidence: {(anomaly.mlConfidence * 100).toFixed(1)}%
                     </span>
                   </div>
@@ -277,7 +277,7 @@ const AnomalyTimelineChart: React.FC<AnomalyTimelineChartProps> = ({ compact = f
                 <div className="text-right">
                   <p className="text-sm font-medium">Impact: {anomaly.impact}%</p>
                 </div>
-                <Eye className="h-4 w-4 text-gray-400" />
+                <Eye className="h-4 w-4 text-muted-foreground" />
               </div>
             </div>
           ))}
@@ -295,7 +295,7 @@ const AnomalyTimelineChart: React.FC<AnomalyTimelineChartProps> = ({ compact = f
               </div>
               <button 
                 onClick={() => setSelectedAnomaly(null)}
-                className="p-1 hover:bg-gray-100 rounded"
+                className="p-1 hover:bg-muted/50 rounded"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -343,7 +343,7 @@ const AnomalyTimelineChart: React.FC<AnomalyTimelineChartProps> = ({ compact = f
               
               <div>
                 <p className="font-medium text-gray-700 mb-2">Description</p>
-                <p className="text-gray-600">{selectedAnomaly.description}</p>
+                <p className="text-gray-600 line-clamp-3">{selectedAnomaly.description}</p>
               </div>
               
               <div className="flex justify-end space-x-3 pt-4 border-t">

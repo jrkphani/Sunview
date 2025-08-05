@@ -169,15 +169,15 @@ export default function PremiumServicesCards({ className }: PremiumServicesCards
     switch (opportunity) {
       case 'high': return 'text-green-600 bg-green-100 border-green-300'
       case 'medium': return 'text-yellow-600 bg-yellow-100 border-yellow-300'
-      case 'low': return 'text-gray-600 bg-gray-100 border-gray-300'
-      default: return 'text-gray-600 bg-gray-100 border-gray-300'
+      case 'low': return 'text-muted-foreground bg-muted border-border'
+      default: return 'text-muted-foreground bg-muted border-border'
     }
   }
 
   const getConfidenceIcon = (score: number) => {
     if (score >= 80) return <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-    if (score >= 70) return <TrendingUp className="h-4 w-4 text-blue-500" />
-    return <Target className="h-4 w-4 text-gray-500" />
+    if (score >= 70) return <TrendingUp className="h-4 w-4 text-primary" />
+    return <Target className="h-4 w-4 text-muted-foreground" />
   }
 
   return (
@@ -253,7 +253,7 @@ export default function PremiumServicesCards({ className }: PremiumServicesCards
                       <Line
                         type="monotone"
                         dataKey="forecast"
-                        stroke="#10b981"
+                        stroke="hsl(var(--chart-2))"
                         strokeWidth={2}
                         strokeDasharray="3 3"
                         dot={false}
@@ -326,7 +326,7 @@ export default function PremiumServicesCards({ className }: PremiumServicesCards
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <h4 className="font-semibold">Total Premium Opportunity</h4>
-              <p className="text-sm text-neutral-600">
+              <p className="text-sm text-muted-foreground">
                 Combined revenue potential from all identified opportunities
               </p>
             </div>
@@ -334,7 +334,7 @@ export default function PremiumServicesCards({ className }: PremiumServicesCards
               <div className="text-2xl font-bold text-success">
                 {formatCurrency(mockServices.reduce((sum, service) => sum + service.potentialRevenue, 0))}
               </div>
-              <div className="text-xs text-neutral-600">
+              <div className="text-xs text-muted-foreground">
                 vs {formatCurrency(mockServices.reduce((sum, service) => sum + service.currentRevenue, 0))} current
               </div>
             </div>

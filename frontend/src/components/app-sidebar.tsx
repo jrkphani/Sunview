@@ -28,8 +28,8 @@ import {
 
 const data = {
   user: {
-    name: "GXO Admin",
-    email: "admin@gxo.com",
+    name: "Admin User",
+    email: "admin@example.com",
     avatar: "/avatars/gxo-user.jpg",
   },
   navMain: [
@@ -100,7 +100,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="/">
                 <Truck className="h-5 w-5" />
-                <span className="text-base font-semibold">GXO Forecasting</span>
+                <span className="text-base font-semibold">Supply Chain Forecasting</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

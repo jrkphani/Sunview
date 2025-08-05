@@ -224,6 +224,47 @@ export const usePerformanceMonitoring = () => {
   }
 }
 
+// Seasonality Data Hook
+export const useSeasonalityData = (
+  params?: {
+    year?: number
+    metric?: 'accuracy' | 'volume'
+  },
+  options?: {
+    enabled?: boolean
+    refetchInterval?: number | false
+  }
+) => {
+  return useQuery({
+    queryKey: ['analytics', 'seasonality', params],
+    queryFn: () => analyticsService.getSeasonalityData(params),
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    refetchInterval: options?.refetchInterval ?? false,
+    enabled: options?.enabled ?? true,
+  })
+}
+
+// Top SKU Errors Hook
+export const useTopSKUErrors = (
+  params?: {
+    limit?: number
+    category?: string
+    timeRange?: string
+  },
+  options?: {
+    enabled?: boolean
+    refetchInterval?: number | false
+  }
+) => {
+  return useQuery({
+    queryKey: ['analytics', 'top-sku-errors', params],
+    queryFn: () => analyticsService.getTopSKUErrors(params),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchInterval: options?.refetchInterval ?? REFETCH_INTERVALS.ANALYTICS,
+    enabled: options?.enabled ?? true,
+  })
+}
+
 // SKU-specific analytics hook
 export const useSKUAnalyticsDetail = (
   category?: string,
