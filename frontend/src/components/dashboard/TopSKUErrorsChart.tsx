@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { 
   Dialog, 
   DialogContent, 
@@ -15,24 +15,8 @@ import { BarChart3, TrendingUp, TrendingDown, ChevronRight, AlertTriangle, Packa
 import { InsightExplainer, ExplainerTrigger } from '@/components/ui/insight-explainer'
 import { topSkuErrorExplainer } from '@/components/explainers/executive-summary-explainers'
 import { cn } from '@/lib/utils'
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  ReferenceLine,
-  Cell
-} from 'recharts'
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from '@/components/ui/chart'
+import { ResponsiveBar } from '@nivo/bar'
+import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ReferenceLine } from 'recharts'
 import { useTopSKUErrors } from '@/hooks/useAnalytics'
 
 import type { DrillDownFilters, TopSKUErrorData } from '@/types/api'
@@ -51,47 +35,52 @@ const chartColors = {
   chart5: '#ef4444', // Risk red
 }
 
+// Helper function for error severity
+const getErrorSeverity = (errorPercent: number) => {
+  if (errorPercent >= 20) return { level: 'critical', color: chartColors.chart5, label: 'Critical' } // Red
+  if (errorPercent >= 15) return { level: 'high', color: chartColors.chart4, label: 'High' }      // Amber
+  if (errorPercent >= 10) return { level: 'medium', color: chartColors.chart3, label: 'Medium' }  // Purple
+  return { level: 'low', color: chartColors.chart2, label: 'Low' }                                // Green
+}
+
 export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsChartProps) {
   const [selectedSKU, setSelectedSKU] = useState<TopSKUErrorData | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [explainerOpen, setExplainerOpen] = useState(false)
   
-  const { data: skuErrorData, isLoading, isError } = useTopSKUErrors({
+  const { data: skuErrorData, isLoading, isError, error } = useTopSKUErrors({
     limit: 10,
     category: filters?.category,
-    timeRange: filters?.timeRange
+    timeRange: filters?.timeRange || '30d'
   })
   
   const data = skuErrorData?.top_sku_errors || []
-
-  const chartConfig = {
-    error_percentage: {
-      label: "Forecast Error",
-      color: "hsl(var(--chart-1))",
-    },
-    critical: {
-      label: "Critical",
-      color: "hsl(var(--destructive))",
-    },
-    high: {
-      label: "High", 
-      color: "hsl(var(--chart-2))",
-    },
-    medium: {
-      label: "Medium",
-      color: "hsl(var(--chart-3))",
-    },
-    low: {
-      label: "Low",
-      color: "hsl(var(--chart-4))",
-    },
-  } satisfies ChartConfig
-
-  const getErrorSeverity = (errorPercent: number) => {
-    if (errorPercent >= 20) return { level: 'critical', color: chartColors.chart5, label: 'Critical' } // Red
-    if (errorPercent >= 15) return { level: 'high', color: chartColors.chart4, label: 'High' }      // Amber
-    if (errorPercent >= 10) return { level: 'medium', color: chartColors.chart3, label: 'Medium' }  // Purple
-    return { level: 'low', color: chartColors.chart2, label: 'Low' }                                // Green
+  
+  // Transform data for Nivo bar chart
+  const nivoData = data.map((item, index) => ({
+    id: item.sku,
+    sku: item.name,
+    error_percentage: item.error_percentage,
+    volume: item.volume,
+    category: item.category,
+    historical_comparison: item.historical_comparison,
+    // Add color based on severity
+    color: getErrorSeverity(item.error_percentage).color
+  }))
+  
+  // Log for debugging
+  if (import.meta.env.DEV) {
+    console.log('TopSKUErrorsChart - Raw data:', skuErrorData)
+    console.log('TopSKUErrorsChart - Processed data:', data)
+    console.log('TopSKUErrorsChart - Nivo data:', nivoData)
+    if (data.length > 0) {
+      console.log('TopSKUErrorsChart - First item structure:', data[0])
+      console.log('TopSKUErrorsChart - Required fields check:', {
+        hasName: !!data[0].name,
+        hasErrorPercentage: !!data[0].error_percentage,
+        hasVolume: !!data[0].volume
+      })
+    }
   }
 
   const getTrend = (historical: TopSKUErrorData['historical_comparison']) => {
@@ -118,7 +107,7 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
             <ExplainerTrigger onClick={() => setExplainerOpen(true)} />
           </div>
           <TooltipProvider>
-            <Tooltip>
+            <UITooltip>
               <TooltipTrigger>
                 <Badge variant="outline">
                   {data.length} items
@@ -127,7 +116,7 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
               <TooltipContent>
                 <p>Showing SKUs with highest forecast error rates</p>
               </TooltipContent>
-            </Tooltip>
+            </UITooltip>
           </TooltipProvider>
         </div>
         <p className="text-sm text-muted-foreground">
@@ -147,6 +136,11 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
             <div className="text-center">
               <AlertTriangle className="h-8 w-8 text-destructive mx-auto mb-2" />
               <p className="text-sm text-muted-foreground">Failed to load SKU error data</p>
+              {import.meta.env.DEV && error && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  {error instanceof Error ? error.message : 'Unknown error'}
+                </p>
+              )}
             </div>
           </div>
         )}
@@ -162,151 +156,121 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
         
         {!isLoading && !isError && data.length > 0 && (
           <>
-        <ChartContainer config={chartConfig} className="h-[400px] w-full">
-          <ResponsiveContainer width="100%" height={400}>
-          <BarChart 
-            data={data} 
+        
+        <div className="h-[400px] w-full">
+          <ResponsiveBar
+            data={nivoData}
+            keys={['error_percentage']}
+            indexBy="sku"
             layout="horizontal"
-            margin={{ 
-              top: 5, 
-              right: 30, 
-              left: 150, 
-              bottom: 5 
+            margin={{ top: 20, right: 80, bottom: 50, left: 180 }}
+            padding={0.3}
+            valueScale={{ type: 'linear' }}
+            indexScale={{ type: 'band', round: true }}
+            colors={({ data }) => data.color}
+            borderColor={{
+              from: 'color',
+              modifiers: [['darker', 1.6]]
             }}
-            accessibilityLayer
-          >
-            <CartesianGrid 
-              horizontal={false} 
-              strokeDasharray="3 3" 
-              className="stroke-muted/20"
-            />
-            <XAxis 
-              type="number"
-              dataKey="error_percentage"
-              domain={[0, 'dataMax + 5']}
-              tickFormatter={(value) => `${value}%`}
-              className="text-xs"
-              axisLine={false}
-              tickLine={false}
-            />
-            <YAxis 
-              type="category"
-              dataKey="name"
-              className="text-xs"
-              axisLine={false}
-              tickLine={false}
-              width={140}
-              tick={({ x, y, payload }) => (
-                <g transform={`translate(${x},${y})`}>
-                  <text
-                    x={-10}
-                    y={0}
-                    dy={4}
-                    textAnchor="end"
-                    fill="currentColor"
-                    className="fill-muted-foreground text-xs font-medium"
-                  >
-                    {payload.value.length > 20 
-                      ? `${payload.value.substring(0, 20)}...` 
-                      : payload.value}
-                  </text>
-                </g>
-              )}
-            />
-            
-            <ChartTooltip 
-              cursor={{ fill: 'hsl(var(--muted))', opacity: 0.1 }}
-              content={
-                <ChartTooltipContent 
-                  className="w-[280px]"
-                  labelClassName="font-semibold"
-                  formatter={(value, name, props) => {
-                    const item = props.payload
-                    const severity = getErrorSeverity(item.error_percentage)
-                    const trend = getTrend(item.historical_comparison)
-                    
-                    return (
-                      <div className="flex flex-col gap-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-muted-foreground">Error Rate:</span>
-                          <span className="font-mono font-bold" style={{ color: severity.color }}>
-                            {Number(value).toFixed(1)}%
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="text-muted-foreground">SKU:</span>
-                          <span className="font-medium">{item.sku}</span>
-                        </div>
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="text-muted-foreground">Category:</span>
-                          <span>{item.category}</span>
-                        </div>
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="text-muted-foreground">Volume:</span>
-                          <span className="font-mono">{item.volume.toLocaleString()}</span>
-                        </div>
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="text-muted-foreground">Severity:</span>
-                          <Badge 
-                            variant={severity.level === 'critical' ? 'destructive' : 
-                                   severity.level === 'high' ? 'default' : 'secondary'}
-                            className="h-5 text-xs"
-                          >
-                            {severity.label}
-                          </Badge>
-                        </div>
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="text-muted-foreground">Trend:</span>
-                          <div className="flex items-center gap-1">
-                            {trend === 'improving' && <TrendingDown className="h-3 w-3 text-success" />}
-                            {trend === 'worsening' && <TrendingUp className="h-3 w-3 text-destructive" />}
-                            {trend === 'stable' && <ChevronRight className="h-3 w-3 text-muted-foreground" />}
-                            <span className="capitalize">{trend}</span>
-                          </div>
-                        </div>
-                        <div className="mt-1 pt-1 border-t text-xs text-muted-foreground">
-                          Click to view historical comparison
-                        </div>
-                      </div>
-                    )
-                  }}
-                />
+            axisTop={null}
+            axisRight={null}
+            axisBottom={{
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: 'Error Percentage (%)',
+              legendPosition: 'middle',
+              legendOffset: 32,
+              format: (value) => `${value}%`
+            }}
+            axisLeft={{
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: '',
+              legendPosition: 'middle',
+              legendOffset: -40,
+              format: (value) => value.length > 20 ? `${value.substring(0, 20)}...` : value
+            }}
+            labelSkipWidth={12}
+            labelSkipHeight={12}
+            labelTextColor={{
+              from: 'color',
+              modifiers: [['darker', 1.6]]
+            }}
+            tooltip={({ data, value }) => (
+              <div className="bg-background border rounded-lg p-3 shadow-lg">
+                <div className="flex flex-col gap-2">
+                  <div className="font-medium">{data.sku}</div>
+                  <div className="text-sm">
+                    Error: <span className="font-mono" style={{ color: data.color }}>
+                      {Number(value).toFixed(1)}%
+                    </span>
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Volume: {data.volume?.toLocaleString()}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Category: {data.category}
+                  </div>
+                  <div className="text-xs text-muted-foreground border-t pt-1">
+                    Click to view historical comparison
+                  </div>
+                </div>
+              </div>
+            )}
+            onClick={(node) => {
+              const originalItem = data.find(item => item.sku === node.data.id)
+              if (originalItem) {
+                handleSKUClick(originalItem)
               }
-            />
-            
-            <ReferenceLine 
-              x={15} 
-              stroke="hsl(var(--destructive))" 
-              strokeDasharray="5 5"
-              opacity={0.5}
-              label={{
-                value: "Target",
-                position: "top",
-                className: "fill-destructive text-xs",
-              }}
-            />
-            
-            <Bar 
-              dataKey="error_percentage" 
-              radius={[0, 4, 4, 0]}
-              onClick={(data) => handleSKUClick(data)}
-              className="cursor-pointer transition-opacity hover:opacity-80"
-              animationDuration={600}
-              animationBegin={0}
-            >
-              {data.map((entry, index) => {
-                const severity = getErrorSeverity(entry.error_percentage)
-                return (
-                  <Cell 
-                    key={`cell-${index}`} 
-                    fill={severity.color}
-                  />
-                )
-              })}
-            </Bar>
-          </BarChart>
-          </ResponsiveContainer>
-        </ChartContainer>
+            }}
+            theme={{
+              background: 'transparent',
+              text: {
+                fontSize: 12,
+                fill: 'hsl(var(--muted-foreground))',
+                outlineWidth: 0,
+                outlineColor: 'transparent'
+              },
+              axis: {
+                domain: {
+                  line: {
+                    stroke: 'hsl(var(--border))',
+                    strokeWidth: 1
+                  }
+                },
+                legend: {
+                  text: {
+                    fontSize: 12,
+                    fill: 'hsl(var(--muted-foreground))'
+                  }
+                },
+                ticks: {
+                  line: {
+                    stroke: 'hsl(var(--border))',
+                    strokeWidth: 1
+                  },
+                  text: {
+                    fontSize: 11,
+                    fill: 'hsl(var(--muted-foreground))'
+                  }
+                }
+              },
+              grid: {
+                line: {
+                  stroke: 'hsl(var(--border))',
+                  strokeWidth: 1,
+                  strokeOpacity: 0.2
+                }
+              }
+            }}
+            enableGridX={true}
+            enableGridY={false}
+            animate={true}
+            motionConfig="gentle"
+          />
+        </div>
 
         {/* Quick Stats */}
         <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -406,7 +370,7 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
                   <CardTitle className="text-base">6-Month Forecast Error Trend</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ChartContainer config={chartConfig} className="h-[250px]">
+                  <div className="h-[250px]">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart data={selectedSKU.historical_comparison}>
                         <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.3} />
@@ -423,10 +387,21 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
                           tickFormatter={(value) => `${value}%`}
                           tick={{ fill: 'hsl(var(--muted-foreground))' }}
                         />
-                        <ChartTooltip 
-                          content={<ChartTooltipContent 
-                            formatter={(value) => [`${Number(value).toFixed(1)}%`, 'Forecast Error']}
-                          />}
+                        <RechartsTooltip 
+                          content={({ active, payload, label }) => {
+                            if (!active || !payload || !payload[0]) return null
+                            const value = payload[0].value
+                            return (
+                              <div className="bg-background border rounded-lg p-3 shadow-lg">
+                                <div className="flex flex-col gap-1">
+                                  <div className="text-sm font-medium">{label}</div>
+                                  <div className="text-xs text-muted-foreground">
+                                    Forecast Error: <span className="font-mono text-destructive">{Number(value).toFixed(1)}%</span>
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          }}
                         />
                         <ReferenceLine y={15} stroke="hsl(var(--destructive))" strokeDasharray="3 3" label="Threshold" />
                         <Line 
@@ -439,7 +414,7 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
                         />
                       </LineChart>
                     </ResponsiveContainer>
-                  </ChartContainer>
+                  </div>
                 </CardContent>
               </Card>
 

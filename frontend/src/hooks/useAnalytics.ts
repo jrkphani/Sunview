@@ -258,7 +258,12 @@ export const useTopSKUErrors = (
 ) => {
   return useQuery({
     queryKey: ['analytics', 'top-sku-errors', params],
-    queryFn: () => analyticsService.getTopSKUErrors(params),
+    queryFn: async () => {
+      console.log('useTopSKUErrors - Fetching with params:', params)
+      const result = await analyticsService.getTopSKUErrors(params)
+      console.log('useTopSKUErrors - Received result:', result)
+      return result
+    },
     staleTime: 5 * 60 * 1000, // 5 minutes
     refetchInterval: options?.refetchInterval ?? REFETCH_INTERVALS.ANALYTICS,
     enabled: options?.enabled ?? true,
