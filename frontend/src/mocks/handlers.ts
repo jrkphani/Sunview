@@ -188,6 +188,24 @@ export const handlers = [
     return HttpResponse.json(topSkuErrorsData)
   }),
 
+  // Executive endpoints
+  http.get('*/api/v1/executive/top-sku-errors', async ({ request }) => {
+    await addDelay()
+    const url = new URL(request.url)
+    const limit = parseInt(url.searchParams.get('limit') || '10')
+    const timeRange = url.searchParams.get('timeRange') || '30d'
+    
+    // Return the same data structure as topSkuErrorsData but limit the results
+    return HttpResponse.json({
+      ...topSkuErrorsData,
+      top_sku_errors: topSkuErrorsData.top_sku_errors.slice(0, limit),
+      metadata: {
+        ...topSkuErrorsData.metadata,
+        time_range: timeRange
+      }
+    })
+  }),
+
   http.get('*/api/v1/analytics/seasonality', async ({ request }) => {
     await addDelay()
     const url = new URL(request.url)

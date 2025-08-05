@@ -165,7 +165,31 @@ export const analyticsService = {
       threshold: number
     }
   }> {
-    const response = await api.get('/api/v1/analytics/top-sku-errors', { params })
+    const response = await api.get('/api/v1/executive/top-sku-errors', { params })
+    
+    // Transform backend data structure to match frontend expectations
+    if (response.data.sku_errors) {
+      // Backend returns different structure, transform it
+      const transformedData = {
+        top_sku_errors: response.data.sku_errors.map((item: any) => ({
+          sku: item.sku_id || item.sku,
+          name: item.sku_name || item.name || `SKU ${item.sku_id || item.sku}`,
+          category: item.category || 'Uncategorized',
+          error_percentage: item.error_percentage || (item.forecast_error ? item.forecast_error * 100 : 0),
+          volume: item.actual_volume || item.volume_forecast || item.volume || 0,
+          historical_comparison: item.historical_data || []
+        })),
+        metadata: response.data.metadata || {
+          generated_at: new Date().toISOString(),
+          calculation_method: 'MAPE',
+          time_range: params?.timeRange || '30d',
+          threshold: 15
+        }
+      }
+      return transformedData
+    }
+    
+    // If data is already in expected format, return as is
     return response.data
   },
 

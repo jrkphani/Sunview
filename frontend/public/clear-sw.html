@@ -29,6 +29,10 @@
                 
                 status.innerHTML += '<p style="color: green; font-weight: bold;">All service workers and caches cleared! You can close this tab and return to the app.</p>';
                 
+                // Clear localStorage and sessionStorage too
+                localStorage.clear();
+                sessionStorage.clear();
+                
                 // Redirect back to main app after 2 seconds
                 setTimeout(() => {
                     window.location.href = '/';

@@ -42,6 +42,15 @@ interface TopSKUErrorsChartProps {
   className?: string
 }
 
+// Design token color values from our style guide
+const chartColors = {
+  chart1: '#3b82f6', // Primary blue
+  chart2: '#16a34a', // Operational green  
+  chart3: '#a855f7', // Commercial purple
+  chart4: '#eab308', // Warning amber
+  chart5: '#ef4444', // Risk red
+}
+
 export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsChartProps) {
   const [selectedSKU, setSelectedSKU] = useState<TopSKUErrorData | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -79,10 +88,10 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
   } satisfies ChartConfig
 
   const getErrorSeverity = (errorPercent: number) => {
-    if (errorPercent >= 20) return { level: 'critical', color: 'hsl(var(--destructive))', label: 'Critical' }
-    if (errorPercent >= 15) return { level: 'high', color: 'hsl(var(--chart-4))', label: 'High' }
-    if (errorPercent >= 10) return { level: 'medium', color: 'hsl(var(--chart-3))', label: 'Medium' }
-    return { level: 'low', color: 'hsl(var(--chart-2))', label: 'Low' }
+    if (errorPercent >= 20) return { level: 'critical', color: chartColors.chart5, label: 'Critical' } // Red
+    if (errorPercent >= 15) return { level: 'high', color: chartColors.chart4, label: 'High' }      // Amber
+    if (errorPercent >= 10) return { level: 'medium', color: chartColors.chart3, label: 'Medium' }  // Purple
+    return { level: 'low', color: chartColors.chart2, label: 'Low' }                                // Green
   }
 
   const getTrend = (historical: TopSKUErrorData['historical_comparison']) => {
@@ -153,7 +162,8 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
         
         {!isLoading && !isError && data.length > 0 && (
           <>
-        <ChartContainer config={chartConfig} className="h-[400px]">
+        <ChartContainer config={chartConfig} className="h-[400px] w-full">
+          <ResponsiveContainer width="100%" height={400}>
           <BarChart 
             data={data} 
             layout="horizontal"
@@ -286,19 +296,16 @@ export default function TopSKUErrorsChart({ filters, className }: TopSKUErrorsCh
             >
               {data.map((entry, index) => {
                 const severity = getErrorSeverity(entry.error_percentage)
-                const colorVar = severity.level === 'critical' ? 'hsl(var(--destructive))' :
-                               severity.level === 'high' ? 'hsl(var(--chart-2))' :
-                               severity.level === 'medium' ? 'hsl(var(--chart-3))' :
-                               'hsl(var(--chart-4))'
                 return (
                   <Cell 
                     key={`cell-${index}`} 
-                    fill={colorVar}
+                    fill={severity.color}
                   />
                 )
               })}
             </Bar>
           </BarChart>
+          </ResponsiveContainer>
         </ChartContainer>
 
         {/* Quick Stats */}

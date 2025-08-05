@@ -62,12 +62,43 @@ const generateSeasonalityData = (year: number) => {
 const seasonalityExplainer = {
   title: "Seasonality Overview",
   description: "This calendar heatmap visualizes forecast accuracy patterns throughout the year, helping identify seasonal trends and recurring patterns that impact prediction quality.",
-  methodology: "Daily forecast accuracy is calculated as (1 - MAPE) × 100, where MAPE is the Mean Absolute Percentage Error. Colors represent accuracy levels from red (poor) to green (excellent).",
-  calculation: "For each day: Accuracy = (1 - |Actual - Forecast| / Actual) × 100, aggregated across all SKUs",
-  dataSources: ["Historical forecast data", "Actual shipment volumes", "Daily accuracy metrics"],
-  examples: ["Holiday seasons show lower accuracy due to demand volatility", "Weekends typically have different patterns than weekdays", "Summer months often show more stable predictions"],
-  grade: "A",
-  difficulty: "Intermediate"
+  methodology: {
+    title: "Methodology",
+    content: "Daily forecast accuracy is calculated as (1 - MAPE) × 100, where MAPE is the Mean Absolute Percentage Error. Colors represent accuracy levels from red (poor) to green (excellent)."
+  },
+  calculation: {
+    title: "Calculation",
+    content: "For each day: Accuracy = (1 - |Actual - Forecast| / Actual) × 100, aggregated across all SKUs"
+  },
+  dataSources: {
+    title: "Data Sources",
+    content: (
+      <ul className="list-disc list-inside space-y-1">
+        <li>Historical forecast data</li>
+        <li>Actual shipment volumes</li>
+        <li>Daily accuracy metrics</li>
+      </ul>
+    )
+  },
+  examples: [
+    {
+      title: "Holiday Patterns",
+      description: "Holiday seasons show lower accuracy due to demand volatility",
+      interpretation: "Expect 10-15% accuracy drop during major holidays"
+    },
+    {
+      title: "Weekend Variations", 
+      description: "Weekends typically have different patterns than weekdays",
+      interpretation: "Saturday/Sunday forecasts may need separate models"
+    },
+    {
+      title: "Seasonal Stability",
+      description: "Summer months often show more stable predictions",
+      interpretation: "June-August typically achieve 5-8% higher accuracy"
+    }
+  ],
+  grade: "excellent" as const,
+  difficulty: "intermediate" as const
 }
 
 export default function SeasonalityOverviewChart({ className }: SeasonalityOverviewChartProps) {

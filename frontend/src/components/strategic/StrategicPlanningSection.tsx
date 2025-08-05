@@ -353,24 +353,44 @@ export default function StrategicPlanningSection({ data, className }: StrategicP
 function generateSeasonalityData() {
   const data = []
   const categories = ['Electronics', 'Automotive', 'Industrial', 'Consumer']
-  const startDate = new Date('2024-01-01')
+  const year = new Date().getFullYear()
+  const startDate = new Date(year, 0, 1)
+  const endDate = new Date(year, 11, 31)
   
-  for (let day = 0; day < 365; day++) {
-    const date = new Date(startDate)
-    date.setDate(date.getDate() + day)
+  for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+    const month = d.getMonth()
+    const dayOfWeek = d.getDay()
     
     categories.forEach(category => {
-      const baseValue = Math.random() * 100
-      const seasonalFactor = Math.sin((day / 365) * 2 * Math.PI) * 30
-      const weekendFactor = (date.getDay() === 0 || date.getDay() === 6) ? -10 : 5
+      // Base forecast accuracy with seasonal variations
+      let baseAccuracy = 85 + Math.random() * 10
+      
+      // Category-specific adjustments
+      if (category === 'Electronics') baseAccuracy += 2
+      if (category === 'Consumer') baseAccuracy -= 3
+      
+      // Holiday season impact (Nov-Dec)
+      if (month === 10 || month === 11) {
+        baseAccuracy -= 5 + Math.random() * 5
+      }
+      
+      // Summer impact (Jun-Aug)
+      if (month >= 5 && month <= 7) {
+        baseAccuracy += 3 + Math.random() * 3
+      }
+      
+      // Weekend impact
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        baseAccuracy -= 2 + Math.random() * 3
+      }
       
       data.push({
-        date: date.toISOString().split('T')[0],
+        date: d.toISOString().split('T')[0],
         category,
-        value: Math.max(0, baseValue + seasonalFactor + weekendFactor),
-        week: Math.floor(day / 7),
-        month: date.getMonth(),
-        quarter: Math.floor(date.getMonth() / 3)
+        value: Math.max(70, Math.min(100, baseAccuracy)),
+        week: Math.floor((d.getTime() - startDate.getTime()) / (7 * 24 * 60 * 60 * 1000)),
+        month: d.getMonth(),
+        quarter: Math.floor(d.getMonth() / 3)
       })
     })
   }

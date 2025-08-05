@@ -3,12 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { 
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from '@/components/ui/chart'
+import { ResponsiveCalendar } from '@nivo/calendar'
 import { CalendarDays, TrendingUp, TrendingDown, Filter, Eye } from 'lucide-react'
 
 interface SeasonalityDataPoint {
@@ -27,12 +22,30 @@ interface SeasonalityCalendarHeatmapProps {
   className?: string
 }
 
-const monthNames = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-]
-
 const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+// Design token color palette following our style guide
+// Using hex values that match our CSS variables for Nivo compatibility
+const designTokenColors = {
+  // Chart colors from our design system
+  chart1: '#3b82f6', // Primary blue (--chart-1: 217 91% 60%)
+  chart2: '#16a34a', // Operational green (--chart-2: 142 76% 36%)
+  chart3: '#a855f7', // Commercial purple (--chart-3: 262 83% 58%)
+  chart4: '#eab308', // Warning amber (--chart-4: 45 93% 47%)
+  chart5: '#ef4444', // Risk red (--chart-5: 0 84% 60%)
+  
+  // Semantic colors
+  success: '#16a34a', // (--success: 142 76% 36%)
+  warning: '#eab308', // (--warning: 45 93% 47%)
+  error: '#ef4444',   // (--error: 0 84% 60%)
+  
+  // UI colors
+  muted: '#f3f4f6',
+  border: '#e5e7eb',
+  background: '#ffffff',
+  foreground: '#0a0a0a',
+  mutedForeground: '#737373'
+}
 
 export default function SeasonalityCalendarHeatmap({ 
   data = [], 
@@ -42,7 +55,6 @@ export default function SeasonalityCalendarHeatmap({
 }: SeasonalityCalendarHeatmapProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [selectedMetric, setSelectedMetric] = useState<string>('value')
-  const [hoveredCell, setHoveredCell] = useState<any>(null)
 
   // Extract unique categories
   const categories = useMemo(() => {
@@ -50,8 +62,13 @@ export default function SeasonalityCalendarHeatmap({
     return [{ value: 'all', label: 'All Categories' }, ...unique.map(cat => ({ value: cat, label: cat }))]
   }, [data])
 
-  // Process data for calendar heatmap
+  // Process data for Nivo calendar heatmap
   const calendarData = useMemo(() => {
+    // Return empty data structure if no data
+    if (!data || data.length === 0) {
+      return { nivoData: [], processedData: [] }
+    }
+
     const filteredData = selectedCategory === 'all' 
       ? data 
       : data.filter(d => d.category === selectedCategory)
@@ -73,7 +90,17 @@ export default function SeasonalityCalendarHeatmap({
       return acc
     }, {} as Record<string, any>)
 
-    // Convert to array and add calendar positioning
+    // Convert to Nivo calendar format
+    const nivoData = Object.values(dailyData).map((day: any) => {
+      const avgValue = day.totalValue / day.count
+      return {
+        day: day.date,
+        value: avgValue
+      }
+    })
+
+
+    // Also keep processed data for statistics
     const processedData = Object.values(dailyData).map((day: any) => {
       const date = new Date(day.date)
       const avgValue = day.totalValue / day.count
@@ -90,20 +117,20 @@ export default function SeasonalityCalendarHeatmap({
       }
     })
 
-    return processedData
+    return { nivoData, processedData }
   }, [data, selectedCategory])
 
   // Calculate statistics
   const statistics = useMemo(() => {
-    if (calendarData.length === 0) return null
+    if (!calendarData || !calendarData.processedData || calendarData.processedData.length === 0) return null
 
-    const values = calendarData.map(d => d.avgValue)
+    const values = calendarData.processedData.map(d => d.avgValue)
     const max = Math.max(...values)
     const min = Math.min(...values)
     const avg = values.reduce((sum, val) => sum + val, 0) / values.length
 
     // Seasonal patterns
-    const seasonalAvg = calendarData.reduce((acc, curr) => {
+    const seasonalAvg = calendarData.processedData.reduce((acc, curr) => {
       const season = getSeasonFromMonth(curr.month)
       if (!acc[season]) acc[season] = { total: 0, count: 0 }
       acc[season].total += curr.avgValue
@@ -116,7 +143,7 @@ export default function SeasonalityCalendarHeatmap({
     })
 
     // Weekly patterns
-    const weeklyAvg = calendarData.reduce((acc, curr) => {
+    const weeklyAvg = calendarData.processedData.reduce((acc, curr) => {
       if (!acc[curr.dayOfWeek]) acc[curr.dayOfWeek] = { total: 0, count: 0 }
       acc[curr.dayOfWeek].total += curr.avgValue
       acc[curr.dayOfWeek].count += 1
@@ -133,7 +160,7 @@ export default function SeasonalityCalendarHeatmap({
       avg,
       seasonal: seasonalAvg,
       weekly: weeklyAvg,
-      totalDays: calendarData.length
+      totalDays: calendarData.processedData.length
     }
   }, [calendarData])
 
@@ -165,7 +192,7 @@ export default function SeasonalityCalendarHeatmap({
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <CalendarDays className="h-5 w-5" />
-              <CardTitle>Seasonality Analysis - Calendar Heatmap</CardTitle>
+              <CardTitle>Forecast Accuracy Seasonality - {new Date().getFullYear()}</CardTitle>
             </div>
             <div className="flex items-center space-x-2">
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
@@ -196,129 +223,76 @@ export default function SeasonalityCalendarHeatmap({
       <CardContent>
         <div className="space-y-4">
           {/* Calendar Heatmap */}
-          <div className="relative">
-            <div className="w-full" style={{ height }}>
-              <div className="calendar-heatmap">
-                {/* Responsive calendar container */}
-                <div className="overflow-x-auto overflow-y-hidden pb-2">
-                  <div className="min-w-full">
-                    {/* Month labels */}
-                    <div className="flex text-xs text-muted-foreground mb-2 min-w-fit">
-                      {monthNames.map((month, index) => (
-                        <div key={month} className="text-center flex-shrink-0" style={{ width: '56px' }}>{month}</div>
-                      ))}
-                    </div>
-
-                    {/* Calendar layout with day labels */}
-                    <div className="flex min-w-fit">
-                      {/* Day labels */}
-                      <div className="flex flex-col space-y-1 text-xs text-muted-foreground mr-2 flex-shrink-0">
-                        {dayNames.map(day => (
-                          <div key={day} className="h-3 flex items-center justify-end" style={{ width: '20px' }}>{day.slice(0, 1)}</div>
-                        ))}
-                      </div>
-
-                      {/* Calendar grid with proper week-based layout */}
-                      <div 
-                        className="grid gap-1 flex-shrink-0" 
-                        style={{ 
-                          gridTemplateColumns: 'repeat(53, 12px)',
-                          gridTemplateRows: 'repeat(7, 12px)',
-                          gridAutoFlow: 'column',
-                          width: '636px'
-                        }}
-                      >
-                        {Array.from({ length: 53 * 7 }, (_, index) => {
-                          // Calculate position in column-first order
-                          const dayOfWeek = index % 7
-                          const week = Math.floor(index / 7)
-                          
-                          // Calculate actual date
-                          const startOfYear = new Date(2024, 0, 1)
-                          const startDay = startOfYear.getDay() // Day of week for Jan 1, 2024
-                          
-                          // Adjust for proper calendar alignment
-                          const dayOffset = week * 7 + dayOfWeek - startDay
-                          const date = new Date(2024, 0, 1 + dayOffset)
-                          
-                          // Check if date is outside 2024
-                          if (date.getFullYear() !== 2024) {
-                            return (
-                              <div
-                                key={index}
-                                className="w-3 h-3"
-                              />
-                            )
-                          }
-
-                          const dayData = calendarData.find(d => 
-                            new Date(d.date).toDateString() === date.toDateString()
-                          )
-
-                          return (
-                            <div
-                              key={index}
-                              className={`
-                                w-3 h-3 rounded-sm border border-border cursor-pointer
-                                transition-all duration-200 hover:scale-110 hover:border-primary
-                                ${getIntensityColor(dayData?.intensity || 0)}
-                              `}
-                              onMouseEnter={() => setHoveredCell(dayData)}
-                              onMouseLeave={() => setHoveredCell(null)}
-                              title={dayData ? 
-                                `${date.toLocaleDateString()}: ${dayData.avgValue.toFixed(1)}` : 
-                                date.toLocaleDateString()
-                              }
-                            />
-                          )
-                        })}
-                      </div>
-                    </div>
+          <div className="h-[200px] w-full">
+            <ResponsiveCalendar
+              data={calendarData?.nivoData || []}
+              from={`${new Date().getFullYear()}-01-01`}
+              to={`${new Date().getFullYear()}-12-31`}
+              emptyColor={designTokenColors.muted}
+              colors={[
+                designTokenColors.chart5, // Red for low values
+                designTokenColors.chart4, // Amber for medium-low
+                designTokenColors.chart3, // Purple for medium
+                designTokenColors.chart2, // Green for medium-high
+                designTokenColors.chart1  // Blue for high values
+              ]}
+              minValue={70}
+              maxValue={100}
+              margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+              yearSpacing={40}
+              monthBorderColor={designTokenColors.border}
+              monthBorderWidth={1}
+              dayBorderWidth={0}
+              dayBorderColor={designTokenColors.background}
+              theme={{
+                labels: {
+                  text: {
+                    fontSize: 11,
+                    fill: designTokenColors.mutedForeground,
+                  }
+                },
+                tooltip: {
+                  container: {
+                    background: designTokenColors.background,
+                    color: designTokenColors.foreground,
+                    fontSize: '12px',
+                    borderRadius: '6px',
+                    boxShadow: '0 3px 9px rgba(0, 0, 0, 0.15)',
+                    padding: '8px 12px',
+                  },
+                },
+              }}
+              tooltip={({ day, value, color }) => (
+                <div className="flex flex-col gap-1">
+                  <div className="font-medium">{new Date(day).toLocaleDateString('en-US', { 
+                    weekday: 'short', 
+                    month: 'short', 
+                    day: 'numeric' 
+                  })}</div>
+                  <div className="flex items-center gap-2">
+                    <div 
+                      className="w-3 h-3 rounded-sm" 
+                      style={{ backgroundColor: color }}
+                    />
+                    <span className="text-sm font-mono">
+                      {typeof value === 'number' ? value.toFixed(1) : value}
+                    </span>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Intensity legend */}
-            <div className="flex items-center justify-center mt-4 space-x-2 text-xs">
-              <span className="text-muted-foreground">Less</span>
-              {[0, 0.2, 0.4, 0.6, 0.8, 1].map(intensity => (
-                <div
-                  key={intensity}
-                  className={`w-3 h-3 rounded-sm border border-border ${getIntensityColor(intensity)}`}
-                />
-              ))}
-              <span className="text-muted-foreground">More</span>
-            </div>
-
-            {/* Hover tooltip */}
-            {hoveredCell && (
-              <div className="absolute top-4 right-4 bg-background border rounded-lg p-3 shadow-lg z-10">
-                <div className="space-y-2">
-                  <div className="font-semibold">
-                    {new Date(hoveredCell.date).toLocaleDateString('en-US', {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </div>
-                  <div className="text-sm">
-                    <div className="flex justify-between">
-                      <span>Avg Value:</span>
-                      <span className="font-mono">{hoveredCell.avgValue.toFixed(1)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Categories:</span>
-                      <span className="font-mono">{hoveredCell.count}</span>
-                    </div>
-                    {hoveredCell.isWeekend && (
-                      <Badge variant="secondary" className="mt-1">Weekend</Badge>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
+              )}
+              legends={[
+                {
+                  anchor: 'bottom-right',
+                  direction: 'row',
+                  translateY: 36,
+                  itemCount: 5,
+                  itemWidth: 42,
+                  itemHeight: 36,
+                  itemsSpacing: 14,
+                  itemDirection: 'right-to-left'
+                }
+              ]}
+            />
           </div>
 
           {/* Seasonal Insights */}
@@ -404,13 +378,4 @@ function normalizeValue(value: number, data: any[]): number {
   const min = Math.min(...values)
   const max = Math.max(...values)
   return max === min ? 0 : (value - min) / (max - min)
-}
-
-function getIntensityColor(intensity: number): string {
-  if (intensity === 0) return 'bg-muted'
-  if (intensity <= 0.2) return 'bg-primary/10'
-  if (intensity <= 0.4) return 'bg-primary/25'
-  if (intensity <= 0.6) return 'bg-primary/40'
-  if (intensity <= 0.8) return 'bg-primary/60'
-  return 'bg-primary/80'
 }
